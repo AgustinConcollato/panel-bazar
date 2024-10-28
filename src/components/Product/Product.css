@@ -1,0 +1,45 @@
+.container-img {
+    border-radius: 5px;
+    height: 50px;
+    width: 50px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container-img img {
+    border-radius: 5px;
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+    background: #fff;
+    transition: .1s;
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 5px;
+}
+
+.container-img:hover img {
+    transition: .3s;
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    box-shadow: 0 15px 20px #00000020;
+    z-index: 1000;
+    pointer-events: none;
+    left: 0;
+    top: 0;
+    padding: 10px;
+}
+
+.discount {
+    border-radius: 5px;
+    display: inline-block;
+    padding: 5px 10px 5px 10px;
+    background: #66b81920;
+    color: #66b819;
+    margin-right: 10px;
+    padding-right: 10px;
+}

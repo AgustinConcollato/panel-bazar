@@ -1,0 +1,101 @@
+@font-face {
+    font-family: Rubik;
+    src: url('./assets/fonts/Rubik.ttf');
+}
+
+:root {
+    --primary: #3d6caa;
+    --color-error: #e74c3c;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: #000;
+    font-family: 'Rubik';
+}
+
+a {
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+}
+
+#root {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    grid-template-rows: 80px 1fr;
+    grid-template-areas:
+        'aside header'
+        'aside main';
+    width: 100%;
+    height: 100%;
+}
+
+header {
+    grid-area: header;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    padding: 20px;
+}
+
+aside {
+    grid-area: aside;
+    border-right: 1px solid #eee;
+    padding-top: 20px;
+}
+
+main {
+    grid-area: main;
+    overflow: auto;
+    padding: 20px;
+    background: #f0f0f0;
+}
+
+.btn {
+    border-radius: 5px;
+    padding: 7px 15px;
+    cursor: pointer;
+    transition: .1s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0f0f0;
+    border: none;
+    height: 40px;
+    font-size: 16px;
+}
+
+.btn-solid {
+    color: #fff;
+    border: 1px solid var(--primary);
+    background: var(--primary);
+}
+
+.btn-regular {
+    color: var(--primary);
+    border: 1px solid var(--primary);
+    background: #8ecae620;
+}
+
+.btn-thins {
+    color: var(--primary);
+    border: 1px solid var(--primary);
+    background: #fff;
+}
+
+.btn:active,
+.btn-solid:active,
+.btn-regular:active,
+.btn-thins:active {
+    box-shadow: 0 0 0 4px #8ecae630;
+}

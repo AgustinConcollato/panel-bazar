@@ -1,0 +1,172 @@
+.section-add-product header {
+    background: #fff;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+/* ///////////// form ///////////// */
+
+.form-add-product {
+    display: flex;
+    gap: 20px;
+}
+
+.form-add-product>div {
+    background: #fff;
+    width: 50%;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-add-product input[type="text"],
+.form-add-product input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    outline: none;
+}
+
+.form-add-product textarea {
+    max-width: 100%;
+    min-width: 100%;
+    max-height: 200px;
+    min-height: 200px;
+    appearance: none;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    outline: none;
+}
+
+.form-add-product input:focus,
+.form-add-product textarea:focus {
+    border-color: var(--primary);
+}
+
+.form-categories>div:first-child {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.form-categories>div:first-child input {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.form-categories>div:last-child {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.input-subcategory {
+    display: flex;
+    gap: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    padding: 7px 10px;
+    cursor: pointer;
+}
+
+.form-add-product button[type="submit"] {
+    margin-right: 10px;
+}
+
+.container-price {
+    display: flex;
+    gap: 10px;
+}
+
+li.error {
+    color: var(--color-error);
+}
+
+/* ///////////// agregar imagenes ///////////// */
+
+.selected-images {
+    display: flex;
+    gap: 10px;
+    position: relative;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+.selected-images>span {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.preview-images {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.preview-images div {
+    border-radius: 10px;
+    border: 1px solid #aaa;
+    height: 135px;
+    min-width: 135px;
+    overflow: hidden;
+    position: relative;
+}
+
+.preview-images div span {
+    background: #00000030;
+    display: block;
+    opacity: 0;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    cursor: pointer;
+}
+
+.preview-images div span svg {
+    border-radius: 50%;
+    background: #000000aa;
+    height: 16px;
+    width: 16px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 100%;
+    left: calc(50% - 17.5px);
+    transition: .3s;
+}
+
+.preview-images div span svg path {
+    color: #fff;
+}
+
+.preview-images img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.preview-images div:hover span {
+    opacity: 1;
+}
+
+.preview-images div:hover span svg {
+    top: calc(50% - 17.5px);
+}

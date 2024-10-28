@@ -1,0 +1,4 @@
+.nav-categories ul {
+    display: flex;
+    gap: 10px;
+}

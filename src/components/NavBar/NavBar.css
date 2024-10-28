@@ -1,0 +1,11 @@
+.nav-bar ul li a {
+    display: block;
+    padding: 10px 20px;
+    font-size: 18px;
+}
+
+.nav-bar ul li a:hover,
+.nav-bar ul li a:focus {
+    background: #f5f5f5;
+    outline: none;
+}
