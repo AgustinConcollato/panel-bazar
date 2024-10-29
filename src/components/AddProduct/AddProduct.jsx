@@ -52,7 +52,7 @@ export function AddProduct() {
         try {
             const response = await toast.promise(products.add({ data: formData, token }), {
                 pending: 'Agregando producto...',
-                success: 'Se agregó corectamente',
+                success: 'Se agregó correctamente',
                 error: 'Error, no se puedo agregar'
             })
 

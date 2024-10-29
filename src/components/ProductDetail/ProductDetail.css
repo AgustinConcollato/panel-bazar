@@ -1,0 +1,145 @@
+.product-detail {
+    display: flex;
+    gap: 20px;
+}
+
+.container-images {
+    display: flex;
+    gap: 10px;
+}
+
+.container-images>img {
+    height: 500px;
+    width: 500px;
+    object-fit: contain;
+    background: #fff;
+    border-radius: 10px;
+}
+
+.container-thumbnails {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.container-thumbnails img {
+    height: 80px;
+    width: 80px;
+    object-fit: contain;
+    background: #fff;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.info-product {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.info-product h1 {
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.info-product h1 svg {
+    opacity: 0;
+    margin-left: 5px;
+}
+
+.info-product h1:hover svg {
+    opacity: 1;
+}
+
+.info-product p {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.info-product p span {
+    text-align: end;
+}
+
+.info-product {
+    width: 600px;
+}
+
+.info-product ul {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.b-description {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-wrap: break-word;
+    line-height: 20px;
+    max-height: 40px;
+}
+
+.info-product ul li {
+    display: flex;
+    justify-content: space-between;
+    text-align: end;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.info-product ul li:hover {
+    background: #f5f5f5;
+}
+
+.info-product ul li span {
+    display: flex;
+    gap: 10px;
+}
+
+.info-product ul li span svg {
+    opacity: 0;
+}
+
+.info-product ul li:hover span svg {
+    opacity: 1;
+}
+
+.info-product ul li b {
+    max-width: 300px;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.actions button {
+    display: flex;
+    gap: 10px;
+}
+
+.actions button:first-child,
+.actions button:first-child svg path {
+    color: var(--color-error);
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+.actions-edit {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+textarea.input {
+    max-height: 200px;
+    min-height: 200px;
+    max-width: 100%;
+    min-width: 100%;
+}

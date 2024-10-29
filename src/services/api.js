@@ -8,5 +8,5 @@ export const api = {
 
 export const url = new URL('http://localhost:8000/api')
 export const urlStorage = new URL('http://localhost:8000/storage')
-export const urlProducts = new URL('http://localhost:8000/api/products')
-export const urlCategories = new URL('http://localhost:8000/api/categories')
+export const urlProducts = new URL(url + '/products')
+export const urlCategories = new URL(url + '/categories')

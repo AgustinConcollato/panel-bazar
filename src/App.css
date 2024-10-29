@@ -99,3 +99,12 @@ main {
 .btn-thins:active {
     box-shadow: 0 0 0 4px #8ecae630;
 }
+
+.input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    outline: none;
+}

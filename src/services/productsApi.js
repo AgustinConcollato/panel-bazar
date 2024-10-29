@@ -29,15 +29,32 @@ export const products = {
             });
 
             if (!response.ok) {
-                const errorData = await response.json(); 
-                throw new Error(JSON.stringify(errorData)); 
+                const errorData = await response.json();
+                throw new Error(JSON.stringify(errorData));
             }
 
             return await response.json();
 
         } catch (error) {
-            console.error('Error en la solicitud:', JSON.parse(error.message)); 
-            throw error; 
+            console.error('Error en la solicitud:', JSON.parse(error.message));
+            throw error;
+        }
+    },
+
+    update: async ({ id, data }) => {
+        try {
+            const response = await fetch(`${url}/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+
+            return await response.json()
+
+        } catch (error) {
+            console.log(error)
         }
     }
 }
