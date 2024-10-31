@@ -1,4 +1,30 @@
 .nav-categories ul {
     display: flex;
     gap: 10px;
+    width: 100%;
+}
+
+.nav-categories ul li {
+    width: 100%;
+}
+
+.nav-categories ul a {
+    display: block;
+    padding: 10px;
+    border-radius: 10px;
+    background: #fff;
+    font-weight: 700;
+    width: 100%;
+    transition: .3s;
+}
+
+.nav-categories ul a span {
+    display: block;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.nav-categories ul a:hover {
+    outline: 1px solid var(--primary);
+    transform: scale(1.025);
 }

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../../services/api";
-import './CategoryList.css';
 import { Loading } from "../Loading/Loading";
+import './CategoryList.css';
 
 export function CategoryList() {
 
@@ -25,7 +25,10 @@ export function CategoryList() {
                 <ul>
                     {list.map((e) =>
                         <li key={e.category_code}>
-                            <Link className="btn btn-regular" to={`/productos/${e.category_code}`}>{e.category_name}</Link>
+                            <Link to={`/productos/${e.category_code}`}>
+                                {e.category_name}
+                                <span>{e.products_count} productos</span>
+                            </Link>
                         </li>
                     )}
                 </ul> :

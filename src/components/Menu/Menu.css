@@ -1,0 +1,25 @@
+.btn-menu {
+    position: relative;
+}
+
+.menu {
+    border-radius: 10px;
+    border: 1px solid #eee;
+    background: #fff;
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    width: 200px;
+    box-shadow: 0 5px 20px #00000020;
+    z-index: 1000;
+}
+
+.menu a {
+    display: block;
+    padding: 10px 20px;
+    text-align: end;
+}
+
+.menu a:hover {
+    background: #f5f5f5;
+}

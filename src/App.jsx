@@ -5,12 +5,14 @@ import { ProductDetail } from './components/ProductDetail/ProductDetail'
 import { AddProduct } from './components/AddProduct/AddProduct'
 import './App.css'
 import { Search } from './components/Search/Search'
+import { Menu } from './components/Menu/Menu'
 
 function App() {
   return (
     <>
       <header>
         <Search />
+        <Menu />
       </header>
       <NavBar />
       <main>
