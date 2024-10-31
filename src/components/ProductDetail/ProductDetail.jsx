@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { api, urlStorage as url } from "../../services/api"
 import { useEffect, useState } from "react"
 import { Loading } from "../Loading/Loading"
@@ -7,13 +7,14 @@ import { faPenToSquare, faTrashCan } from "@fortawesome/free-regular-svg-icons"
 import { Modal } from "../Modal/Modal"
 import { EditField } from "../EditField/EditField"
 import { toast, ToastContainer } from "react-toastify"
+import { formatDate } from "../../utils/formatDate"
 import './ProductDetail.css'
 import 'react-toastify/dist/ReactToastify.css'
-import { formatDate } from "../../utils/formatDate"
 
 export function ProductDetail() {
     const { id } = useParams()
     const { products, categories } = api
+    const navigate = useNavigate()
 
     const [product, setProduct] = useState(null)
     const [error, setError] = useState(null)
@@ -25,7 +26,7 @@ export function ProductDetail() {
     const [editField, setEditField] = useState(null)
     const [formData, setFormData] = useState({})
 
-    async function getDetails() {
+    async function getDetails(id) {
         try {
             const response = await products.search({ id })
             const { product, message, status } = response
@@ -90,6 +91,14 @@ export function ProductDetail() {
         }
     }
 
+    async function deleteProduct() {
+        const { status } = await products.delete({ id })
+
+        if (status == 'success') {
+            navigate('/productos')
+        }
+    }
+
     document.onkeyup = (e) => {
         if (e.keyCode == 27) setEditField(null)
     }
@@ -105,7 +114,7 @@ export function ProductDetail() {
     })) || []
 
     useEffect(() => {
-        getDetails()
+        getDetails(id)
     }, [id])
 
     useEffect(() => {
@@ -134,23 +143,29 @@ export function ProductDetail() {
                         {position !== null && <img src={`${url}/${images[position]}`} alt="" />}
                     </div>
                     <div className="info-product">
-                        <h1 onClick={() => handleEdit('name')}>{product.name} <FontAwesomeIcon icon={faPenToSquare} /></h1>
-                        <p>
-                            Código de referencia <br /> {product.code}
-                            <span>
-                                Fecha de modificación <br /> {formatDate(product.last_date_modified)}
-                            </span>
-                        </p>
-                        <ul>
-                            <li onClick={() => handleEdit('status')}><span>Estado <FontAwesomeIcon icon={faPenToSquare} /></span><b>{product.status === 'active' ? 'Activo' : 'Inactivo'}</b></li>
-                            <li onClick={() => handleEdit('price')}><span>Precio <FontAwesomeIcon icon={faPenToSquare} /></span><b>${product.price}</b></li>
-                            <li onClick={() => handleEdit('discount')}><span>Descuento <FontAwesomeIcon icon={faPenToSquare} /></span><b>{product.discount || 0}%</b></li>
-                            {product.description && <li onClick={() => handleEdit('description')}><span>Descripción <FontAwesomeIcon icon={faPenToSquare} /></span><b className="b-description">{product.description}</b></li>}
-                            <li onClick={() => handleEdit('category_id')}><span>Categoría <FontAwesomeIcon icon={faPenToSquare} /></span><b>{categoryList.find(e => e.category_code === product.category_id)?.category_name}</b></li>
-                            <li onClick={() => handleEdit('subcategory')}><span>Subcategorías <FontAwesomeIcon icon={faPenToSquare} /></span><b>{subcategories.join(' - ')}</b></li>
-                        </ul>
+                        <div>
+                            <header>
+                                <h1 onClick={() => handleEdit('name')}>{product.name} <FontAwesomeIcon icon={faPenToSquare} /></h1>
+                                <p>
+                                    <span>
+                                        Código de referencia: <b>{product.code}</b>
+                                    </span>
+                                    <span>
+                                        Fecha de modificación: <b>{formatDate(product.last_date_modified)}</b>
+                                    </span>
+                                </p>
+                            </header>
+                            <ul>
+                                <li onClick={() => handleEdit('status')}><span>Estado <FontAwesomeIcon icon={faPenToSquare} /></span><b>{product.status === 'active' ? 'Activo' : 'Inactivo'}</b></li>
+                                <li onClick={() => handleEdit('price')}><span>Precio <FontAwesomeIcon icon={faPenToSquare} /></span><b>${product.price}</b></li>
+                                <li onClick={() => handleEdit('discount')}><span>Descuento <FontAwesomeIcon icon={faPenToSquare} /></span><b>{product.discount || 0}%</b></li>
+                                <li onClick={() => handleEdit('description')}><span>Descripción <FontAwesomeIcon icon={faPenToSquare} /></span><b className="b-description">{product.description}</b></li>
+                                <li onClick={() => handleEdit('category_id')}><span>Categoría <FontAwesomeIcon icon={faPenToSquare} /></span><b>{categoryList.find(e => e.category_code === product.category_id)?.category_name}</b></li>
+                                <li onClick={() => handleEdit('subcategory')}><span>Subcategorías <FontAwesomeIcon icon={faPenToSquare} /></span><b>{subcategories.join(' - ')}</b></li>
+                            </ul>
+                        </div>
                         <div className="actions">
-                            <button className="btn"><FontAwesomeIcon icon={faTrashCan} /> Eliminar</button>
+                            <button className="btn" onClick={deleteProduct}><FontAwesomeIcon icon={faTrashCan} /> Eliminar</button>
                         </div>
                     </div>
                     {editField && (

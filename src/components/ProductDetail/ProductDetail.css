@@ -36,10 +36,19 @@
     background: #fff;
     padding: 20px;
     border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.info-product header {
+    border-bottom: 1px solid #eee;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
 }
 
 .info-product h1 {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     cursor: pointer;
 }
 
@@ -52,14 +61,9 @@
     opacity: 1;
 }
 
-.info-product p {
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: space-between;
-}
-
 .info-product p span {
-    text-align: end;
+    display: block;
+    margin-bottom: 5px;
 }
 
 .info-product {

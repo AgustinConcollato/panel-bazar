@@ -2,7 +2,14 @@ import { urlProducts as url } from "./api"
 
 export const products = {
     search: async ({ options = {}, id = null }) => {
+
+        console.log(id)
+
         if (id) {
+
+            url.searchParams.delete('page')
+            url.searchParams.delete('category')
+
             const response = await fetch(`${url}/${id}`)
             return await response.json()
         }
@@ -56,5 +63,34 @@ export const products = {
         } catch (error) {
             console.log(error)
         }
+    },
+
+    updateImage: async ({ id, images }) => {
+        try {
+            const response = await fetch(`${url}/${id}`, {
+                method: 'PUT',
+                body: images
+            })
+
+            if (!response.ok) {
+                const errorData = await response.json()
+                throw new Error(JSON.stringify(errorData))
+            }
+
+            return await response.json();
+
+        } catch (error) {
+            console.error('Error en la solicitud:', JSON.parse(error.message));
+            throw error;
+        }
+    },
+
+    delete: async ({ id }) => {
+        const response = await fetch(`${url}/${id}`, {
+            method: 'DELETE'
+        })
+
+        return await response.json()
     }
+
 }
