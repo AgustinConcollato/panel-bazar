@@ -1,11 +1,10 @@
-.container-img {
-    border-radius: 5px;
+.product-list tbody td.container-img {
     height: 50px;
     width: 50px;
-    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0;
 }
 
 .container-img img {
@@ -14,11 +13,28 @@
     width: 100%;
     object-fit: contain;
     background: #fff;
-    transition: .1s;
-    position: absolute;
-    left: 0;
-    top: 0;
     padding: 5px;
+}
+
+.cell-price span{
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: inline-block;
+    transform: translateX(-10px);
+}
+
+.cell-price span:hover{
+    background: #f0f0f0;
+}
+
+.cell-price span svg {
+    margin-left: 10px;
+    opacity: 0;
+}
+
+.cell-price span:hover svg {
+    opacity: 1;
 }
 
 .discount {

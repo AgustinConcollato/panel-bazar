@@ -8,7 +8,7 @@ export function EditField({ field, value, onChange, type = 'text', options = [] 
                 <textarea className="input" value={value} onChange={(e) => onChange(field, e.target.value)}></textarea>
             )}
             {type === 'number' && (
-                <input type="number" className="input" value={value || 0} onChange={(e) => onChange(field, e.target.value)} />
+                <input type="number" className="input" value={value} onChange={(e) => onChange(field, e.target.value)} />
             )}
             {type === 'radio' && (
                 <div style={{ display: 'flex', gap: '10px' }}>
