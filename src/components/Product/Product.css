@@ -21,19 +21,6 @@
     padding: 5px;
 }
 
-.container-img:hover img {
-    transition: .3s;
-    position: absolute;
-    width: 200px;
-    height: 200px;
-    box-shadow: 0 15px 20px #00000020;
-    z-index: 1000;
-    pointer-events: none;
-    left: 0;
-    top: 0;
-    padding: 10px;
-}
-
 .discount {
     border-radius: 5px;
     display: inline-block;

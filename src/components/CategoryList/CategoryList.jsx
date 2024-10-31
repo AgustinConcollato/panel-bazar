@@ -6,8 +6,10 @@ import { Loading } from "../Loading/Loading";
 
 export function CategoryList() {
 
-    const { categories } = api
+    const { Categories } = api
     const [list, setList] = useState([])
+
+    const categories = new Categories()
 
     async function getCategories() {
         setList(await categories.get({}))

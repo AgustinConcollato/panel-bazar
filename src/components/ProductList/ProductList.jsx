@@ -9,7 +9,9 @@ import './ProductList.css';
 export function ProductList() {
 
     const { id } = useParams();
-    const { products } = api
+    const { Products } = api
+
+    const products = new Products
 
     const [page, setPage] = useState(1)
     const [dataPage, setDataPage] = useState(null)

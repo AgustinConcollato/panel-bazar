@@ -13,8 +13,11 @@ import 'react-toastify/dist/ReactToastify.css'
 
 export function ProductDetail() {
     const { id } = useParams()
-    const { products, categories } = api
+    const { Products, Categories } = api
     const navigate = useNavigate()
+
+    const products = new Products()
+    const categories = new Categories()
 
     const [product, setProduct] = useState(null)
     const [error, setError] = useState(null)

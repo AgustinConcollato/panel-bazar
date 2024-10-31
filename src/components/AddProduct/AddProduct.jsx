@@ -13,7 +13,9 @@ import './AddProduct.css'
 
 export function AddProduct() {
 
-    const { products } = api
+    const { Products } = api
+
+    const products = new Products()
 
     const [images, setImages] = useState([])
     const [list, setList] = useState([])
@@ -188,7 +190,9 @@ function Form1() {
 function Form2(props) {
 
     const { list, setList, selectedCategory, setSelectedCategory, setSelectedSubcategories } = props
-    const { categories } = api
+    const { Categories } = api
+
+    const categories = new Categories()
 
     const [resetList, setResetList] = useState(false)
 
