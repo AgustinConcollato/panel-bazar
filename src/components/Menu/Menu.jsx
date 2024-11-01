@@ -13,10 +13,10 @@ export function Menu() {
     return (
         <>
             <button className="btn btn-solid btn-menu" onClick={() => setMenu(!menu)}>
-                + Nuevo
+                + Agregar
                 {menu && <div className="menu">
                     <Link to={'/agregar-producto'}>Nuevo producto</Link>
-                    <Link to={'/agregar-producto'}>Nuevo pedido</Link>
+                    <Link to={'/agregar-cliente'}>Nuevo cliente</Link>
                 </div>}
             </button>
         </>

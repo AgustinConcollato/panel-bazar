@@ -3,9 +3,10 @@ import { NavBar } from './components/NavBar/NavBar'
 import { ProductsPage } from './pages/ProductsPage'
 import { ProductDetail } from './components/ProductDetail/ProductDetail'
 import { AddProduct } from './components/AddProduct/AddProduct'
-import './App.css'
 import { Search } from './components/Search/Search'
 import { Menu } from './components/Menu/Menu'
+import { OrderPage } from './pages/OrdersPage'
+import './App.css'
 
 function App() {
   return (
@@ -21,8 +22,8 @@ function App() {
           <Route path='/productos/*' element={<ProductsPage />} />
           <Route path='/producto/:id' element={<ProductDetail />} />
           <Route path='/agregar-producto' element={<AddProduct />} />
-          <Route path='/pedidos' element={'pedido'} />
-          <Route path='/facturar' element={'factura'} />
+          <Route path='/pedidos' element={<OrderPage />} />
+          <Route path='/clientes' element={'clientes'} />
         </Routes>
       </main>
     </>

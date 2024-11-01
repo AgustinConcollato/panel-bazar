@@ -16,7 +16,7 @@ export function NavBar() {
                         <Link to={'/productos'}>Productos</Link>
                     </li>
                     <li>
-                        <Link to={'/facturar'}>Facturar</Link>
+                        <Link to={'/clientes'}>Clientes</Link>
                     </li>
                 </ul>
             </nav>
