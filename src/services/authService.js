@@ -6,20 +6,15 @@ export class Auth {
     }
 
     async login(password) {
-
-        const bodyData = {
-            email: this.email,
-            password
-        };
-
-        console.log("Enviando datos de login:", bodyData); // Agregado para depuración
-
         const response = await fetch(`${url}/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(bodyData),
+            body: JSON.stringify({
+                email: this.email,
+                password
+            }),
         })
 
         if (!response.ok && response.status == 401) {
@@ -27,6 +22,18 @@ export class Auth {
         }
 
         return await response.json()
-
     }
+
+    async logout(token) {
+        const response = await fetch(`${url}/logout`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        })
+
+        return await response.json()
+    }
+
 }

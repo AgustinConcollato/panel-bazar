@@ -41,7 +41,7 @@ body {
     height: 100%;
 }
 
-#root>  header {
+#root>header {
     grid-area: header;
     border-bottom: 1px solid #eee;
     display: flex;
@@ -53,7 +53,10 @@ body {
 aside {
     grid-area: aside;
     border-right: 1px solid #eee;
-    padding-top: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 main {
