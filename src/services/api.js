@@ -1,9 +1,11 @@
-import { Categories } from "./categoriesApi";
-import { Products } from "./productsApi";
+import { Categories } from "./categoriesService"
+import { Products } from "./productsService"
+import { Auth } from "./authService"
 
 export const api = {
     Products,
     Categories,
+    Auth
 }
 
 export const url = new URL('http://localhost:8000/api')

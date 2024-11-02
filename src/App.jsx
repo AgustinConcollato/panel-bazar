@@ -13,13 +13,13 @@ import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute'
 function ProtectedLayout({ isAuthenticated }) {
   return (
     <ProtectedRoute isAuthenticated={isAuthenticated}>
-      <Outlet /> {/* Aquí se renderizan las rutas protegidas */}
+      <Outlet />
     </ProtectedRoute>
   );
 }
 
 function App() {
-  const isAuthenticated = !!localStorage.getItem('authToken'); // Verifica si el usuario tiene un token de autenticación
+  const isAuthenticated = !!localStorage.getItem('authToken')
   return (
     <>
       <header>
