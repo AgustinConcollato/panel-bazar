@@ -18,27 +18,27 @@ export function OrderPage() {
         //     .then(data => console.log(data))
         //     .catch(error => console.error('Error:', error));
         
-        fetch('http://localhost:8000/api/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                email: 'juan@example.com',
-                password: 'contraseñaSegura'
-            }),
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.token) {
-                    console.log('Login exitoso:', data);
-                    // Guarda el token en localStorage o en donde necesites
-                    localStorage.setItem('token', data.token);
-                } else {
-                    console.error('Error de login:', data);
-                }
-            })
-            .catch(error => console.error('Error:', error));
+        // fetch('http://localhost:8000/api/login', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify({
+        //         email: 'juan@example.com',
+        //         password: 'contraseñaSegura'
+        //     }),
+        // })
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         if (data.token) {
+        //             console.log('Login exitoso:', data);
+        //             // Guarda el token en localStorage o en donde necesites
+        //             localStorage.setItem('authToken', data.token);
+        //         } else {
+        //             console.error('Error de login:', data);
+        //         }
+        //     })
+        //     .catch(error => console.error('Error:', error));
 
     }, [])
 
