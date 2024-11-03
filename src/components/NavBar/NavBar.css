@@ -1,3 +1,7 @@
+aside .btn {
+    margin: 0 20px;
+}
+
 .nav-bar ul li a {
     display: block;
     padding: 10px 20px;
