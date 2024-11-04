@@ -1,25 +1,23 @@
 import { useEffect } from "react"
+import { CreateOrder } from "../components/CreateOrder/CreateOrder"
 
 export function OrderPage() {
-    return (
-        <>
-            <section>
-                <form>
 
-                    <input type="text" placeholder="cliente" />
-                    <select name="client">
-                        <option value="">Mateo</option>
-                        <option value="">Guido</option>
-                        <option value="">Facundo</option>
-                    </select>
-                </form>
-                <div>
+    useEffect(() => {
+
+    }, [])
+
+    return (
+        <section className="order-page">
+            <div>
+                <CreateOrder />
+                <div className="orders-pending">
                     mostrar los pedidso pendientes
                 </div>
-            </section>
-            <section>
+            </div>
+            <div className="orders-completed">
                 lista de los pedidos terminados del mes
-            </section>
-        </>
+            </div>
+        </section>
     )
 }

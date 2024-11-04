@@ -113,3 +113,9 @@ main {
     border: 1px solid #ddd;
     outline: none;
 }
+
+.order-page>div:first-child {
+    display: flex;
+    gap: 20px;
+    
+}

@@ -1,11 +1,15 @@
 import { Categories } from "./categoriesService"
 import { Products } from "./productsService"
 import { Auth } from "./authService"
+import { Firebase } from "./firebaseService"
+import { Order } from "./ordersService"
 
 export const api = {
     Products,
     Categories,
-    Auth
+    Auth,
+    Firebase,
+    Order
 }
 
 export const url = new URL('http://localhost:8000/api')

@@ -29,6 +29,22 @@ export function Login() {
         }
     }
 
+    
+// fetch('http://localhost:8000/api/register', {
+//     method: 'POST',
+//     headers: {
+//         'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify({
+//         name: 'adimn',
+//         email: 'panelbazar@gmail.com',
+//         password: '1872fa43'
+//     }),
+// })
+//     .then(response => response.json())
+//     .then(data => console.log(data))
+//     .catch(error => console.error('Error:', error));
+
     return isAuthenticated ?
         <Navigate to="/" replace /> :
         <section className='login'>
@@ -55,7 +71,7 @@ export function Login() {
 //     body: JSON.stringify({
 //         name: 'adimn',
 //         email: 'panelbazar@gmail.com',
-//         password: '1872fa'
+//         password: '1872fa43'
 //     }),
 // })
 //     .then(response => response.json())

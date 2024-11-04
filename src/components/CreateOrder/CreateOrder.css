@@ -1,0 +1,13 @@
+.form-new-order {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-new-order select[name="clients"] {
+    margin: 10px 0;
+}
