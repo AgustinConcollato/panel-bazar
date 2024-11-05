@@ -116,6 +116,5 @@ main {
 
 .order-page>div:first-child {
     display: flex;
-    gap: 20px;
-    
+    gap: 10px;
 }

@@ -35,6 +35,7 @@ function App() {
             <Route path='/producto/:id' element={<ProductDetail />} />
             <Route path='/agregar-producto' element={<AddProduct />} />
             <Route path='/pedidos' element={<OrderPage />} />
+            <Route path='/pedido/:id' element={'pedidooo'} />
             <Route path='/clientes' element={'clientes'} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>

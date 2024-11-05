@@ -34,6 +34,7 @@ export function CreateOrder() {
     const [error, setError] = useState(null)
     const [users, setUsers] = useState(null)
     const [clients, setClients] = useState(null)
+    const [name, setName] = useState(null)
 
     async function getUsers() {
         const firebase = new Firebase()
@@ -44,7 +45,7 @@ export function CreateOrder() {
     async function createOrder(e) {
         e.preventDefault()
         setError(null)
-        
+
         const order = new Order()
 
         const formData = new FormData(e.target)
@@ -53,6 +54,7 @@ export function CreateOrder() {
         formData.append('comment', '')
         formData.append('total_amount', 0)
         formData.append('id', generateId())
+        formData.append('client_name', name)
 
         try {
             const response = await toast.promise(order.create({ data: formData }), {
@@ -74,6 +76,11 @@ export function CreateOrder() {
                 setError(errorData.error.message)
             }
         }
+    }
+
+    function changeSelect({ label }) {
+        setName(label)
+        setError(null)
     }
 
     useEffect(() => {
@@ -100,7 +107,7 @@ export function CreateOrder() {
                                     options={users.map(e => ({ value: e.uid, label: e.displayName }))}
                                     placeholder="Usuarios de la web"
                                     isSearchable
-                                    onChange={() => setError(null)}
+                                    onChange={changeSelect}
                                     name='client'
                                 />
                             </> :
