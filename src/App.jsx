@@ -8,6 +8,7 @@ import { Menu } from './components/Menu/Menu'
 import { OrderPage } from './pages/OrdersPage'
 import './App.css'
 import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute'
+import { Order } from './components/Order/Order'
 
 
 function ProtectedLayout({ isAuthenticated }) {
@@ -35,7 +36,7 @@ function App() {
             <Route path='/producto/:id' element={<ProductDetail />} />
             <Route path='/agregar-producto' element={<AddProduct />} />
             <Route path='/pedidos' element={<OrderPage />} />
-            <Route path='/pedido/:id' element={'pedidooo'} />
+            <Route path='/pedido/:id' element={<Order />} />
             <Route path='/clientes' element={'clientes'} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
