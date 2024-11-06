@@ -1,0 +1,31 @@
+.search-container {
+    position: relative;
+    width: 100%;
+}
+
+.options-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: 250px;
+    overflow-y: auto;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    z-index: 10;
+}
+
+.options-list li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.options-list li.highlighted {
+    background-color: #3d6caa;
+    color: white;
+}
+
+.options-list .loading {
+    margin: 10px auto;
+}

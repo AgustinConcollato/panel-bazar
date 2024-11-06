@@ -45,4 +45,20 @@ export class Order {
         const response = await fetch(`${url}/order/completed?currentMonthStart=${currentMonthStart}&currentMonthEnd=${currentMonthEnd}`)
         return await response.json()
     }
+
+    async get(id) {
+        try {
+            const response = await fetch(`${url}/order/${id}`)
+
+            if (!response.ok) {
+                const { status, message } = await response.json()
+                throw new Error(`${message}`)
+            }
+
+            return await response.json()
+
+        } catch (error) {
+            throw error
+        }
+    }
 }
