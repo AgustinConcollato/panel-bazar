@@ -49,8 +49,8 @@ export function PendingsOrders() {
                                 <h4>{monthYear}</h4>
                                 {groupedOrders[monthYear].map((e) => (
                                     <Link to={`/pedido/${e.id}`} key={e.id}>
-                                        <span>{formatDate(e.date)}</span>
                                         <span>{e.client_name}</span>
+                                        <span>{formatDate(e.date)}</span>
                                         <span>Total: ${e.total_amount}</span>
                                     </Link>
                                 ))}
