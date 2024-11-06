@@ -4,19 +4,26 @@ export class Products {
     constructor() {
         url.searchParams.delete('category');
         url.searchParams.delete('page');
+        url.searchParams.delete('name');
     }
 
     async search({ options = {}, id = null }) {
-        console.log(id);
 
         if (id) {
             const response = await fetch(`${url}/${id}`);
             return await response.json();
         }
 
-        const { page, category } = options;
+        const { page, category, name } = options;
+
+        if (!category) {
+            url.searchParams.set('name', name);
+        } else {
+            url.searchParams.set('category', category);
+        }
+
         url.searchParams.set('page', page);
-        url.searchParams.set('category', category);
+
 
         const response = await fetch(url);
         return await response.json();
