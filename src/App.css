@@ -73,6 +73,7 @@ main {
     transition: .1s;
     display: inline-flex;
     align-items: center;
+    gap: 10px;
     justify-content: center;
     background: #f0f0f0;
     border: none;
@@ -84,6 +85,15 @@ main {
     color: #fff;
     border: 1px solid var(--primary);
     background: var(--primary);
+}
+
+.btn-solid svg path {
+    fill: #fff;
+}
+
+.btn-regular svg path,
+.btn-thins svg path {
+    fill: var(--primary);
 }
 
 .btn-regular {
