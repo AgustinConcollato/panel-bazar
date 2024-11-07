@@ -61,4 +61,16 @@ export class Order {
             throw error
         }
     }
+
+    async add(data) {
+        try {
+            const response = await fetch(`${url}/order/add`, {
+                method: 'POST',
+                body: data
+            })
+            console.log(response)
+        } catch (error) {
+            console.log(e)
+        }
+    }
 }

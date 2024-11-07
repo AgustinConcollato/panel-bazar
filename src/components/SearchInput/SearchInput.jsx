@@ -73,6 +73,7 @@ export function SearchInput({ onSelect }) {
                 name='name'
                 className='input'
                 autoComplete='off'
+                required
             />
             {(
                 filteredOptions.length > 0 && (
