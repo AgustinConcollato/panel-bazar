@@ -68,9 +68,15 @@ export class Order {
                 method: 'POST',
                 body: data
             })
-            console.log(response)
+
+            if (!response.ok) {
+                const { message } = await response.json()
+                throw new Error(message)
+            }
+
+            return await response.json()
         } catch (error) {
-            console.log(e)
+            throw new Error(error)
         }
     }
 }

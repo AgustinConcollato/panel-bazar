@@ -3,7 +3,7 @@ import { api } from '../../services/api'
 import './SearchInput.css'
 import { Loading } from '../Loading/Loading'
 
-export function SearchInput({ onSelect }) {
+export function SearchInput({ onSelect, setSelected }) {
     const { Products } = api
 
     const [query, setQuery] = useState('')
@@ -16,6 +16,7 @@ export function SearchInput({ onSelect }) {
     async function handleChange(event) {
         const value = event.target.value
         setQuery(value)
+        setSelected({})
 
         if (value.trim() === '') {
             setFilteredOptions([]);

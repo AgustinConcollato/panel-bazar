@@ -3,14 +3,19 @@
     width: 100%;
 }
 
+.search-container input:focus + .options-list{
+display: block;
+}
+
 .options-list {
+    display: none;
     position: absolute;
     top: 100%;
     left: 0;
     right: 0;
     max-height: 250px;
     overflow-y: auto;
-    background-color: white;
+    background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 5px;
     z-index: 10;
@@ -23,7 +28,7 @@
 
 .options-list li.highlighted {
     background-color: #3d6caa;
-    color: white;
+    color: #fff;
 }
 
 .options-list .loading {

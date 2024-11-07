@@ -1,7 +1,7 @@
 .search-order-product {
     display: flex;
     align-items: start;
-    width: 600px;
+    width: 700px;
     gap: 5px;
 }
 
@@ -10,9 +10,9 @@
 }
 
 .search-order-product>.input:first-child {
-    width: 120px;
+    width: 400px;
 }
 
-.search-order-product>.input:nth-child(3) {
-    width: 100px;
+.search-order-product>.input {
+    width: 120px;
 }
