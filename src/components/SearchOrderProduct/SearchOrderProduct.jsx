@@ -12,6 +12,7 @@ export function SearchOrderProduct({ orderId, setOrderProducts }) {
 
     const [selected, setSelected] = useState({})
     const [price, setPrice] = useState()
+    const [reset, setReset] = useState(false)
 
     const { Order } = api
 
@@ -37,12 +38,18 @@ export function SearchOrderProduct({ orderId, setOrderProducts }) {
 
             setOrderProducts(current => [...current, product])
 
+            setReset(true)
+            setPrice('')
+            
+            setTimeout(() => setReset(false), 1)
+
         } catch (error) {
             toast.error(error.message.split(':')[1])
         }
     }
 
     return (
+        !reset &&
         <form onSubmit={addProduct} className="search-order-product">
             <SearchInput onSelect={handleSelect} setSelected={setSelected} />
             <input

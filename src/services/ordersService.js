@@ -64,7 +64,7 @@ export class Order {
 
     async add(data) {
         try {
-            const response = await fetch(`${url}/order/add`, {
+            const response = await fetch(`${url}/order/product/add`, {
                 method: 'POST',
                 body: data
             })
@@ -75,6 +75,27 @@ export class Order {
             }
 
             return await response.json()
+        } catch (error) {
+            throw new Error(error)
+        }
+    }
+
+    async remove(data) {
+        try {
+            const response = await fetch(`${url}/order/product/remove`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+
+            if (!response.ok) {
+                const { message } = await response.json()
+                throw new Error(message)
+            }
+
+            console.log(await response.json())
         } catch (error) {
             throw new Error(error)
         }
