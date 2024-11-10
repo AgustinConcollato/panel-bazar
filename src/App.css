@@ -108,11 +108,14 @@ main {
     background: #fff;
 }
 
-.btn:active,
+.btn:active {
+    box-shadow: 0 0 0 4px #00000020;
+}
+
 .btn-solid:active,
 .btn-regular:active,
 .btn-thins:active {
-    box-shadow: 0 0 0 4px #8ecae630;
+    box-shadow: 0 0 0 4px #8ecae690;
 }
 
 .btn-error-solid {
@@ -142,10 +145,9 @@ main {
     background: #fff;
 }
 
-.btn:active,
-.btn-solid:active,
-.btn-regular:active,
-.btn-thins:active {
+.btn-error-solid:active,
+.btn-error-regular:active,
+.btn-error-thins:active {
     box-shadow: 0 0 0 4px #e74c3c30;
 }
 
