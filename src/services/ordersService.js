@@ -95,7 +95,7 @@ export class Order {
                 throw new Error(message)
             }
 
-            console.log(await response.json())
+            return await response.json()
         } catch (error) {
             throw new Error(error)
         }

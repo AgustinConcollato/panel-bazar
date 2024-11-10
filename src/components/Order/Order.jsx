@@ -1,14 +1,13 @@
+import { faImage as imageRegular } from "@fortawesome/free-regular-svg-icons"
+import { faImage } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { api, urlStorage } from "../../services/api"
+import { api } from "../../services/api"
 import { Loading } from "../Loading/Loading"
-import { Modal } from "../Modal/Modal"
+import { OrderProduct } from "../OrderProduct/OrderProduct"
 import { SearchOrderProduct } from "../SearchOrderProduct/SearchOrderProduct"
 import './Order.css'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faImage } from "@fortawesome/free-solid-svg-icons"
-import { faImage as imageRegular } from "@fortawesome/free-regular-svg-icons"
-import notImage from '../../assets/img/not-image-min.jpg'
 
 export function Order() {
 
@@ -17,9 +16,6 @@ export function Order() {
     const [orderData, setOrderData] = useState(null)
     const [orderProducts, setOrderProducts] = useState(null)
     const [images, setImages] = useState(false)
-    const [modal, setModal] = useState(false)
-    const [remove, setRemove] = useState(false)
-    const [edit, setEdit] = useState(false)
 
     async function getOrder(orderId) {
         const order = new Order()
@@ -33,20 +29,6 @@ export function Order() {
             console.log(error.message)
         }
 
-    }
-
-    function removeProductOrder(id) {
-        const order = new Order()
-
-        order.remove({ orderId: orderData.id, productId: id })
-        setModal(true)
-        setRemove(true)
-
-    }
-
-    function editOrder() {
-        setModal(true)
-        setEdit(true)
     }
 
     useEffect(() => {
@@ -71,7 +53,7 @@ export function Order() {
                             <button className="btn">Cancelar</button>
                         </div>
                     </div>
-                   {orderProducts.length != 0 && <div>
+                    {orderProducts.length != 0 && <div>
                         <SearchOrderProduct orderId={id} setOrderProducts={setOrderProducts} />
                         <button className="btn btn-thins btn-images" onClick={() => setImages(!images)}>
                             {images ?
@@ -98,19 +80,13 @@ export function Order() {
                                 </thead>
                                 <tbody>
                                     {orderProducts.map(e =>
-                                        <tr key={e.productId}>
-                                            <td className="quantity-td" >{e.quantity}</td>
-                                            <td className="image-td" style={{ height: '65px', width: '65px' }}>{images && <img loading='lazy' src={e.picture == '-' ? notImage : `${urlStorage}/${JSON.parse(e.picture)[0]}`} />}</td>
-                                            <td className="name-td" >{e.name}</td>
-                                            <td className="price-td" >${e.price}</td>
-                                            <td className="subtotal-td" >${e.subtotal}</td>
-                                            <td className="options-td" >
-                                                <div>
-                                                    <button className="btn" onClick={editOrder}>Editar</button>
-                                                    <button className="btn btn-error-regular" onClick={() => removeProductOrder(e.product_id)}>Eliminar</button>
-                                                </div>
-                                            </td>
-                                        </tr>)}
+                                        <OrderProduct
+                                            e={e}
+                                            images={images}
+                                            setOrderProducts={setOrderProducts}
+                                            orderId={orderData.id}
+                                        />
+                                    )}
                                 </tbody>
                             </table>
                         </div> :
@@ -121,18 +97,6 @@ export function Order() {
                     <Loading />
                 }
             </section>
-            {modal &&
-                <Modal>
-                    {remove && <div>eliminar</div>}
-                    {edit && <div>editar</div>}
-                    <div className="background-modal" onClick={() => {
-                        setEdit(false)
-                        setRemove(false)
-                        setModal(false)
-                    }
-                    }></div>
-                </Modal>
-            }
         </>
     )
 }
