@@ -2,7 +2,7 @@ import { faImage as imageRegular } from "@fortawesome/free-regular-svg-icons"
 import { faImage } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { api } from "../../services/api"
 import { Loading } from "../Loading/Loading"
 import { OrderProduct } from "../OrderProduct/OrderProduct"
@@ -17,8 +17,10 @@ export function Order() {
     const [orderProducts, setOrderProducts] = useState(null)
     const [images, setImages] = useState(false)
 
+    const navigate = useNavigate()
+    const order = new Order()
+
     async function getOrder(orderId) {
-        const order = new Order()
         try {
             const response = await order.get(orderId)
             console.log(response)
@@ -29,6 +31,18 @@ export function Order() {
             console.log(error.message)
         }
 
+    }
+
+    async function deleteOrder() {
+        try {
+            const response = await order.delete(orderData.id)
+
+            if (response.status == 'success') {
+                navigate('/pedidos')
+            }
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     useEffect(() => {
@@ -50,11 +64,11 @@ export function Order() {
                         <div className="container-btn">
                             <button className="btn btn-solid">Confirmar</button>
                             <button className="btn btn-regular">Generar detalle</button>
-                            <button className="btn">Cancelar</button>
+                            <button className="btn" onClick={deleteOrder}>Cancelar</button>
                         </div>
                     </div>
                     {orderProducts.length != 0 && <div>
-                        <SearchOrderProduct orderId={id} setOrderProducts={setOrderProducts} />
+                        {orderData.status == 'pending' ? < SearchOrderProduct orderId={id} setOrderProducts={setOrderProducts} /> : <div> </div>}
                         <button className="btn btn-thins btn-images" onClick={() => setImages(!images)}>
                             {images ?
                                 <FontAwesomeIcon icon={faImage} /> :

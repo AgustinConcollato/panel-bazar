@@ -38,7 +38,7 @@ function App() {
             <Route path='/pedidos' element={<OrderPage />} />
             <Route path='/pedido/:id' element={<Order />} />
             <Route path='/clientes' element={'clientes'} />
-            <Route path="*" element={<Navigate to="/" replace />} />
+            <Route path="*" element={<Navigate to="/panel" replace />} />
           </Route>
         </Routes>
       </main>

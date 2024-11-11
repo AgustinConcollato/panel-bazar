@@ -1,10 +1,10 @@
-import { url } from "./api";
+import { urlOrder as url } from "./api";
 
 export class Order {
     constructor() { }
 
     async create({ data }) {
-        const response = await fetch(url + '/order', {
+        const response = await fetch(url, {
             method: 'POST',
             body: data
         })
@@ -20,12 +20,12 @@ export class Order {
     async pending(id = null) {
 
         if (id) {
-            const response = await fetch(`${url}/order/pending/${id}`)
+            const response = await fetch(`${url}/pending/${id}`)
 
             return await response.json()
         }
 
-        const response = await fetch(`${url}/order/pending`)
+        const response = await fetch(`${url}/pending`)
         return await response.json()
     }
 
@@ -37,18 +37,18 @@ export class Order {
         const currentMonthEnd = new Date(time.getFullYear(), time.getMonth() + 1, 0).getTime()
 
         if (id) {
-            const response = await fetch(`${url}/order/completed/${id}?currentMonthStart=${currentMonthStart}&currentMonthEnd=${currentMonthEnd}`)
+            const response = await fetch(`${url}/completed/${id}?currentMonthStart=${currentMonthStart}&currentMonthEnd=${currentMonthEnd}`)
 
             return await response.json()
         }
 
-        const response = await fetch(`${url}/order/completed?currentMonthStart=${currentMonthStart}&currentMonthEnd=${currentMonthEnd}`)
+        const response = await fetch(`${url}/completed?currentMonthStart=${currentMonthStart}&currentMonthEnd=${currentMonthEnd}`)
         return await response.json()
     }
 
     async get(id) {
         try {
-            const response = await fetch(`${url}/order/${id}`)
+            const response = await fetch(`${url}/${id}`)
 
             if (!response.ok) {
                 const { status, message } = await response.json()
@@ -64,7 +64,7 @@ export class Order {
 
     async add(data) {
         try {
-            const response = await fetch(`${url}/order/product/add`, {
+            const response = await fetch(`${url}/product/add`, {
                 method: 'POST',
                 body: data
             })
@@ -82,12 +82,29 @@ export class Order {
 
     async remove(data) {
         try {
-            const response = await fetch(`${url}/order/product/remove`, {
+            const response = await fetch(`${url}/product/remove`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(data)
+            })
+
+            if (!response.ok) {
+                const { message } = await response.json()
+                throw new Error(message)
+            }
+
+            return await response.json()
+        } catch (error) {
+            throw new Error(error)
+        }
+    }
+
+    async delete(id) {
+        try {
+            const response = await fetch(`${url}/cancel/${id}`, {
+                method: 'DELETE'
             })
 
             if (!response.ok) {
