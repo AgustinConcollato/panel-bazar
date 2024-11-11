@@ -40,7 +40,7 @@ export function SearchOrderProduct({ orderId, setOrderProducts }) {
 
             setReset(true)
             setPrice('')
-            
+
             setTimeout(() => setReset(false), 1)
 
         } catch (error) {
@@ -55,19 +55,19 @@ export function SearchOrderProduct({ orderId, setOrderProducts }) {
             <input
                 className="input"
                 type="number"
-                name="price"
-                placeholder="Precio"
+                name="quantity"
+                placeholder="Cantidad"
                 min={0}
-                value={price}
-                onChange={(e) => setPrice(e.value)}
                 required
             />
             <input
                 className="input"
                 type="number"
-                name="quantity"
-                placeholder="Cantidad"
+                name="price"
+                placeholder="Precio"
                 min={0}
+                value={price}
+                onChange={(e) => setPrice(e.value)}
                 required
             />
             <button type="submit" className="btn btn-regular"> Agregar <FontAwesomeIcon icon={faAngleRight} /></button>

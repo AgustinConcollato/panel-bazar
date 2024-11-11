@@ -3,12 +3,7 @@
     width: 100%;
 }
 
-.search-container input:focus + .options-list{
-display: block;
-}
-
 .options-list {
-    display: none;
     position: absolute;
     top: 100%;
     left: 0;
