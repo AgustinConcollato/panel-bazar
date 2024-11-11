@@ -33,9 +33,21 @@ export function Order() {
 
     }
 
-    async function deleteOrder() {
+    async function cancelOrder() {
         try {
             const response = await order.delete(orderData.id)
+
+            if (response.status == 'success') {
+                navigate('/pedidos')
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    async function confirmOrder() {
+        try {
+            const response = await order.complete(orderData.id)
 
             if (response.status == 'success') {
                 navigate('/pedidos')
@@ -62,9 +74,9 @@ export function Order() {
                             <p>Total: ${orderProducts.reduce((a, value) => a + value.subtotal, 0)}</p>
                         </div>
                         <div className="container-btn">
-                            <button className="btn btn-solid">Confirmar</button>
+                            <button className="btn btn-solid" onClick={confirmOrder}>Confirmar</button>
                             <button className="btn btn-regular">Generar detalle</button>
-                            <button className="btn" onClick={deleteOrder}>Cancelar</button>
+                            <button className="btn" onClick={cancelOrder}>Cancelar</button>
                         </div>
                     </div>
                     {orderProducts.length != 0 && <div>
@@ -89,7 +101,7 @@ export function Order() {
                                         <td>Producto</td>
                                         <td>p/unitario</td>
                                         <td>subtotal</td>
-                                        <td>Opciones</td>
+                                        {orderData.status == 'pending' && <td>Opciones</td>}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -98,7 +110,7 @@ export function Order() {
                                             e={e}
                                             images={images}
                                             setOrderProducts={setOrderProducts}
-                                            orderId={orderData.id}
+                                            orderData={orderData}
                                         />
                                     )}
                                 </tbody>

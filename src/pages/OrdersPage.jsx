@@ -7,7 +7,7 @@ export function OrderPage() {
         <section className="order-page">
             <div>
                 <CreateOrder />
-                {/* <CompletedOrders /> */}
+                <CompletedOrders />
             </div>
             <PendingsOrders />
         </section>

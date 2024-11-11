@@ -4,7 +4,7 @@ import { api, urlStorage } from '../../services/api'
 import { Modal } from '../Modal/Modal'
 import { Loading } from '../Loading/Loading'
 
-export function OrderProduct({ e, images, setOrderProducts, orderId }) {
+export function OrderProduct({ e, images, setOrderProducts, orderData }) {
 
     const { Order } = api
 
@@ -17,7 +17,7 @@ export function OrderProduct({ e, images, setOrderProducts, orderId }) {
 
         setRemove(true)
         try {
-            const response = await order.remove({ orderId, productId: id })
+            const response = await order.remove({ orderId: orderData.id, productId: id })
 
             if (response) {
                 setOrderProducts(current => current.filter(e => e.product_id != response.product_id))
@@ -43,12 +43,14 @@ export function OrderProduct({ e, images, setOrderProducts, orderId }) {
                 <td className="name-td" >{e.name}</td>
                 <td className="price-td" >${e.price}</td>
                 <td className="subtotal-td" >${e.subtotal}</td>
-                <td className="options-td" >
-                    <div>
-                        <button className="btn" onClick={editOrder}>Editar</button>
-                        <button className="btn btn-error-regular" onClick={() => removeProductOrder(e.product_id)}>{remove ? 'Eliminando...' : 'Eliminar'}</button>
-                    </div>
-                </td>
+                {orderData.status == 'pending' &&
+                    <td className="options-td" >
+                        <div>
+                            <button className="btn" onClick={editOrder}>Editar</button>
+                            <button className="btn btn-error-regular" onClick={() => removeProductOrder(e.product_id)}>{remove ? 'Eliminando...' : 'Eliminar'}</button>
+                        </div>
+                    </td>
+                    }
             </tr>
             {modal &&
                 <Modal>

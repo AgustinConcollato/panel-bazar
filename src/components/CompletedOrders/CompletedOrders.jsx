@@ -29,6 +29,7 @@ export function CompletedOrders() {
                         <span>{e.client_name}</span>
                         <span>{formatDate(e.date)}</span>
                         <span>${e.total_amount}</span>
+                        <br />
                     </Link>) :
                     <p>No hay pedidos terminados</p> :
                 <Loading />

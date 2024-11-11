@@ -117,4 +117,21 @@ export class Order {
             throw new Error(error)
         }
     }
+
+    async complete(id) {
+        try {
+            const response = await fetch(`${url}/complete/${id}`, {
+                method: 'PUT'
+            })
+
+            if (!response.ok) {
+                const { message } = await response.json()
+                throw new Error(message)
+            }
+
+            return await response.json()
+        } catch (error) {
+            throw new Error(error)
+        }
+    }
 }
