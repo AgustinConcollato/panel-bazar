@@ -6,6 +6,7 @@ import Select from 'react-select'
 import { generateId } from '../../utils/generateId'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { useNavigate } from 'react-router-dom'
 
 const customStyles = {
     control: (provided, state) => ({
@@ -36,6 +37,8 @@ export function CreateOrder() {
     const [clients, setClients] = useState(null)
     const [name, setName] = useState(null)
 
+    const navigate = useNavigate()
+
     async function getUsers() {
         const firebase = new Firebase()
 
@@ -64,7 +67,7 @@ export function CreateOrder() {
             })
 
             if (response) {
-                console.log('navegar al pedido ')
+                navigate('/pedido/' + response.id)
             }
 
         } catch (error) {
