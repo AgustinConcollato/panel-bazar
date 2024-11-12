@@ -164,3 +164,36 @@ main {
     display: flex;
     gap: 10px;
 }
+
+@media (max-width: 450px) {
+    #root {
+        grid-template-columns: 1fr;
+        grid-template-rows: 80px 1fr 80px;
+        grid-template-areas:
+            'header'
+            'main'
+            'aside';
+    }
+
+    #root>header {
+        grid-area: header;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px;
+    }
+
+    aside {
+        max-width: 100%;
+        flex-direction: row;
+        overflow: auto;
+    }
+
+    main {
+        grid-area: main;
+        overflow: auto;
+        padding: 20px;
+        background: #f0f0f0;
+    }
+}

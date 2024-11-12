@@ -16,3 +16,26 @@
 .search-order-product>.input {
     width: 120px;
 }
+
+@media (max-width: 450px) {
+    .search-order-product {
+        gap: 5px;
+        flex-wrap: wrap;
+    }
+
+    .search-order-product>.input:first-child {
+        width: 100%;
+    }
+    
+    .search-order-product>.input {
+        width: 49%;
+    }
+
+    .search-order-product>.input {
+        width: 49%;
+    }
+
+    .search-order-product .btn {
+        width: 100%;
+    }
+}

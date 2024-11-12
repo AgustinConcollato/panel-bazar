@@ -19,7 +19,7 @@ search form input {
 }
 
 search form input:focus,
-search form input:focus + button svg path{
+search form input:focus+button svg path {
     border-color: var(--primary);
     fill: var(--primary);
 }
@@ -88,11 +88,11 @@ search form button {
 .option-search {
     border-top: 1px solid #eee;
     padding: 5px;
-    width: 100%;    
+    width: 100%;
 }
 
 .option-search a {
-    width: 100%;    
+    width: 100%;
     padding: 10px;
     border-radius: 10px;
     display: inline-block;
@@ -100,4 +100,10 @@ search form button {
 
 .option-search a:hover {
     background: #f5f5f5;
+}
+
+@media (max-width: 450px) {
+    search form input {
+        width: 275px;
+    }
 }

@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    position: relative;
 }
 
 .order-header>div:first-child {
@@ -68,8 +69,14 @@ div.not-products {
     font-size: 18px;
 }
 
+.container-order-table {
+    overflow: auto;
+    min-width: 100%;
+}
+
 .order-table {
     width: 100%;
+    min-width: 650px;
 }
 
 .order-table thead td {
@@ -108,4 +115,47 @@ div.not-products {
 .options-td div {
     display: flex;
     gap: 10px;
+}
+
+div.remit {
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    width: 800px;
+    background: #323639;
+}
+
+div.remit div {
+    display: flex;
+    justify-content: flex-end;
+}
+
+div.remit .btn {
+    background: #ffffff30;
+}
+
+div.remit .btn svg path {
+    fill: #fff;
+}
+
+iframe {
+    width: 100%;
+    height: calc(100vh - 300px);
+    border-radius: 10px;
+}
+
+@media (max-width: 450px) {
+    .order-header>div:first-child {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .order-header>div:last-child {
+        align-items: end;
+        gap: 10px;
+    }
+
+    .btn-images {
+        transform: translateY(-5px);
+    }
 }

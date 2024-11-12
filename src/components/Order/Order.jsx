@@ -1,9 +1,9 @@
 import { faImage as imageRegular } from "@fortawesome/free-regular-svg-icons"
-import { faImage } from "@fortawesome/free-solid-svg-icons"
+import { faImage, faXmark } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { api } from "../../services/api"
+import { api, urlOrder } from "../../services/api"
 import { Loading } from "../Loading/Loading"
 import { OrderProduct } from "../OrderProduct/OrderProduct"
 import { SearchOrderProduct } from "../SearchOrderProduct/SearchOrderProduct"
@@ -16,6 +16,7 @@ export function Order() {
     const [orderData, setOrderData] = useState(null)
     const [orderProducts, setOrderProducts] = useState(null)
     const [images, setImages] = useState(false)
+    const [remit, setRemit] = useState(null)
 
     const navigate = useNavigate()
     const order = new Order()
@@ -57,6 +58,18 @@ export function Order() {
         }
     }
 
+    function generateRemit() {
+        let date
+
+        if (orderData.status == 'pending') {
+            date = new Date().getTime()
+        } else {
+            date = orderData.date
+        }
+
+        setRemit({ id: orderData.id, date })
+    }
+
     useEffect(() => {
         getOrder(id)
     }, [id])
@@ -74,25 +87,30 @@ export function Order() {
                             <p>Total: ${orderProducts.reduce((a, value) => a + value.subtotal, 0)}</p>
                         </div>
                         <div className="container-btn">
-                            <button className="btn btn-solid" onClick={confirmOrder}>Confirmar</button>
-                            <button className="btn btn-regular">Generar detalle</button>
-                            <button className="btn" onClick={cancelOrder}>Cancelar</button>
+                            {orderProducts.length != 0 &&
+                                <>
+                                    {orderData.status == 'pending' && <button className="btn btn-solid" onClick={confirmOrder}>Confirmar</button>}
+                                    <button className="btn btn-regular" onClick={generateRemit}>Generar detalle</button>
+                                </>
+                            }
+                            {orderData.status == 'pending' && <button className="btn" onClick={cancelOrder}>Cancelar</button>}
                         </div>
                     </div>
-                    {orderProducts.length != 0 && <div>
-                        {orderData.status == 'pending' ? < SearchOrderProduct orderId={id} setOrderProducts={setOrderProducts} /> : <div> </div>}
-                        <button className="btn btn-thins btn-images" onClick={() => setImages(!images)}>
-                            {images ?
-                                <FontAwesomeIcon icon={faImage} /> :
-                                <FontAwesomeIcon icon={imageRegular} />
-                            }
-                            <span>{images ? 'Ocultar fotos' : 'Mostrar fotos'}</span>
-                        </button>
-                    </div>}
+                    {orderProducts.length != 0 &&
+                        <div>
+                            {orderData.status == 'pending' ? < SearchOrderProduct orderId={id} setOrderProducts={setOrderProducts} /> : <div> </div>}
+                            <button className="btn btn-thins btn-images" onClick={() => setImages(!images)}>
+                                {images ?
+                                    <FontAwesomeIcon icon={faImage} /> :
+                                    <FontAwesomeIcon icon={imageRegular} />
+                                }
+                                <span>{images ? 'Ocultar fotos' : 'Mostrar fotos'}</span>
+                            </button>
+                        </div>}
                 </div>
                 {orderProducts ?
                     orderProducts.length != 0 ?
-                        <div>
+                        <div className="container-order-table">
                             <table cellSpacing={0} className="order-table">
                                 <thead>
                                     <tr>
@@ -121,6 +139,14 @@ export function Order() {
                             <SearchOrderProduct orderId={id} setOrderProducts={setOrderProducts} />
                         </div> :
                     <Loading />
+                }
+                {remit != null &&
+                    <div className="remit">
+                        <div>
+                            <button onClick={() => setRemit(null)} className="btn"><FontAwesomeIcon icon={faXmark} /></button>
+                        </div>
+                        <iframe src={`${urlOrder}/pdf/${remit.id}?date=${remit.date}`} frameborder="0"></iframe>
+                    </div>
                 }
             </section>
         </>

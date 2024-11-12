@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { api } from '../../services/api'
+import { api, url } from '../../services/api'
 import './login.css'
 import { Navigate } from 'react-router-dom'
 
@@ -30,7 +30,7 @@ export function Login() {
     }
 
     function register() {
-        fetch('http://localhost:8000/api/register', {
+        fetch(`${url}/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
