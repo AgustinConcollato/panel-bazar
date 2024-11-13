@@ -23,17 +23,21 @@ export function CompletedOrders() {
     return (
         <div className="completed-orders">
             <h3>Pedidos terminados del mes</h3>
-            {orders ?
-                orders.length != 0 ?
-                    orders.map(e => <Link to={`/pedido/${e.id}`}>
-                        <span>{e.client_name}</span>
-                        <span>{formatDate(e.date)}</span>
-                        <span>${e.total_amount}</span>
-                        <br />
-                    </Link>) :
-                    <p>No hay pedidos terminados</p> :
-                <Loading />
-            }
+            <div className="container-orders-completed">
+                {orders ?
+                    orders.length != 0 ?
+                        orders.map(e =>
+                            <Link to={`/pedido/${e.id}`}>
+                                <div>
+                                    <span>{e.client_name}</span>
+                                    <span>{formatDate(e.date)}</span>
+                                </div>
+                                <span>${e.total_amount}</span>
+                            </Link>) :
+                        <p>No hay pedidos terminados</p> :
+                    <Loading />
+                }
+            </div>
         </div>
     )
 }
