@@ -158,4 +158,27 @@ iframe {
     .btn-images {
         transform: translateY(-5px);
     }
+
+    div.remit {
+        top: 150px;
+        right: 0;
+        width: 100%;
+    }
+
+    iframe {
+        height: calc(100vh - 450px);
+    }
+}
+
+@media (max-width: 390px) {
+    .container-btn {
+        gap: 4px;
+    }
+    .container-btn .btn {
+        font-size: 15px;
+    }
+
+    div.remit {
+        top: 165px;
+    }
 }

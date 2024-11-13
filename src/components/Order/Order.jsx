@@ -24,7 +24,6 @@ export function Order() {
     async function getOrder(orderId) {
         try {
             const response = await order.get(orderId)
-            console.log(response)
 
             setOrderData(response)
             setOrderProducts(response.products)
@@ -123,9 +122,10 @@ export function Order() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {orderProducts.map(e =>
+                                    {orderProducts.map((e, i) =>
                                         <OrderProduct
                                             e={e}
+                                            key={i}
                                             images={images}
                                             setOrderProducts={setOrderProducts}
                                             orderData={orderData}
@@ -145,7 +145,7 @@ export function Order() {
                         <div>
                             <button onClick={() => setRemit(null)} className="btn"><FontAwesomeIcon icon={faXmark} /></button>
                         </div>
-                        <iframe src={`${urlOrder}/pdf/${remit.id}?date=${remit.date}`} frameborder="0"></iframe>
+                        <iframe src={`${urlOrder}/pdf/${remit.id}?date=${remit.date}`} frameBorder="0"></iframe>
                     </div>
                 }
             </section>

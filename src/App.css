@@ -162,6 +162,7 @@ main {
 
 .order-page>div:first-child {
     display: flex;
+    align-items: start;
     gap: 10px;
 }
 

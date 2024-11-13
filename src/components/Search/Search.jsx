@@ -64,7 +64,7 @@ export function Search() {
                 }}>
                     <input
                         type="text"
-                        placeholder="Buscar producto por nombre"
+                        placeholder="Buscar producto"
                         onChange={handleChange}
                         onFocus={handleFocus}
                         ref={refInputSearch}

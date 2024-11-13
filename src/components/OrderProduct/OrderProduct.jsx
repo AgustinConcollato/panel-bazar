@@ -37,7 +37,7 @@ export function OrderProduct({ e, images, setOrderProducts, orderData }) {
 
     return (
         <>
-            <tr key={e.productId}>
+            <tr>
                 <td className="quantity-td" >{e.quantity}</td>
                 <td className="image-td" style={{ height: '65px', width: '65px' }}>{images && <img loading='lazy' src={e.picture == '-' ? notImage : `${urlStorage}/${JSON.parse(e.picture)[0]}`} />}</td>
                 <td className="name-td" >{e.name}</td>
