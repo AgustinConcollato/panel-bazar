@@ -30,4 +30,18 @@ export class Clients {
         }
     }
 
+    async add(data) {
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${this.token}`
+                },
+                body: data
+            })
+            return await response.json()
+        } catch (error) {
+            throw new Error(error)
+        }
+    }
 }

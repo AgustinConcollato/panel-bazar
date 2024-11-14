@@ -9,6 +9,7 @@ import { OrderPage } from './pages/OrdersPage'
 import './App.css'
 import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute'
 import { Order } from './components/Order/Order'
+import { AddClient } from './components/AddClient/AddClient'
 
 
 function ProtectedLayout({ isAuthenticated }) {
@@ -35,6 +36,7 @@ function App() {
             <Route path='/productos/*' element={<ProductsPage />} />
             <Route path='/producto/:id' element={<ProductDetail />} />
             <Route path='/agregar-producto' element={<AddProduct />} />
+            <Route path='/agregar-cliente' element={<AddClient />} />
             <Route path='/pedidos' element={<OrderPage />} />
             <Route path='/pedido/:id' element={<Order />} />
             <Route path='/clientes' element={'clientes'} />
