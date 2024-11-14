@@ -1,0 +1,9 @@
+.container-table-clients {
+    border-radius: 10px;
+    background: #fff;
+    padding: 20px;
+}
+
+.client-name {
+    width: 300px;
+}

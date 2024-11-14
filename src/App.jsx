@@ -10,6 +10,7 @@ import './App.css'
 import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute'
 import { Order } from './components/Order/Order'
 import { AddClient } from './components/AddClient/AddClient'
+import { ClientsPage } from './pages/ClientsPage'
 
 
 function ProtectedLayout({ isAuthenticated }) {
@@ -39,7 +40,7 @@ function App() {
             <Route path='/agregar-cliente' element={<AddClient />} />
             <Route path='/pedidos' element={<OrderPage />} />
             <Route path='/pedido/:id' element={<Order />} />
-            <Route path='/clientes' element={'clientes'} />
+            <Route path='/clientes' element={<ClientsPage />} />
             <Route path="*" element={<Navigate to="/panel" replace />} />
           </Route>
         </Routes>
