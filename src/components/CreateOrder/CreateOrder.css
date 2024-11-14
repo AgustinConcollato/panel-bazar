@@ -9,6 +9,7 @@
     gap: 20px;
 }
 
-.form-new-order select[name="clients"] {
-    margin: 10px 0;
+.form-new-order>div:nth-child(2) {
+    display: flex;
+    gap: 10px;
 }

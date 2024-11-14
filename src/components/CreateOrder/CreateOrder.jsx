@@ -30,12 +30,13 @@ const customStyles = {
 
 export function CreateOrder() {
 
-    const { Firebase, Order } = api
+    const { Firebase, Order, Clients } = api
 
     const [error, setError] = useState(null)
     const [users, setUsers] = useState(null)
     const [clients, setClients] = useState(null)
     const [name, setName] = useState(null)
+    const [select, setSelect] = useState('client')
 
     const navigate = useNavigate()
 
@@ -43,6 +44,12 @@ export function CreateOrder() {
         const firebase = new Firebase()
 
         setUsers(await firebase.users())
+    }
+
+    async function getClients() {
+        const clients = new Clients()
+
+        setClients(await clients.get())
     }
 
     async function createOrder(e) {
@@ -87,38 +94,53 @@ export function CreateOrder() {
     }
 
     useEffect(() => {
-        getUsers()
-    }, [])
+        select == 'client' ? clients ?? getClients() : users ?? getUsers()
+    }, [select])
 
     return (
         <>
             <form onSubmit={createOrder} className="form-new-order">
                 <h3>Crear un nuevo pedido</h3>
                 <div>
-                    <div>
-                        {(users) ?
-                            <>
-                                {/* <Select
-                                styles={customStyles}
-                                options={clients.map(e => ({ value: e.id, label: e.name }))}
-                                placeholder="Clientes"
-                                isSearchable
-                                name='clients'
-                            /> */}
-                                <Select
-                                    styles={customStyles}
-                                    options={users.map(e => ({ value: e.uid, label: e.displayName }))}
-                                    placeholder="Usuarios de la web"
-                                    isSearchable
-                                    onChange={changeSelect}
-                                    name='client'
-                                />
-                            </> :
-                            <Loading />
-                        }
-                    </div>
+                    <button
+                        type='button'
+                        className={select == 'client' ? 'btn btn-solid' : 'btn btn-thins'}
+                        onClick={() => setSelect('client')}
+                    >
+                        Clientes
+                    </button>
+                    <button
+                        type='button'
+                        className={select != 'client' ? 'btn btn-solid' : 'btn btn-thins'}
+                        onClick={() => setSelect('users')}
+                    >
+                        Usuarios web
+                    </button>
                 </div>
-                <button className="btn btn-solid">Crear</button>
+                {select == 'client' ?
+                    clients ?
+                        < Select
+                            styles={customStyles}
+                            options={clients.map(e => ({ value: e.id, label: e.name }))}
+                            placeholder="Clientes"
+                            onChange={changeSelect}
+                            isSearchable
+                            name='client'
+                        /> :
+                        <Loading /> :
+                    users ?
+                        <Select
+                            styles={customStyles}
+                            options={users.map(e => ({ value: e.uid, label: e.displayName }))
+                            }
+                            placeholder="Usuarios de la web"
+                            isSearchable
+                            onChange={changeSelect}
+                            name='client'
+                        /> :
+                        <Loading />
+                }
+                <button type="submit" className="btn btn-solid">Crear</button>
                 {error && <p className='error'>{error}</p>}
             </form >
             <ToastContainer
