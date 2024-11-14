@@ -124,7 +124,7 @@ export function Order() {
                                 <tbody>
                                     {orderProducts.map((e, i) =>
                                         <OrderProduct
-                                            e={e}
+                                            product={e}
                                             key={i}
                                             images={images}
                                             setOrderProducts={setOrderProducts}

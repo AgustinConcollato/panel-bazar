@@ -1,7 +1,9 @@
 import { urlOrder as url } from "./api";
 
 export class Order {
-    constructor() { }
+    constructor() {
+        this.token = localStorage.getItem('authToken')
+    }
 
     async create({ data }) {
         const response = await fetch(url, {
@@ -85,7 +87,8 @@ export class Order {
             const response = await fetch(`${url}/product/remove`, {
                 method: 'DELETE',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${this.token}`
                 },
                 body: JSON.stringify(data)
             })
@@ -121,7 +124,32 @@ export class Order {
     async complete(id) {
         try {
             const response = await fetch(`${url}/complete/${id}`, {
-                method: 'PUT'
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${this.token}`
+                }
+            })
+
+            if (!response.ok) {
+                const { message } = await response.json()
+                throw new Error(message)
+            }
+
+            return await response.json()
+        } catch (error) {
+            throw new Error(error)
+        }
+    }
+
+    async update(data) {
+        try {
+            const response = await fetch(`${url}/product`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${this.token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
             })
 
             if (!response.ok) {

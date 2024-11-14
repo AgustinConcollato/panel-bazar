@@ -1,0 +1,7 @@
+.edit-order-product {
+    z-index: 1000;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 500px;
+}
