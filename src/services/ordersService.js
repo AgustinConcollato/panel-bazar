@@ -162,4 +162,23 @@ export class Order {
             throw new Error(error)
         }
     }
+
+    async remit(orderData) {
+        let date
+
+        if (orderData.status == 'pending') {
+            date = new Date().getTime()
+        } else {
+            date = orderData.date
+        }
+
+        try {
+            const response = await fetch(`${url}/pdf/${orderData.id}?date=${date}`)
+            const data = await response.blob()
+            const pdfUrl = URL.createObjectURL(data);
+            return pdfUrl
+        } catch (error) {
+            throw new Error(error)
+        }
+    }
 }

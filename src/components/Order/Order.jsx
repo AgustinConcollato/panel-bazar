@@ -3,7 +3,7 @@ import { faImage, faXmark } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { api, urlOrder } from "../../services/api"
+import { api } from "../../services/api"
 import { Loading } from "../Loading/Loading"
 import { OrderProduct } from "../OrderProduct/OrderProduct"
 import { SearchOrderProduct } from "../SearchOrderProduct/SearchOrderProduct"
@@ -17,6 +17,7 @@ export function Order() {
     const [orderProducts, setOrderProducts] = useState(null)
     const [images, setImages] = useState(false)
     const [remit, setRemit] = useState(null)
+    const [loadingRemit, setLoadingRemit] = useState(false)
 
     const navigate = useNavigate()
     const order = new Order()
@@ -57,16 +58,14 @@ export function Order() {
         }
     }
 
-    function generateRemit() {
-        let date
-
-        if (orderData.status == 'pending') {
-            date = new Date().getTime()
-        } else {
-            date = orderData.date
+    async function generateRemit() {
+        setLoadingRemit(true)
+        try {
+            setRemit(await order.remit(orderData))
+            setLoadingRemit(false)
+        } catch (error) {
+            console.log(error)
         }
-
-        setRemit({ id: orderData.id, date })
     }
 
     useEffect(() => {
@@ -89,7 +88,7 @@ export function Order() {
                             {orderProducts.length != 0 &&
                                 <>
                                     {orderData.status == 'pending' && <button className="btn btn-solid" onClick={confirmOrder}>Confirmar</button>}
-                                    <button className="btn btn-regular" onClick={generateRemit}>Generar detalle</button>
+                                    <button className="btn btn-regular" onClick={generateRemit}>{loadingRemit ? <Loading /> : 'Generar detalle'}</button>
                                 </>
                             }
                             {orderData.status == 'pending' && <button className="btn" onClick={cancelOrder}>Cancelar</button>}
@@ -140,12 +139,12 @@ export function Order() {
                         </div> :
                     <Loading />
                 }
-                {remit != null &&
+                {remit &&
                     <div className="remit">
                         <div>
                             <button onClick={() => setRemit(null)} className="btn"><FontAwesomeIcon icon={faXmark} /></button>
                         </div>
-                        <iframe src={`${urlOrder}/pdf/${remit.id}?date=${remit.date}`} frameBorder="0"></iframe>
+                        <iframe src={remit} frameBorder="0"></iframe>
                     </div>
                 }
             </section>

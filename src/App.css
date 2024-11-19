@@ -164,6 +164,7 @@ main {
     display: flex;
     align-items: start;
     gap: 10px;
+    flex-wrap: wrap;
 }
 
 @media (max-width: 450px) {
@@ -196,5 +197,9 @@ main {
         overflow: auto;
         padding: 20px;
         background: #f0f0f0;
+    }
+
+    .order-page>div:first-child>div {
+        width: 100%;
     }
 }

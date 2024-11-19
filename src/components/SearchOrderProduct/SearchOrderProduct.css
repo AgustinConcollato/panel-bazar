@@ -27,6 +27,10 @@
     .search-order-product>.input:first-child {
         width: 100%;
     }
+    
+    .search-order-product>.input {
+        width: 49%;
+    }
 
     .search-order-product .btn {
         width: 100%;

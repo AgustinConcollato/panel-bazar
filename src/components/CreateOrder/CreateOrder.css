@@ -13,3 +13,10 @@
     display: flex;
     gap: 10px;
 }
+
+@media (max-width: 450px) {
+    .form-new-order {
+        width: 100%;
+    }
+
+}
