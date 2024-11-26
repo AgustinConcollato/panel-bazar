@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom"
-import { api, urlStorage as url } from "../../services/api"
+import { api, urlStorage as url } from "api-services"
 import { useEffect, useState } from "react"
 import { Loading } from "../Loading/Loading"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"

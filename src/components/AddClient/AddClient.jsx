@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
-import { api } from '../../services/api'
 import { generateId } from '../../utils/generateId'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import './AddClient.css'
+import { api } from 'api-services'
 
 
 export function AddClient() {

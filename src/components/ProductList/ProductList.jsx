@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { api } from '../../services/api';
 import { Loading } from '../Loading/Loading';
 import { Pagination } from '../Pagination/Pagination';
 import { Product } from '../Product/Product';
 import './ProductList.css';
+import { api } from 'api-services';
 
 export function ProductList() {
 

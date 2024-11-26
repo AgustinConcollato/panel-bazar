@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { api, urlStorage } from '../../services/api'
+import { api, urlStorage } from 'api-services'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons'
 import { useEffect, useState } from 'react'

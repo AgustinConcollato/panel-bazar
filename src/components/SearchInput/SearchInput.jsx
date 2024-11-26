@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { api } from '../../services/api'
 import './SearchInput.css'
 import { Loading } from '../Loading/Loading'
+import { api } from 'api-services'
 
 export function SearchInput({ onSelect, setSelected }) {
     const { Products } = api

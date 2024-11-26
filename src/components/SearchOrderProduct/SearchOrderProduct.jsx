@@ -2,7 +2,7 @@ import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SearchInput } from "../SearchInput/SearchInput";
 import { useState } from "react";
-import { api } from "../../services/api";
+import { api } from "api-services";
 import { generateId } from "../../utils/generateId"
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'

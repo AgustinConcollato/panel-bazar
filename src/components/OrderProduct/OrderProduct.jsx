@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import notImage from '../../assets/img/not-image-min.jpg'
-import { api, urlStorage } from '../../services/api'
+import { api, urlStorage } from 'api-services'
 import { EditField } from '../EditField/EditField'
 import { Modal } from '../Modal/Modal'
 import { toast, ToastContainer } from 'react-toastify'
