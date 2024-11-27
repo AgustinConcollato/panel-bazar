@@ -72,10 +72,10 @@ export function OrderProduct({ product, images, setOrderProducts, orderData }) {
     return (
         <>
             <tr>
-                <td className="quantity-td"><span onClick={() => handleEdit('quantity')}> {product.quantity} <FontAwesomeIcon icon={faPenToSquare} /> </span></td>
+                <td className="quantity-td">{orderData.status == 'pending' ? <span onClick={() => handleEdit('quantity')}> {product.quantity} <FontAwesomeIcon icon={faPenToSquare} /> </span> : product.quantity}</td>
                 <td className="image-td" style={{ height: '65px', width: '65px' }}>{images && <img loading='lazy' src={product.picture == '-' ? notImage : `${urlStorage}/${JSON.parse(product.picture)[0]}`} />}</td>
-                <td className="name-td" onClick={() => handleEdit('name')}><span onClick={() => handleEdit('name')}> {product.name} <FontAwesomeIcon icon={faPenToSquare} /> </span></td>
-                <td className="price-td" onClick={() => handleEdit('price')}><span onClick={() => handleEdit('price')}> ${product.price} <FontAwesomeIcon icon={faPenToSquare} /> </span></td>
+                <td className="name-td">{orderData.status == 'pending' ? <span onClick={() => handleEdit('name')}> {product.name} <FontAwesomeIcon icon={faPenToSquare} /> </span> : product.name}</td>
+                <td className="price-td">{orderData.status == 'pending' ? <span onClick={() => handleEdit('price')}> ${product.price} <FontAwesomeIcon icon={faPenToSquare} /> </span> : product.price}</td>
                 <td className="subtotal-td" >${product.subtotal}</td>
                 {orderData.status == 'pending' &&
                     <td className="options-td" >
