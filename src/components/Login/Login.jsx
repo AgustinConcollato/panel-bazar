@@ -29,27 +29,9 @@ export function Login() {
         }
     }
 
-    function register() {
-        fetch(`${url}/register`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                name: 'adimn',
-                email: 'panelbazar@gmail.com',
-                password: '1872fa43'
-            }),
-        })
-            .then(response => response.json())
-            .then(data => console.log(data))
-            .catch(error => console.error('Error:', error));
-    }
-
     return isAuthenticated ?
         <Navigate to="/" replace /> :
         <section className='login'>
-            <button onClick={register}>registrar par prueba</button>
             <form onSubmit={submitLogin}>
                 <h2>Iniciar sesión</h2>
                 <input
@@ -64,18 +46,3 @@ export function Login() {
             {error && <p className='error'>{error}</p>}
         </section>
 }
-
-// fetch('http://localhost:8000/api/register', {
-//     method: 'POST',
-//     headers: {
-//         'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify({
-//         name: 'adimn',
-//         email: 'panelbazar@gmail.com',
-//         password: '1872fa43'
-//     }),
-// })
-//     .then(response => response.json())
-//     .then(data => console.log(data))
-//     .catch(error => console.error('Error:', error));
