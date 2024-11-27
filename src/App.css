@@ -160,13 +160,6 @@ main {
     outline: none;
 }
 
-.order-page>div:first-child {
-    display: flex;
-    align-items: start;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
 @media (max-width: 450px) {
     #root {
         grid-template-columns: 1fr;
@@ -197,9 +190,5 @@ main {
         overflow: auto;
         padding: 20px;
         background: #f0f0f0;
-    }
-
-    .order-page>div:first-child>div {
-        width: 100%;
     }
 }

@@ -45,3 +45,9 @@
     font-size: 18px;
     border-radius: 10px;
 }
+
+@media (max-width: 450px) {
+    .completed-orders a {
+        width: 100%;
+    }
+}

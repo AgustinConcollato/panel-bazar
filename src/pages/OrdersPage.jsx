@@ -5,11 +5,9 @@ import { PendingsOrders } from "../components/PendingsOrders/PendingsOrders"
 export function OrderPage() {
     return (
         <section className="order-page">
-            <div>
-                <CreateOrder />
-                <CompletedOrders />
-            </div>
+            <CreateOrder />
             <PendingsOrders />
+            <CompletedOrders />
         </section>
     )
 }
