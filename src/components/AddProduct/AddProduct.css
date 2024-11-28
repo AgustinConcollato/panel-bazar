@@ -19,7 +19,7 @@
 
 .form-add-product>div {
     background: #fff;
-    width: 50%;
+    width: calc(50% - 10px);
     padding: 20px;
     border-radius: 10px;
     display: flex;
