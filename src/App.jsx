@@ -25,11 +25,12 @@ function App() {
   const isAuthenticated = !!localStorage.getItem('authToken')
   return (
     <>
+      <NavBar />
       <header>
-        <Search />
+        {/* <Search /> */}
+        <div></div>
         <Menu />
       </header>
-      <NavBar />
       <main>
         <Routes>
           <Route element={<ProtectedLayout isAuthenticated={isAuthenticated} />}>

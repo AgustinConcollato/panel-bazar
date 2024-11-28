@@ -1,10 +1,14 @@
 import { Link, useNavigate } from 'react-router-dom'
 import './NavBar.css'
 import { api } from 'api-services'
+import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useState } from 'react'
 
 export function NavBar() {
 
     const navigate = useNavigate()
+    const [hidden, setHidden] = useState(true)
 
     async function logout() {
 
@@ -22,9 +26,16 @@ export function NavBar() {
     }
 
     return (
-        <aside>
+        <aside style={hidden ? { left: '-100%' } : { left: '0' }}>
+            <div
+                style={hidden ? { right: '-60px' } : { right: '20px' }}
+                className='btn btn-navbar'
+                onClick={() => setHidden(!hidden)}
+            >
+                <FontAwesomeIcon icon={hidden ? faBars : faXmark} />
+            </div>
             <nav className='nav-bar'>
-                <ul>
+                <ul onClick={() => !hidden && setHidden(true)}>
                     <li>
                         <Link to={'/panel'}>Inicio</Link>
                     </li>

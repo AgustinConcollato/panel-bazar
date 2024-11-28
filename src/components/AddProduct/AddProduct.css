@@ -13,6 +13,7 @@
 
 .form-add-product {
     display: flex;
+    flex-wrap: wrap;
     gap: 20px;
 }
 
@@ -169,4 +170,11 @@ li.error {
 
 .preview-images div:hover span svg {
     top: calc(50% - 17.5px);
+}
+
+@media (max-width: 450px) {
+
+    .form-add-product>div {
+        width: 100%;
+    }
 }

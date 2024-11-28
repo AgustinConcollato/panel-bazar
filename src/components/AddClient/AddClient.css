@@ -20,7 +20,8 @@
 }
 
 .section-add-client form {
-    width: 300px;
+    max-width: 300px;
+    width: 100%;
 }
 
 .section-add-client form input {
