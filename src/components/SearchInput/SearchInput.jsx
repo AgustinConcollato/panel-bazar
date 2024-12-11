@@ -28,10 +28,7 @@ export function SearchInput({ onSelect, setSelected }) {
 
             if (response) {
                 setIsLoading(false)
-                const filtered = response.data.filter(option =>
-                    option.name.toLowerCase().includes(value.toLowerCase())
-                )
-                setFilteredOptions(filtered)
+                setFilteredOptions(response.data)
             }
 
             setHighlightedIndex(0)
