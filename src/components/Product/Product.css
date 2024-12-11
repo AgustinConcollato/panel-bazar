@@ -16,7 +16,7 @@
     padding: 5px;
 }
 
-.cell-price span{
+.cell-price span {
     cursor: pointer;
     padding: 5px 10px;
     border-radius: 5px;
@@ -24,7 +24,7 @@
     transform: translateX(-10px);
 }
 
-.cell-price span:hover{
+.cell-price span:hover {
     background: #f0f0f0;
 }
 
@@ -41,8 +41,42 @@
     border-radius: 5px;
     display: inline-block;
     padding: 5px 10px 5px 10px;
-    background: #66b81920;
-    color: #66b819;
+    background: #66b819;
+    color: #fff;
     margin-right: 10px;
     padding-right: 10px;
+}
+
+.product-status {
+    position: relative;
+    border-radius: 5px;
+    display: inline-block;
+    gap: 5px;
+    padding: 5px 10px 5px 10px;
+    margin-right: 10px;
+    padding-right: 10px;
+    cursor: pointer;
+}
+
+.product-active {
+    background: #66b81920;
+    color: #66b819;
+
+}
+
+.product-inactive {
+    background: #b8191920;
+    color: #b81919;
+}
+
+.product-status svg {
+    position: absolute;
+    top: 50%;
+    right: -25px;
+    transform: translateY(-50%);
+    display: none;
+}
+
+.product-status:hover svg {
+    display: block;
 }
