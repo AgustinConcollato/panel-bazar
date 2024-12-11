@@ -5,6 +5,8 @@ import { Pagination } from '../Pagination/Pagination';
 import { Product } from '../Product/Product';
 import './ProductList.css';
 import { api } from 'api-services';
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export function ProductList() {
 
@@ -20,7 +22,8 @@ export function ProductList() {
     async function getProducts(category) {
         const options = {
             page,
-            category
+            category,
+            panel: true
         }
 
         setProductList(null)
@@ -29,6 +32,20 @@ export function ProductList() {
 
         setDataPage(dataPage)
         setProductList(dataPage.data)
+    }
+
+    async function updateProduct({ product, formData, hasChanges }) {
+        if (hasChanges) {
+            const { product: editedProduct } = await toast.promise(products.update({ id: product.id, data: formData }), {
+                pending: 'Editando producto...',
+                success: 'Se editó correctamente',
+                error: 'Error, no se puedo editar'
+            })
+
+            return await editedProduct
+        } else {
+            toast.error('No hay cambios para guardar')
+        }
     }
 
     useEffect(() => {
@@ -46,8 +63,9 @@ export function ProductList() {
                     <table className='product-list' cellSpacing={0}>
                         <thead>
                             <tr>
-                                <td>#</td>
+                                <td>Foto</td>
                                 <td>Producto</td>
+                                <td>Estado</td>
                                 <td></td>
                                 <td>Precio</td>
                                 <td>Opciones</td>
@@ -56,7 +74,7 @@ export function ProductList() {
                         {productList && productList.length !== 0 ? (
                             <tbody>
                                 {productList.map((product) => (
-                                    <Product key={product.id} data={product} />
+                                    <Product key={product.id} data={product} updateProduct={updateProduct} />
                                 ))}
                             </tbody>
                         ) : (
@@ -74,6 +92,19 @@ export function ProductList() {
             ) : (
                 <Loading />
             )}
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+                transition:Bounce
+                stacked />
         </section>
     )
 }
