@@ -8,6 +8,7 @@ import { Loading } from "../Loading/Loading"
 import { OrderProduct } from "../OrderProduct/OrderProduct"
 import { SearchOrderProduct } from "../SearchOrderProduct/SearchOrderProduct"
 import './Order.css'
+import { toast, ToastContainer } from 'react-toastify'
 
 export function Order() {
 
@@ -65,6 +66,20 @@ export function Order() {
             setLoadingRemit(false)
         } catch (error) {
             console.log(error)
+        }
+    }
+
+    async function updateOrder({ hasChanges, formData }) {
+        if (hasChanges) {
+            const response = await toast.promise(order.update(formData), {
+                pending: 'Editando producto...',
+                success: 'Se editó correctamente',
+                error: 'Error, no se puedo editar'
+            })
+
+            return await response
+        } else {
+            toast.error('No hay cambios para hacer')
         }
     }
 
@@ -128,6 +143,7 @@ export function Order() {
                                             images={images}
                                             setOrderProducts={setOrderProducts}
                                             orderData={orderData}
+                                            updateOrder={updateOrder}
                                         />
                                     )}
                                 </tbody>
@@ -148,6 +164,19 @@ export function Order() {
                     </div>
                 }
             </section>
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+                transition:Bounce
+                stacked />
         </>
     )
 }
