@@ -1,18 +1,13 @@
-import { Link } from 'react-router-dom'
-import { api, urlStorage } from 'api-services'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { urlStorage } from 'api-services'
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { EditField } from '../EditField/EditField'
 import { Modal } from '../Modal/Modal'
-import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
 import './Product.css'
 
-export function Product({ data }) {
-
-    const { Products } = api
-    const products = new Products()
+export function Product({ data, updateProduct }) {
 
     const [editField, setEditField] = useState(null)
     const [formData, setFormData] = useState({})
@@ -35,18 +30,11 @@ export function Product({ data }) {
         e.preventDefault()
 
         const hasChanges = Object.keys(formData).some(key => formData[key] !== product[key])
-        if (hasChanges) {
+        const editedProduct = await updateProduct({ hasChanges, product, formData })
 
-            const { product: editedProduct } = await toast.promise(products.update({ id: product.id, data: formData }), {
-                pending: 'Editando producto...',
-                success: 'Se editó correctamente',
-                error: 'Error, no se puedo editar'
-            })
-
+        if (editedProduct) {
             setProduct(editedProduct)
             setEditField(null)
-        } else {
-            toast.error('No hay cambios para guardar')
         }
     }
 
@@ -64,12 +52,31 @@ export function Product({ data }) {
                 <td>
                     <span>{product.name}</span>
                 </td>
-                <td>{product.discount ?
-                    <div>
-                        <span className='discount'>{product.discount}%</span>
-                        <span>${product.price - (product.price * product.discount) / 100}</span>
-                    </div> :
-                    ''}
+                <td>
+                    {product.status == 'active' ?
+                        <span
+                            className='product-status product-active'
+                            onClick={() => handleEdit('status')}
+                        >
+                            Activo
+                            <FontAwesomeIcon icon={faPenToSquare} />
+                        </span> :
+                        <span
+                            className='product-status product-inactive'
+                            onClick={() => handleEdit('status')}
+                        >
+                            Inactivo
+                            <FontAwesomeIcon icon={faPenToSquare} />
+                        </span>
+                    }
+                </td>
+                <td>
+                    {product.discount &&
+                        <div>
+                            <span className='discount'>{product.discount}%</span>
+                            <span>${(product.price * product.discount) / 100} / ${product.price - (product.price * product.discount) / 100}</span>
+                        </div>
+                    }
                 </td>
                 <td className='cell-price'><span onClick={() => handleEdit('price')}> ${product.price} <FontAwesomeIcon icon={faPenToSquare} /> </span></td>
                 <td>
@@ -83,7 +90,7 @@ export function Product({ data }) {
                                 field={editField}
                                 value={formData[editField]}
                                 onChange={handleEditChange}
-                                type={'number'}
+                                type={editField === 'status' ? 'radio' : 'number'}
                                 options={[]}
                             />
                             <div className="actions-edit">
@@ -94,19 +101,6 @@ export function Product({ data }) {
                         <div className="background-modal" onClick={() => setEditField(null)}></div>
                     </Modal>
                 }
-                <ToastContainer
-                    position="top-right"
-                    autoClose={3000}
-                    hideProgressBar={false}
-                    newestOnTop={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover
-                    theme="light"
-                    transition:Bounce
-                    stacked />
             </tr>
         )
     )
