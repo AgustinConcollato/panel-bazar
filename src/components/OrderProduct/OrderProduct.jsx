@@ -3,18 +3,18 @@ import notImage from '../../assets/img/not-image-min.jpg'
 import { api, urlStorage } from 'api-services'
 import { EditField } from '../EditField/EditField'
 import { Modal } from '../Modal/Modal'
-import { toast, ToastContainer } from 'react-toastify'
 import './OrderProduct.css'
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-export function OrderProduct({ product, images, setOrderProducts, orderData }) {
+export function OrderProduct({ product: productData, images, setOrderProducts, orderData, updateOrder }) {
 
     const { Order } = api
 
     const [edit, setEdit] = useState(null)
     const [remove, setRemove] = useState(false)
     const [formData, setFormData] = useState({})
+    const [product, setProduct] = useState({})
 
     const order = new Order()
 
@@ -38,23 +38,10 @@ export function OrderProduct({ product, images, setOrderProducts, orderData }) {
         e.preventDefault()
 
         const hasChanges = Object.keys(formData).some(key => formData[key] !== product[key])
-        if (hasChanges) {
+        const response = await updateOrder({ hasChanges, formData })
 
-            const response = await toast.promise(order.update(formData), {
-                pending: 'Editando producto...',
-                success: 'Se editó correctamente',
-                error: 'Error, no se puedo editar'
-            })
-
-            setOrderProducts(current =>
-                current.map(item =>
-                    item.product_id === response.product_id ? response : item
-                )
-            );
-            setEdit(null)
-        } else {
-            toast.error('No hay cambios para hacer')
-        }
+        setProduct(response)
+        setEdit(null)
     }
 
     function handleEditChange(field, value) {
@@ -66,7 +53,8 @@ export function OrderProduct({ product, images, setOrderProducts, orderData }) {
     }
 
     useEffect(() => {
-        setFormData(product)
+        setFormData(productData)
+        setProduct(productData)
     }, [])
 
     return (
@@ -75,7 +63,7 @@ export function OrderProduct({ product, images, setOrderProducts, orderData }) {
                 <td className="quantity-td">{orderData.status == 'pending' ? <span onClick={() => handleEdit('quantity')}> {product.quantity} <FontAwesomeIcon icon={faPenToSquare} /> </span> : product.quantity}</td>
                 <td className="image-td" style={{ height: '65px', width: '65px' }}>{images && <img loading='lazy' src={product.picture == '-' ? notImage : `${urlStorage}/${JSON.parse(product.picture)[0]}`} />}</td>
                 <td className="name-td">{orderData.status == 'pending' ? <span onClick={() => handleEdit('name')}> {product.name} <FontAwesomeIcon icon={faPenToSquare} /> </span> : product.name}</td>
-                <td className="price-td">{orderData.status == 'pending' ? <span onClick={() => handleEdit('price')}> ${product.price} <FontAwesomeIcon icon={faPenToSquare} /> </span> : product.price}</td>
+                <td className="price-td">{orderData.status == 'pending' ? <span onClick={() => handleEdit('price')}> ${product.price} <FontAwesomeIcon icon={faPenToSquare} /> </span> : '$' + product.price}</td>
                 <td className="subtotal-td" >${product.subtotal}</td>
                 {orderData.status == 'pending' &&
                     <td className="options-td" >
@@ -102,19 +90,6 @@ export function OrderProduct({ product, images, setOrderProducts, orderData }) {
                     <div className="background-modal" onClick={() => setEdit(null)}></div>
                 </Modal>
             }
-            <ToastContainer
-                position="top-right"
-                autoClose={3000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="light"
-                transition:Bounce
-                stacked />
         </>
     )
 
