@@ -6,7 +6,6 @@ import { api } from "api-services"
 import { DragAndDrop } from "../DragAndDrop/DragAndDrop"
 import { Loading } from "../Loading/Loading"
 import { generateId } from "../../utils/generateId"
-import { useCsrfToken } from "../../hooks/useCsrfToken"
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import './AddProduct.css'
@@ -27,8 +26,6 @@ export function AddProduct() {
 
     async function addProduct(e) {
         e.preventDefault()
-
-        const token = useCsrfToken()
 
         const formData = new FormData(e.target)
 
@@ -52,7 +49,7 @@ export function AddProduct() {
         setErrors({})
 
         try {
-            const response = await toast.promise(products.add({ data: formData, token }), {
+            const response = await toast.promise(products.add({ data: formData }), {
                 pending: 'Agregando producto...',
                 success: 'Se agregó correctamente',
                 error: 'Error, no se puedo agregar'
