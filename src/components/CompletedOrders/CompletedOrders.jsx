@@ -29,10 +29,18 @@ export function CompletedOrders() {
                         orders.map(e =>
                             <Link to={`/pedido/${e.id}`}>
                                 <div>
-                                    <span>{e.client_name}</span>
+                                    <h4>{e.client_name}</h4>
                                     <span>{formatDate(e.date)}</span>
                                 </div>
-                                <span>${e.total_amount}</span>
+                                <div>
+                                    {e.discount ?
+                                        <>
+                                            <p><span>-{e.discount}%</span><span>${e.total_amount}</span></p>
+                                            <p>${e.total_amount - (e.total_amount * e.discount) / 100}</p>
+                                        </>
+                                        :
+                                        <span>${e.total_amount}</span>}
+                                </div>
                             </Link>) :
                         <p>No hay pedidos terminados</p> :
                     <Loading />
