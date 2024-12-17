@@ -7,7 +7,14 @@ import './OrderProduct.css'
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-export function OrderProduct({ product: productData, images, setOrderProducts, orderData, updateOrder }) {
+export function OrderProduct({
+    product: productData,
+    images,
+    setOrderProducts,
+    orderId,
+    orderStatus,
+    updateOrder,
+}) {
 
     const { Order } = api
 
@@ -22,7 +29,7 @@ export function OrderProduct({ product: productData, images, setOrderProducts, o
 
         setRemove(true)
         try {
-            const response = await order.remove({ orderId: orderData.id, productId: id })
+            const response = await order.remove({ orderId, productId: id })
 
             if (response) {
                 setOrderProducts(current => current.filter(e => e.product_id != response.product_id))
@@ -40,8 +47,10 @@ export function OrderProduct({ product: productData, images, setOrderProducts, o
         const hasChanges = Object.keys(formData).some(key => formData[key] !== product[key])
         const response = await updateOrder({ hasChanges, formData })
 
-        setProduct(response)
-        setEdit(null)
+        if (response) {
+            setProduct(response)
+            setEdit(null)
+        }
     }
 
     function handleEditChange(field, value) {
@@ -52,6 +61,10 @@ export function OrderProduct({ product: productData, images, setOrderProducts, o
         setEdit(field)
     }
 
+    document.onkeyup = (e) => {
+        if (e.keyCode == 27) setEdit(null)
+    }
+
     useEffect(() => {
         setFormData(productData)
         setProduct(productData)
@@ -60,12 +73,13 @@ export function OrderProduct({ product: productData, images, setOrderProducts, o
     return (
         <>
             <tr>
-                <td className="quantity-td">{orderData.status == 'pending' ? <span onClick={() => handleEdit('quantity')}> {product.quantity} <FontAwesomeIcon icon={faPenToSquare} /> </span> : product.quantity}</td>
+                <td className="quantity-td">{orderStatus == 'pending' ? <span onClick={() => handleEdit('quantity')}> {product.quantity} <FontAwesomeIcon icon={faPenToSquare} /> </span> : product.quantity}</td>
                 <td className="image-td" style={{ height: '65px', width: '65px' }}>{images && <img loading='lazy' src={product.picture == '-' ? notImage : `${urlStorage}/${JSON.parse(product.picture)[0]}`} />}</td>
-                <td className="name-td">{orderData.status == 'pending' ? <span onClick={() => handleEdit('name')}> {product.name} <FontAwesomeIcon icon={faPenToSquare} /> </span> : product.name}</td>
-                <td className="price-td">{orderData.status == 'pending' ? <span onClick={() => handleEdit('price')}> ${product.price} <FontAwesomeIcon icon={faPenToSquare} /> </span> : '$' + product.price}</td>
-                <td className="subtotal-td" >${product.subtotal}</td>
-                {orderData.status == 'pending' &&
+                <td className="name-td">{orderStatus == 'pending' ? <span onClick={() => handleEdit('name')}> {product.name} <FontAwesomeIcon icon={faPenToSquare} /> </span> : product.name}</td>
+                <td className="price-td">{orderStatus == 'pending' ? <span onClick={() => handleEdit('price')}> ${parseFloat(product.price)} <FontAwesomeIcon icon={faPenToSquare} /> </span> : '$' + parseFloat(product.price)}</td>
+                <td className="price-td">{product.discount}%</td>
+                <td className="subtotal-td" >${parseFloat(product.subtotal)}</td>
+                {orderStatus == 'pending' &&
                     <td className="options-td" >
                         <div>
                             <button className="btn btn-error-regular" onClick={() => removeProductOrder(product.product_id)}>{remove ? 'Eliminando...' : 'Eliminar'}</button>

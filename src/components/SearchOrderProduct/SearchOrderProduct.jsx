@@ -67,6 +67,7 @@ export function SearchOrderProduct({ orderId, setOrderProducts }) {
                 placeholder="Precio"
                 min={0}
                 value={price}
+                step={.01}
                 onChange={(e) => setPrice(e.value)}
                 required
             />

@@ -97,7 +97,6 @@ export function Order() {
                         <div>
                             <h3>{orderData.client_name}</h3>
                             <p>Código del pedido: {orderData.id}</p>
-                            <p>Total: ${orderProducts.reduce((a, value) => a + value.subtotal, 0)}</p>
                         </div>
                         <div className="container-btn">
                             {orderProducts.length != 0 &&
@@ -131,6 +130,7 @@ export function Order() {
                                         <td></td>
                                         <td>Producto</td>
                                         <td>p/unitario</td>
+                                        <td>Desc.</td>
                                         <td>subtotal</td>
                                         {orderData.status == 'pending' && <td>Opciones</td>}
                                     </tr>
@@ -142,7 +142,8 @@ export function Order() {
                                             key={i}
                                             images={images}
                                             setOrderProducts={setOrderProducts}
-                                            orderData={orderData}
+                                            orderId={orderData.id}
+                                            orderStatus={orderData.status}
                                             updateOrder={updateOrder}
                                         />
                                     )}
