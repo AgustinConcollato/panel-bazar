@@ -77,7 +77,7 @@ export function OrderProduct({
                 <td className="image-td" style={{ height: '65px', width: '65px' }}>{images && <img loading='lazy' src={product.picture == '-' ? notImage : `${urlStorage}/${JSON.parse(product.picture)[0]}`} />}</td>
                 <td className="name-td">{orderStatus == 'pending' ? <span onClick={() => handleEdit('name')}> {product.name} <FontAwesomeIcon icon={faPenToSquare} /> </span> : product.name}</td>
                 <td className="price-td">{orderStatus == 'pending' ? <span onClick={() => handleEdit('price')}> ${parseFloat(product.price)} <FontAwesomeIcon icon={faPenToSquare} /> </span> : '$' + parseFloat(product.price)}</td>
-                <td className="price-td">{product.discount}%</td>
+                <td className="price-td">{product.discount || 0}%</td>
                 <td className="subtotal-td" >${parseFloat(product.subtotal)}</td>
                 {orderStatus == 'pending' &&
                     <td className="options-td" >
