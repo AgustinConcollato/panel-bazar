@@ -177,7 +177,7 @@ function Form1() {
             </div>
             <h3>Precio</h3>
             <div className="container-price">
-                <input type="number" name="price" placeholder="Precio" />
+                <input type="number" name="price" placeholder="Precio" step={.1} />
                 <input type="number" name="discount" placeholder="Descuento" />
             </div>
         </>
