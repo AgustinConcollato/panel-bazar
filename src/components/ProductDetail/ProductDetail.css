@@ -147,3 +147,29 @@ textarea.input {
     max-width: 100%;
     min-width: 100%;
 }
+
+@media (max-width: 450px) {
+    .product-detail {
+        flex-direction: column;
+    }
+
+    .container-images {
+        flex-direction: column-reverse;
+    }
+
+    .container-images>img {
+        height: 100%;
+        width: 100%;
+    }
+
+    .container-thumbnails {
+        flex-direction: row;
+        overflow-x: auto;
+        padding: 5px;
+        transform: translateX(-5px);
+    }
+
+    .info-product {
+        width: 100%;
+    }
+}
