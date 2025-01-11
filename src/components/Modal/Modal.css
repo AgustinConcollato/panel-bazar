@@ -25,6 +25,13 @@
     padding: 20px;
     border-radius: 10px;
     z-index: 1000;
-    width: 500px;
+    width: 90%;
     max-width: 500px;
+}
+
+@media (max-width: 450px) {
+    .container-children {
+        transform: translateX(-8px);
+    }
+
 }
