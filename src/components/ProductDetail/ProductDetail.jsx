@@ -226,7 +226,9 @@ export function ProductDetail() {
                             }
                         </div>
                         {newImage ?
-                            <img src={URL.createObjectURL(newImage)} /> :
+                            <div className="container-main-image">
+                                <img src={URL.createObjectURL(newImage)} />
+                            </div> :
                             position !== null &&
                             <div className="container-main-image">
                                 <img src={`${url}/${images[position]}`} />
