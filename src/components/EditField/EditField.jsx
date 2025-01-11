@@ -62,7 +62,14 @@ export function EditField({ field, value, onChange, type = 'text', options = [] 
                     ))}
                 </div>
             )}
-
+            {type === 'img' && (
+                <input
+                    type="file"
+                    className="input"
+                    accept="image/png, image/jpeg, image/webp"
+                    onChange={(e) => onChange(field, e.target.files[0])}
+                />
+            )}
         </>
     )
 }
