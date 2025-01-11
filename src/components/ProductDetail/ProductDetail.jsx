@@ -102,6 +102,22 @@ export function ProductDetail() {
         setNewImage(null)
     }
 
+    async function deleteImage() {
+
+        const response = await toast.promise(products.deleteImage({ id: product.id, index: position }), {
+            pending: 'Eliminando imagen...',
+            success: 'Imagen eliminada correctamente',
+            error: 'Error, no se pudo eliminar la imagen'
+        })
+
+        const { images, thumbnails } = response.product
+
+        setImages(JSON.parse(images))
+        setThumbnails(thumbnails !== "" ? JSON.parse(thumbnails) : [])
+        setNewImage(null)
+        setPosition(null)
+    }
+
     async function saveChange(e) {
         e.preventDefault()
 
@@ -192,22 +208,33 @@ export function ProductDetail() {
                                     onClick={() => setPosition(i)}
                                 />
                             ))}
-                            {newImage && <img src={URL.createObjectURL(newImage)} />}
                             {images.length <= 4 &&
                                 <form onSubmit={addNewImage} className="form-add-image">
+                                    <span>Nueva foto</span>
                                     <input
                                         type="file"
                                         accept="image/png, image/jpeg, image/webp"
                                         onChange={(e) => setNewImage(e.target.files[0])}
                                     />
-                                    <button type="submit">Subir imagen</button>
+                                    {newImage &&
+                                        <>
+                                            <button type="submit" className="btn">Subir imagen</button>
+                                            <button type="reset" className="btn" onClick={() => setNewImage(null)}>Cancelar</button>
+                                        </>
+                                    }
                                 </form>
                             }
                         </div>
-                        {position !== null &&
-                            newImage ?
+                        {newImage ?
                             <img src={URL.createObjectURL(newImage)} /> :
-                            <img src={`${url}/${images[position]}`} onClick={() => handleEdit('img')} />
+                            position !== null &&
+                            <div className="container-main-image">
+                                <img src={`${url}/${images[position]}`} />
+                                <div>
+                                    <button onClick={() => handleEdit('img')} className="btn">Cambiar foto</button>
+                                    {images.length > 1 && <button onClick={deleteImage} className="btn btn-error-regular"> Eliminar foto</button>}
+                                </div>
+                            </div>
                         }
                     </div>
                     <div className="info-product">
@@ -284,8 +311,9 @@ export function ProductDetail() {
                         theme="light"
                         transition:Bounce
                         stacked />
-                </section>
-            )}
+                </section >
+            )
+            }
         </>
     )
 }

@@ -8,7 +8,20 @@
     gap: 10px;
 }
 
-.container-images>img {
+.container-main-image {
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+    padding: 10px;
+}
+
+.container-main-image .btn {
+    margin-left: 10px;
+}
+
+.container-main-image img {
     height: 500px;
     width: 500px;
     object-fit: contain;
@@ -33,7 +46,45 @@
 }
 
 .form-add-image {
-    
+    min-height: 80px;
+    width: 80px;
+    object-fit: contain;
+    cursor: pointer;
+    position: relative;
+}
+
+.form-add-image input {
+    position: absolute;
+    outline: auto;
+    height: 80px;
+    width: 80px;
+    left: 0;
+    top: 0;
+    opacity: 0;
+}
+
+.form-add-image span {
+    font-size: 14px;
+    text-align: center;
+    display: block;
+    border-radius: 5px;
+    padding: 10px;
+    height: 80px;
+    width: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: #00000070;
+    color: #fff;
+}
+
+.form-add-image .btn {
+    background: #fff;
+    border: none;
+    cursor: pointer;
+    margin-top: 5px;
+    max-width: 80px;
 }
 
 .info-product {
@@ -161,9 +212,13 @@ textarea.input {
         flex-direction: column-reverse;
     }
 
-    .container-images>img {
+    .container-main-image img {
         height: 100%;
         width: 100%;
+    }
+
+    .container-main-image .btn {
+        font-size: 14px;
     }
 
     .container-thumbnails {
