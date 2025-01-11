@@ -28,6 +28,8 @@ export function ProductDetail() {
     const [subcategories, setSubcategories] = useState([])
     const [editField, setEditField] = useState(null)
     const [formData, setFormData] = useState({})
+    const [newImageUpdate, setNewImageUpdate] = useState(null)
+    const [newImage, setNewImage] = useState(null)
 
     async function getDetails(id) {
         try {
@@ -67,6 +69,11 @@ export function ProductDetail() {
     }
 
     function handleEditChange(field, value) {
+
+        if (field === 'img') {
+            setNewImageUpdate(value)
+            return
+        }
         const date = new Date().getTime()
         setFormData((prevData) => ({ ...prevData, [field]: value, last_date_modified: date }))
     }
@@ -75,8 +82,50 @@ export function ProductDetail() {
         setEditField(field)
     }
 
+    async function addNewImage(e) {
+        e.preventDefault()
+
+        const formData = new FormData()
+
+        formData.append('new_image', e.target[0].files[0])
+
+        const response = await toast.promise(products.updateImage({ id: product.id, data: formData, type: 'add' }), {
+            pending: 'Subiendo imagen...',
+            success: 'Imagen subida correctamente',
+            error: 'Error, no se pudo subir la imagen'
+        })
+
+        const { images, thumbnails } = response.product
+
+        setImages(JSON.parse(images))
+        setThumbnails(thumbnails !== "" ? JSON.parse(thumbnails) : [])
+        setNewImage(null)
+    }
+
     async function saveChange(e) {
         e.preventDefault()
+
+        if (editField === 'img') {
+            const formData = new FormData()
+
+            formData.append('new_image', newImageUpdate)
+            formData.append('index', position)
+
+            const response = await toast.promise(products.updateImage({ id: product.id, data: formData, type: 'update' }), {
+                pending: 'Subiendo imagen...',
+                success: 'Imagen subida correctamente',
+                error: 'Error, no se pudo subir la imagen'
+            })
+
+            const { images, thumbnails } = response.product
+
+            setImages(JSON.parse(images))
+            setThumbnails(thumbnails !== "" ? JSON.parse(thumbnails) : [])
+
+            setEditField(null)
+            setNewImageUpdate(null)
+            return
+        }
 
         const hasChanges = Object.keys(formData).some(key => formData[key] !== product[key])
         if (hasChanges) {
@@ -86,6 +135,7 @@ export function ProductDetail() {
                 success: 'Se editó correctamente',
                 error: 'Error, no se puedo editar'
             })
+
 
             setProduct(editedProduct)
             setEditField(null)
@@ -142,8 +192,23 @@ export function ProductDetail() {
                                     onClick={() => setPosition(i)}
                                 />
                             ))}
+                            {newImage && <img src={URL.createObjectURL(newImage)} />}
+                            {images.length <= 4 &&
+                                <form onSubmit={addNewImage} className="form-add-image">
+                                    <input
+                                        type="file"
+                                        accept="image/png, image/jpeg, image/webp"
+                                        onChange={(e) => setNewImage(e.target.files[0])}
+                                    />
+                                    <button type="submit">Subir imagen</button>
+                                </form>
+                            }
                         </div>
-                        {position !== null && <img src={`${url}/${images[position]}`} alt="" />}
+                        {position !== null &&
+                            newImage ?
+                            <img src={URL.createObjectURL(newImage)} /> :
+                            <img src={`${url}/${images[position]}`} onClick={() => handleEdit('img')} />
+                        }
                     </div>
                     <div className="info-product">
                         <div>
@@ -184,13 +249,20 @@ export function ProductDetail() {
                                             editField === 'status' ? 'radio' :
                                                 editField === 'category_id' ? 'select' :
                                                     editField === 'subcategory' ? 'checkbox' :
-                                                        editField === 'description' ? 'textarea' : 'text'
+                                                        editField === 'description' ? 'textarea' :
+                                                            editField === 'img' ? 'img' : 'text'
                                     }
                                     options={
                                         editField === 'category_id' ? categoryOptions :
                                             editField === 'subcategory' ? subcategoryOptions : []
                                     }
                                 />
+                                {(editField === 'img' && newImageUpdate) &&
+                                    <img
+                                        style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain' }}
+                                        src={URL.createObjectURL(newImageUpdate)}
+                                    />
+                                }
                                 <div className="actions-edit">
                                     <button type="button" className="btn" onClick={() => setEditField(null)}>Cancelar</button>
                                     <button type="submit" className="btn btn-solid" onClick={saveChange} >Guardar</button>
