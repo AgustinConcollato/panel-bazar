@@ -1,0 +1,27 @@
+.form-add-provider {
+    max-width: 600px;
+}
+
+.suggestions {
+    display: flex;
+    gap: 10px;
+}
+
+.suggestions div {
+    border-radius: 30px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    padding: 7px 10px;
+    cursor: pointer;
+}
+
+.suggestions div:hover {
+    border-color: var(--primary);
+}
+
+@media (max-width: 355px) {
+    .suggestions div {
+        font-size: 12px;
+        padding: 7px;
+    }
+}

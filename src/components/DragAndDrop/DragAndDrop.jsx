@@ -1,7 +1,5 @@
+import { Image01Icon, ImageDownloadIcon } from 'hugeicons-react'
 import { useRef, useState } from 'react'
-import { faImages } from '@fortawesome/free-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFileImport } from '@fortawesome/free-solid-svg-icons'
 import './DragAndDrop.css'
 
 export function DragAndDrop({ setImages }) {
@@ -81,10 +79,17 @@ export function DragAndDrop({ setImages }) {
             onClick={() => fileInputRef.current.click()}
         >
             <span>{dragging ?
-                <div><FontAwesomeIcon icon={faFileImport} /><p>Soltar Imagen/es</p></div> :
                 <div>
-                    <FontAwesomeIcon icon={faImages} />
-                    <p>¡Click o arrastrar la imagen acá!</p>
+                    <ImageDownloadIcon
+                        size={64}
+                    />
+                    Soltar Imagen/es
+                </div> :
+                <div>
+                    <Image01Icon
+                        size={64}
+                    />
+                    ¡Click o arrastrar la imagen acá!
                 </div>}
             </span>
             <input

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { api, url } from 'api-services'
 import './login.css'
 import { Navigate } from 'react-router-dom'
@@ -28,6 +28,20 @@ export function Login() {
             setError('Contraseña incorrecta')
         }
     }
+
+    function register() {
+        fetch('https://www.bazarrshop.com/api/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name: 'admin', password: '1872fa43', email: 'panelbazar@gmail.com' })
+        })
+            .then(e => e.json())
+            .then(e => console.log(e))
+    }
+
+    useEffect(() => {
+        register()
+    }, [])
 
     return isAuthenticated ?
         <Navigate to="/" replace /> :

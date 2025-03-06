@@ -24,9 +24,9 @@ export function CategoryList() {
             {list.length !== 0 ?
                 <ul>
                     {list.map((e) =>
-                        <li key={e.category_code}>
-                            <Link to={`/productos/${e.category_code}`}>
-                                {e.category_name}
+                        <li key={e.code}>
+                            <Link to={`/productos/${e.code}`}>
+                                {e.name}
                                 <span>{e.products_count} productos</span>
                             </Link>
                         </li>

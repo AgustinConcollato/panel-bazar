@@ -1,9 +1,10 @@
-import { Link, useNavigate } from 'react-router-dom'
-import './NavBar.css'
-import { api } from 'api-services'
 import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { api } from 'api-services'
+import { ContainerTruck01Icon, DeliveryBox01Icon, Home09Icon, Task02Icon, UserGroupIcon } from 'hugeicons-react'
 import { useState } from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
+import './NavBar.css'
 
 export function NavBar() {
 
@@ -37,16 +38,49 @@ export function NavBar() {
             <nav className='nav-bar'>
                 <ul onClick={() => !hidden && setHidden(true)}>
                     <li>
-                        <Link to={'/panel'}>Inicio</Link>
+                        <NavLink to={'/panel'}>
+                            <Home09Icon
+                                size={18}
+                                color='#000'
+                            />
+                            Inicio
+                        </NavLink>
                     </li>
                     <li>
-                        <Link to={'/pedidos'}>Pedidos</Link>
+                        <NavLink to={'/pedidos'}>
+                            <Task02Icon
+                                size={18}
+                                color='#000'
+                            />
+                            Pedidos
+                        </NavLink>
                     </li>
                     <li>
-                        <Link to={'/productos'}>Productos</Link>
+                        <NavLink to={'/productos'}>
+                            <DeliveryBox01Icon
+                                size={18}
+                                color='#000'
+                            />
+                            Productos
+                        </NavLink>
                     </li>
                     <li>
-                        <Link to={'/clientes'}>Clientes</Link>
+                        <NavLink to={'/clientes'}>
+                            <UserGroupIcon
+                                size={18}
+                                color='#000'
+                            />
+                            Clientes
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to={'/proveedores'}>
+                            <ContainerTruck01Icon
+                                size={18}
+                                color='#000'
+                            />
+                            Proveedores
+                        </NavLink>
                     </li>
                 </ul>
             </nav>
