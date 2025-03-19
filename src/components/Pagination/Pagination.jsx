@@ -29,7 +29,7 @@ export function Pagination({ currentPage, onPageChange, lastPage }) {
             <div className="number-of-pages">
                 {pageNumbers[0] > 1 && (
                     <>
-                        <button className='btn' onClick={() => onPageChange(1   )}>1</button>
+                        <button className='btn' onClick={() => onPageChange(1)}>1</button>
                         {pageNumbers[0] > 2 && <span>...</span>}
                     </>
                 )}
