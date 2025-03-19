@@ -1,0 +1,19 @@
+.container-filters {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.filter {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.filter span {
+    font-size: 14px;
+}
+
+.filter .input {
+    padding: 10px 15px;
+}
