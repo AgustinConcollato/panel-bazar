@@ -20,7 +20,7 @@ export function PendingsOrders() {
 
     const groupOrdersByMonth = (orders) => {
         return orders.reduce((groups, order) => {
-            const date = new Date(order.date);
+            const date = new Date(order.created_at);
             const monthYear = date.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
 
             if (!groups[monthYear]) {
@@ -48,9 +48,9 @@ export function PendingsOrders() {
                             <div key={monthYear}>
                                 <h4>{monthYear}</h4>
                                 {groupedOrders[monthYear].map((e) => (
-                                    <Link to={`/pedido/${e.id}`} key={e.id}>
+                                    <Link to={`/pedidos/${e.id}`} key={e.id}>
                                         <span>{e.client_name}</span>
-                                        <span>{formatDate(e.date)}</span>
+                                        <span>{formatDate(e.created_at)}</span>
                                         <span>Total: ${e.total_amount}</span>
                                     </Link>
                                 ))}
