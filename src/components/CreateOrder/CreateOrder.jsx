@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
-import { api } from 'api-services'
+import { api } from '../../services/api'
 import { Loading } from '../Loading/Loading'
 import './CreateOrder.css'
 import Select from 'react-select'
-import { generateId } from '../../utils/generateId'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { useNavigate } from 'react-router-dom'
@@ -60,10 +59,7 @@ export function CreateOrder() {
 
         const formData = new FormData(e.target)
         formData.append('status', 'pending')
-        formData.append('date', new Date().getTime())
-        formData.append('comment', '')
         formData.append('total_amount', 0)
-        formData.append('id', generateId())
         formData.append('client_name', name)
 
         try {
@@ -74,7 +70,7 @@ export function CreateOrder() {
             })
 
             if (response) {
-                navigate('/pedido/' + response.id)
+                navigate('/pedidos/' + response.id)
             }
 
         } catch (error) {
@@ -125,7 +121,7 @@ export function CreateOrder() {
                             placeholder="Clientes"
                             onChange={changeSelect}
                             isSearchable
-                            name='client'
+                            name='client_id'
                         /> :
                         <Loading /> :
                     users ?
@@ -136,7 +132,7 @@ export function CreateOrder() {
                             placeholder="Usuarios de la web"
                             isSearchable
                             onChange={changeSelect}
-                            name='client'
+                            name='client_id'
                         /> :
                         <Loading />
                 }
