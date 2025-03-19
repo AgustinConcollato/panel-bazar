@@ -241,7 +241,7 @@
     top: calc(50% + 14px);
 }
 
-.info-product .purchase-price + .btn {
+.info-product .purchase-price+.btn {
     margin-top: 10px;
     width: 100%;
 }

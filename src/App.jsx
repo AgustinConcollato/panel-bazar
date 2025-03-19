@@ -36,7 +36,7 @@ function App() {
         <Routes>
           <Route element={<ProtectedLayout isAuthenticated={isAuthenticated} />}>
             <Route path='/panel' element={<Shortcuts />} />
-            <Route path='/productos/:page?' element={<ProductsPage />} />
+            <Route path='/productos' element={<ProductsPage />} />
             <Route path='/producto/:id' element={<ProductDetail />} />
             <Route path='/agregar-producto' element={<AddProduct />} />
             <Route path='/agregar-cliente' element={<AddClient />} />
