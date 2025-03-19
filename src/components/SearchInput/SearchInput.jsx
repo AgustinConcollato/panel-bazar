@@ -59,7 +59,7 @@ export function SearchInput() {
             return
         } else {
             setIsLoading(true)
-            const response = await products.search({ options: { name: value, page: 1 } })
+            const response = await products.search({ options: { name: value, page: 1, panel: true } })
 
             if (response) {
                 setFilteredOptions(response.data)
