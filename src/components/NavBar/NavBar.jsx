@@ -82,6 +82,10 @@ export function NavBar() {
                             Proveedores
                         </NavLink>
                     </li>
+                    {!hidden && <li><button onClick={() => {
+                        localStorage.removeItem('authToken')
+                        window.location.href = '/'
+                    }}>cerrar sesión forzada</button></li>}
                 </ul>
             </nav>
             <button className='btn btn-thins' onClick={logout}>Cerrar sesión</button>
