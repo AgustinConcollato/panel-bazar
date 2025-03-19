@@ -13,6 +13,7 @@ import { ProductsPage } from './pages/ProductsPage/ProductsPage'
 import { ProviderPage } from './pages/ProviderPage'
 import { Search } from './components/Search/Search'
 import { AddProvider } from './components/AddProvider/AddProvider'
+import { SearchResultsPage } from './pages/SearchResultsPage'
 
 
 function ProtectedLayout({ isAuthenticated }) {
@@ -44,6 +45,7 @@ function App() {
             <Route path='/clientes' element={<ClientsPage />} />
             <Route path='/proveedores' element={<ProviderPage />} />
             <Route path='/agregar-proveedor' element={<AddProvider />} />
+            <Route path='/buscador/:productName' element={<SearchResultsPage />} />
             <Route path="*" element={<Navigate to="/panel" replace />} />
           </Route>
         </Routes>
