@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
-import { generateId } from '../../utils/generateId'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import './AddClient.css'
@@ -18,8 +17,6 @@ export function AddClient() {
         const clients = new Clients()
 
         const formData = new FormData(e.target)
-
-        formData.append('id', generateId())
 
         try {
             const response = await toast.promise(clients.add(formData), {
