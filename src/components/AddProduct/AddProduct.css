@@ -64,15 +64,25 @@ li.error {
 .provider-list div {
     border: 1px solid #ddd;
     border-radius: 5px;
-    padding: 10px;
     display: inline-flex;
     align-items: center;
-    gap: 5px;
+}
+
+.provider-list div label {
+    cursor: pointer;
+    padding: 10px 20px 10px 10px;
+}
+
+.provider-list div label+input {
+    cursor: pointer;
+    position: relative;
+    left: -10px;
 }
 
 .purchase-price {
     position: relative;
 }
+
 .purchase-price .btn {
     position: absolute;
     right: 5px;

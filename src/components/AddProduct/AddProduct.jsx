@@ -1,13 +1,14 @@
 import { faXmark } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { api } from "api-services"
-import { useEffect, useRef, useState } from "react"
+import { useContext, useEffect, useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { DragAndDrop } from "../DragAndDrop/DragAndDrop"
 import { Loading } from "../Loading/Loading"
 import './AddProduct.css'
+import { AppDataContext } from "../../context/AppDataContext"
 
 export function AddProduct() {
 
@@ -21,7 +22,7 @@ export function AddProduct() {
     const [selectedSubcategories, setSelectedSubcategories] = useState([])
     const [errors, setErrors] = useState({})
     const [selectedProviders, setSelectedProviders] = useState({});
-
+    const [description, setDescription] = useState('')
 
     const formRef = useRef()
 
@@ -76,8 +77,14 @@ export function AddProduct() {
         formRef.current.reset()
         setSelectedCategory('')
         setImages([])
+        setSelectedProviders({})
         setSelectedSubcategories([])
+        setDescription('')
     }
+
+    useEffect(() => {
+        document.title = 'Cargar nuevo producto'
+    }, [])
 
     return (
         <section className=" section-form">
@@ -92,6 +99,8 @@ export function AddProduct() {
                 <Form1
                     selectedProviders={selectedProviders}
                     setSelectedProviders={setSelectedProviders}
+                    description={description}
+                    setDescription={setDescription}
                 />
                 <Form2
                     list={list}
@@ -161,9 +170,7 @@ function ProductImages({ images, setImages }) {
     )
 }
 
-function Form1({ selectedProviders, setSelectedProviders }) {
-
-    const [description, setDescription] = useState('')
+function Form1({ selectedProviders, setSelectedProviders, description, setDescription }) {
 
     return (
         <>
@@ -191,7 +198,7 @@ function Form1({ selectedProviders, setSelectedProviders }) {
                 setSelectedProviders={setSelectedProviders}
             />
             <div>
-                <h3>Precios</h3>
+                <h3>Precio venta</h3>
                 <div>
                     <p>Precio <span>*</span></p>
                     <input type="number" className="input" name="price" placeholder="Precio" step={.1} />
@@ -206,33 +213,8 @@ function Form1({ selectedProviders, setSelectedProviders }) {
 }
 
 function Providers({ selectedProviders, setSelectedProviders }) {
-    const [providers, setProviders] = useState(null);
 
-    async function getProviders() {
-        try {
-            const response = await fetch("https://api.bazarrshop.com/api/provider", {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-                },
-            });
-
-            if (!response.ok) {
-                const error = await response.json();
-                throw error;
-            }
-
-            const data = await response.json();
-            setProviders(data);
-
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    useEffect(() => {
-        getProviders();
-    }, []);
+    const { providers } = useContext(AppDataContext)
 
     function handleSelectProvider(providerId) {
         setSelectedProviders((prev) => {
@@ -294,6 +276,7 @@ function Providers({ selectedProviders, setSelectedProviders }) {
                                             <input
                                                 className="input"
                                                 type="number"
+                                                step={.01}
                                                 value={selectedProviders[providerId]}
                                                 onChange={(e) => handlePriceChange(providerId, e.target.value)}
                                                 placeholder="Ingrese el precio"
