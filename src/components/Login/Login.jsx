@@ -29,19 +29,19 @@ export function Login() {
         }
     }
 
-    function register() {
-        fetch('https://www.bazarrshop.com/api/register', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name: 'admin', password: '1872fa43', email: 'panelbazar@gmail.com' })
-        })
-            .then(e => e.json())
-            .then(e => console.log(e))
-    }
+    // function register() {
+    //     fetch('https://www.bazarrshop.com/api/register', {
+    //         method: 'POST',
+    //         headers: { 'Content-Type': 'application/json' },
+    //         body: JSON.stringify({ name: 'admin', password: '1872fa43', email: 'panelbazar@gmail.com' })
+    //     })
+    //         .then(e => e.json())
+    //         .then(e => console.log(e))
+    // }
 
-    useEffect(() => {
-        register()
-    }, [])
+    // useEffect(() => {
+    //     register()
+    // }, [])
 
     return isAuthenticated ?
         <Navigate to="/" replace /> :
