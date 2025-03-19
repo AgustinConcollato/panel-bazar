@@ -1,0 +1,39 @@
+.select-category {
+    border-radius: 10px;
+    text-align: center;
+    padding: 20px;
+    background: #f0f0f0;
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+.product-section {
+    background: #fff;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 20px;
+    width: 100%;
+    overflow: auto;
+}
+
+.product-list {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.product-list thead td:first-child {
+    border-radius: 5px 0 0 5px;
+}
+
+.product-list thead td:last-child {
+    border-radius: 0 5px 5px 0;
+}
+
+.product-list thead td {
+    background: #eee;
+    padding: 10px;
+}
+
+.product-list tbody td {
+    padding: 10px;
+}

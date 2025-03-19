@@ -1,0 +1,207 @@
+.container-product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.productGrid {
+    position: relative;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.productGrid p {
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.productGrid>div:first-child {
+    display: flex;
+    gap: 10px;
+}
+
+.productGrid img {
+    object-fit: contain;
+    height: 100px;
+    width: 100px;
+}
+
+
+.productGrid img+div {
+    width: 100%;
+    max-width: calc(100% - 110px);
+}
+
+.productGrid h3 {
+    height: 25px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 10px;
+    max-width: 100%;
+    font-weight: 400;
+}
+
+.productGrid img+div div {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.productGrid .code {
+    display: inline-block;
+    font-size: 14px;
+    color: #aaa;
+}
+
+.productGrid .active {
+    font-size: 14px;
+    padding: 5px 10px;
+    border-radius: 30px;
+    background: #66b81920;
+    color: #66b819;
+    display: flex;
+    gap: 5px;
+    width: max-content;
+}
+
+.productGrid .inactive {
+    font-size: 14px;
+    padding: 5px 10px;
+    border-radius: 30px;
+    background: #b8191920;
+    color: #b81919;
+    display: flex;
+    gap: 5px;
+    width: max-content;
+}
+
+.productGrid>div:nth-child(2) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.productGrid>div:nth-child(2) span {
+    background: #f5f5f5;
+    border-radius: 30px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    padding: 5px 10px;
+    text-wrap: nowrap;
+}
+
+.active,
+.inactive,
+.stock span,
+.prices div>span {
+    position: relative;
+    cursor: pointer;
+}
+
+.active:hover span,
+.inactive:hover span,
+.stock span:hover span,
+.prices div>span:hover span {
+    opacity: 1;
+}
+
+.productGrid span span {
+    position: absolute;
+    background: #000000c7;
+    border-radius: 5px;
+    padding: 5px 7px;
+    color: #fff;
+    top: calc(100% + 10px);
+    left: 0;
+    opacity: 0;
+    transition: .1s;
+    pointer-events: none;
+    z-index: 100;
+    font-size: 14px;
+}
+
+.prices {
+    display: flex;
+    gap: 20px;
+}
+
+.prices>div {
+    width: 50%;
+}
+
+.purchase-price ul {
+    height: 23px;
+    transform: translateY(-2px);
+    overflow: hidden;
+}
+
+.purchase-price ul:hover {
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: visible;
+    box-shadow: 0 5px 15px #00000010;
+    height: auto;
+    padding: 10px;
+    position: absolute;
+    width: 125%;
+    z-index: 100;
+}
+
+.purchase-price ul li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+}
+
+.purchase-price ul li span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 40%;
+    min-width: 40%;
+}
+
+.productGrid>div:nth-child(4) span {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.productGrid a {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 45px;
+    width: 45px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    gap: 5px;
+}
+
+.productGrid a span {
+    display: none;
+}
+
+.productGrid a:hover {
+    border-color: #aaa;
+    box-shadow: 0 5px 10px #00000010;
+    width: auto;
+    padding: 0 10px;
+}
+
+.productGrid a:hover span {
+    display: inline;
+}

@@ -1,0 +1,19 @@
+.list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.list .product {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    width: 220px;
+    cursor: pointer;
+}
+
+.list .product img{
+    height: 200px;
+    width: 200px;
+    object-fit: contain;
+}
