@@ -1,0 +1,180 @@
+.order {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+    height: 100%;
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.order-header h3 {
+    font-size: 22px;
+    font-weight: 400;
+}
+
+.btn-images {
+    position: relative;
+}
+
+.btn-images:hover span {
+    opacity: 1;
+    transition: .1s;
+}
+
+.btn-images span {
+    pointer-events: none;
+    opacity: 0;
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    text-wrap: nowrap;
+    border-radius: 5px;
+    background: #00000099;
+    color: #fff;
+    padding: 10px 15px;
+}
+
+.container-btn {
+    display: flex;
+    gap: 10px;
+}
+
+.order>div {
+    padding: 20px;
+    border-radius: 10px;
+    background: #fff;
+}
+
+.container-product-list {
+    display: flex;
+    gap: 20px;
+    overflow: auto;
+}
+
+.container-product-list>div {
+    width: 50%;
+}
+
+.container-product-list .list {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.container-order-table {
+    overflow: auto;
+}
+
+.order-table {
+    width: 100%;
+    min-width: 650px;
+}
+
+.order-table thead td {
+    background: #f0f0f0;
+    padding: 10px;
+}
+
+.order-table img {
+    height: 40px;
+    width: 40px;
+    object-fit: contain;
+}
+
+.order-table tbody td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.quantity-td {
+    width: 100px;
+}
+
+.image-td {
+    width: 65px;
+}
+
+.name-td {
+    width: 500px;
+}
+
+.price-td,
+.subtotal-td {
+    width: 200px;
+}
+
+.options-td div {
+    display: flex;
+    gap: 10px;
+}
+
+div.remit {
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    width: 800px;
+    background: #323639;
+}
+
+div.remit div {
+    display: flex;
+    justify-content: flex-end;
+}
+
+div.remit .btn {
+    background: #ffffff30;
+}
+
+div.remit .btn svg path {
+    fill: #fff;
+}
+
+iframe {
+    width: 100%;
+    height: calc(100vh - 300px);
+    border-radius: 10px;
+}
+
+@media (max-width: 450px) {
+    .order-header>div:first-child {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .order-header>div:last-child {
+        align-items: end;
+        gap: 10px;
+    }
+
+    .btn-images {
+        transform: translateY(-5px);
+    }
+
+    div.remit {
+        top: 150px;
+        right: 0;
+        width: 100%;
+    }
+
+    iframe {
+        height: calc(100vh - 450px);
+    }
+}
+
+@media (max-width: 390px) {
+    .container-btn {
+        gap: 4px;
+    }
+
+    .container-btn .btn {
+        font-size: 15px;
+    }
+
+    div.remit {
+        top: 165px;
+    }
+}
