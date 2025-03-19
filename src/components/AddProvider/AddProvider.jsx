@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './AddProvider.css'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { url } from '../../services/api'
 
 
 export function AddProvider() {
@@ -19,7 +20,7 @@ export function AddProvider() {
 
         try {
             const response = await toast.promise(
-                fetch('https://api.bazarrshop.com/api/provider', {
+                fetch(`${url}/provider`, {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('authToken')}`
