@@ -34,21 +34,26 @@ export class Order {
         return await response.json()
     }
 
-    async completed(id = null) {
+    async completed({ clientId, year, month }) {
+        let urlRequest = `${url}/completed`;
 
-        const time = new Date()
-
-        const currentMonthStart = new Date(time.getFullYear(), time.getMonth(), 1).getTime()
-        const currentMonthEnd = new Date(time.getFullYear(), time.getMonth() + 1, 0).getTime()
-
-        if (id) {
-            const response = await fetch(`${url}/completed/${id}?currentMonthStart=${currentMonthStart}&currentMonthEnd=${currentMonthEnd}`)
-
-            return await response.json()
+        if (clientId) {
+            urlRequest += `/${clientId}`;
         }
 
-        const response = await fetch(`${url}/completed?currentMonthStart=${currentMonthStart}&currentMonthEnd=${currentMonthEnd}`)
-        return await response.json()
+        // Construimos los parámetros de la URL
+        const params = new URLSearchParams();
+        params.append("year", year);
+
+        if (month !== undefined && month !== "all") {
+            params.append("month", month);
+        }
+
+        // Concatenamos los parámetros solo si existen
+        const fullUrl = `${urlRequest}?${params.toString()}`;
+        const response = await fetch(fullUrl);
+
+        return await response.json();
     }
 
     async getAll(userId) {
