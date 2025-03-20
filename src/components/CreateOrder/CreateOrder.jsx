@@ -11,13 +11,13 @@ const customStyles = {
     control: (provided, state) => ({
         ...provided,
         backgroundColor: 'white',
-        borderColor: state.isFocused ? '#3d6caa' : '#ced4da',
-        borderRadius: '10px',
+        borderColor: state.isFocused ? '#3d6caa' : '#ddd',
+        borderRadius: '5px',
         boxShadow: null,
         '&:hover': {
             borderColor: '',
         },
-        padding: '3px 5px'
+        padding: '5px 10px'
     }),
     option: (provided, state) => ({
         ...provided,
