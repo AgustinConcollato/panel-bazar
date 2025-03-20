@@ -1,27 +1,33 @@
-import { Products } from "../services/productsService"
+import { api } from "../services/api"
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"
+import { useParams, useSearchParams } from "react-router-dom"
 import { Loading } from "../components/Loading/Loading";
 import { Pagination } from "../components/Pagination/Pagination";
 import { ProductGrid } from "../components/ProductComponents/ProductGrid/ProductGrid";
+import { toast, ToastContainer } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css'
 
 export function SearchResultsPage() {
 
+    const { Products } = api
+    const products = new Products()
+
     const { productName } = useParams()
+
+    const [searchParams, setSearchParams] = useSearchParams()
 
     const [productList, setProductList] = useState(null)
     const [pageData, setPageData] = useState(null)
-    const [page, setPage] = useState(1)
+
 
     async function getProducts() {
 
-        const product = new Products();
-
         try {
-            const response = await product.search({
+            const response = await products.search({
                 options: {
                     name: productName,
-                    page
+                    page: searchParams.get("page") || 1,
+                    panel: true
                 }
             });
 
@@ -32,15 +38,45 @@ export function SearchResultsPage() {
         }
     }
 
+    async function updateProduct({ product, formData, hasChanges }) {
+        if (hasChanges) {
+            const { product: editedProduct } = await toast.promise(
+                products.update({ id: product.id, data: formData }),
+                {
+                    pending: "Editando producto...",
+                    success: "Se editó correctamente",
+                    error: "Error, no se pudo editar",
+                }
+            );
+
+            return editedProduct;
+        } else {
+            toast.error("No hay cambios para guardar");
+        }
+    }
+
+    const handlePageChange = (newPage) => {
+        const newParams = new URLSearchParams(searchParams);
+        if (newPage !== 1) {
+            newParams.set("page", newPage);
+        } else {
+            newParams.delete("page");
+        }
+        setSearchParams(newParams);
+    };
+
+
     useEffect(() => {
         setPageData(null)
         setProductList(null)
         getProducts()
         window.scrollTo(0, 0)
-    }, [productName, page])
+    }, [productName, searchParams])
 
     useEffect(() => {
-        setPage(1)
+        const newParams = new URLSearchParams(searchParams);
+        newParams.set("page", 1);
+
         document.title = `Resultados de "${productName}" - Bazarshop`
     }, [productName])
 
@@ -53,14 +89,32 @@ export function SearchResultsPage() {
                         <section className="container-product-grid">
                             <>
                                 {productList.map(product => (
-                                    <ProductGrid data={product} />
+                                    <ProductGrid data={product} updateProduct={updateProduct} />
                                 ))}
                             </>
                         </section>
-                        < Pagination currentPage={pageData.current_page} lastPage={pageData.last_page} onPageChange={setPage} />
+                        < Pagination
+                            currentPage={parseInt(searchParams.get("page")) || 1}
+                            lastPage={pageData.last_page}
+                            onPageChange={handlePageChange}
+                        />
                     </>
                     : <p>No se encontraron resultados</p>
-                : <Loading />}
+                : <Loading />
+            }
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+                transition:Bounce
+                stacked />
         </>
     )
 }
