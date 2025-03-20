@@ -159,6 +159,8 @@
     margin-bottom: 10px;
     cursor: pointer;
     font-weight: 500;
+    max-width: 75%;
+    text-wrap: pretty;
 }
 
 .info-product h1 svg {
