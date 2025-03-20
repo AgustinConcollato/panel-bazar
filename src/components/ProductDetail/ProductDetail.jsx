@@ -1,38 +1,40 @@
-import { Link, useNavigate, useParams } from "react-router-dom"
-import { api, url, urlStorage } from "../../services/api"
-import { useContext, useEffect, useState } from "react"
-import { Loading } from "../Loading/Loading"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faPenToSquare, faTrashCan } from "@fortawesome/free-regular-svg-icons"
-import { Modal } from "../Modal/Modal"
-import { EditField } from "../EditField/EditField"
-import { toast, ToastContainer } from "react-toastify"
-import { formatDate } from "../../utils/formatDate"
-import './ProductDetail.css'
-import 'react-toastify/dist/ReactToastify.css'
+import { faPenToSquare } from "@fortawesome/free-regular-svg-icons"
 import { faXmark } from "@fortawesome/free-solid-svg-icons"
-import { AppDataContext } from "../../context/AppDataContext"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { ImageAdd01Icon } from "hugeicons-react"
+import { useContext, useEffect, useState } from "react"
+import { Link, useParams } from "react-router-dom"
+import { toast, ToastContainer } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css'
+import { AppDataContext } from "../../context/AppDataContext"
+import { api, url, urlStorage } from "../../services/api"
+import { formatDate } from "../../utils/formatDate"
+import { EditField } from "../EditField/EditField"
+import { Loading } from "../Loading/Loading"
+import { Modal } from "../Modal/Modal"
+import './ProductDetail.css'
 
 export function ProductDetail() {
     const { id } = useParams()
-    const { Products, Categories } = api
+    const { Products } = api
 
     const products = new Products()
-    const categories = new Categories()
+
+    const { categories } = useContext(AppDataContext)
 
     const [product, setProduct] = useState(null)
     const [error, setError] = useState(null)
     const [images, setImages] = useState([])
     const [thumbnails, setThumbnails] = useState([])
     const [position, setPosition] = useState(null)
-    const [categoryList, setCategoryList] = useState([])
     const [subcategories, setSubcategories] = useState([])
     const [editField, setEditField] = useState(null)
     const [formData, setFormData] = useState({})
     const [newImageUpdate, setNewImageUpdate] = useState(null)
     const [newImage, setNewImage] = useState(null)
     const [currentProviders, setCurrentProviders] = useState(null)
+    const [categoryOptions, setCategoryOptions] = useState(null)
+    const [subcategoryOptions, setSubcategoryOptions] = useState(null)
 
     async function getDetails(id) {
         try {
@@ -55,22 +57,26 @@ export function ProductDetail() {
         }
     }
 
-    async function getCategories() {
-        try {
-            const response = await categories.get({})
-            setCategoryList(response)
-            if (product && product.subcategory_code) {
-                const subcategoryCodes = product.subcategory_code.split('|')
-                const subcategoryNames = subcategoryCodes.map((code) => {
-                    const category = response.find((category) => category.code === product.category_code)
-                    const subcategory = category?.subcategories.find((subcategory) => subcategory.subcategory_code === code)
-                    return subcategory?.subcategory_name || "Subcategoría no encontrada"
-                })
-                console.log(response)
-                setSubcategories(subcategoryNames)
-            }
-        } catch (error) {
-            console.log(error)
+    async function getSubcategories() {
+
+        if (product && product.subcategory_code) {
+            const subcategoryCodes = product.subcategory_code.split('|')
+            const subcategoryNames = subcategoryCodes.map((code) => {
+                const category = categories.find((category) => category.code === product.category_code)
+                const subcategory = category?.subcategories.find((subcategory) => subcategory.subcategory_code === code)
+                return subcategory?.subcategory_name || "Subcategoría no encontrada"
+            })
+            setSubcategories(subcategoryNames)
+
+            setCategoryOptions(categories.map(category => ({
+                code: category.code,
+                name: category.name
+            })))
+
+            setSubcategoryOptions(categories.find(category => category.code === product?.category_code)?.subcategories.map(subcategory => ({
+                code: subcategory.subcategory_code,
+                name: subcategory.subcategory_name
+            })) || [])
         }
     }
 
@@ -170,25 +176,15 @@ export function ProductDetail() {
         if (e.keyCode == 27) setEditField(null)
     }
 
-    const categoryOptions = categoryList.map(category => ({
-        code: category.code,
-        name: category.name
-    }))
-
-    const subcategoryOptions = categoryList.find(category => category.code === product?.category_code)?.subcategories.map(subcategory => ({
-        code: subcategory.subcategory_code,
-        name: subcategory.subcategory_name
-    })) || []
-
-
 
     useEffect(() => {
+        setProduct(null)
         getDetails(id)
     }, [id])
 
     useEffect(() => {
-        product && getCategories()
-    }, [product])
+        (product && categories) && getSubcategories()
+    }, [product, categories])
 
     return (
         <>
@@ -273,14 +269,14 @@ export function ProductDetail() {
                     </div>
                     <div className="detail-description" onClick={() => handleEdit('description')}>
                         <h3>Descripción <FontAwesomeIcon icon={faPenToSquare} /></h3>
-                        <p>{product.description || 'No tiene descripción'}</p>
+                        <pre>{product.description || 'No tiene descripción'}</pre>
                     </div>
                     <div className="info-product">
                         <ul>
                             <li onClick={() => handleEdit('available_quantity')}><span>Stock <FontAwesomeIcon icon={faPenToSquare} /></span><b>{product.available_quantity}</b></li>
                             <li onClick={() => handleEdit('price')}><span>Precio venta <FontAwesomeIcon icon={faPenToSquare} /></span><b>${product.price}</b></li>
                             <li onClick={() => handleEdit('discount')}><span>Descuento <FontAwesomeIcon icon={faPenToSquare} /></span><b>{product.discount || 0}%</b></li>
-                            <li onClick={() => handleEdit('category_code')}><span>Categoría <FontAwesomeIcon icon={faPenToSquare} /></span><b>{categoryList.find(e => e.code === product.category_code)?.name}</b></li>
+                            <li onClick={() => handleEdit('category_code')}><span>Categoría <FontAwesomeIcon icon={faPenToSquare} /></span><b>{categories && categories.find(e => e.code === product.category_code)?.name}</b></li>
                             <li onClick={() => handleEdit('subcategory_code')}><span>Subcategorías <FontAwesomeIcon icon={faPenToSquare} /></span><b>{subcategories.join(' - ')}</b></li>
                         </ul>
                     </div>
