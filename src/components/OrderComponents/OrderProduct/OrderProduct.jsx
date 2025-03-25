@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 export function OrderProduct({
     product: productData,
     setOrderProducts,
+    setOrderData,
     orderId,
     orderStatus,
     updateOrder,
@@ -27,11 +28,14 @@ export function OrderProduct({
     async function removeProductOrder(id) {
 
         setRemove(true)
+        setOrderProducts(null)
+        
         try {
             const response = await order.remove({ orderId, productId: id })
 
             if (response) {
-                setOrderProducts(current => current.filter(e => e.product_id != response.product_id))
+                setOrderProducts(response.products)
+                setOrderData(response)
                 setRemove(false)
             }
 
@@ -67,7 +71,7 @@ export function OrderProduct({
     useEffect(() => {
         setFormData(productData)
         setProduct(productData)
-        console.log(productData)
+        // console.log(productData)
     }, [])
 
     return (
