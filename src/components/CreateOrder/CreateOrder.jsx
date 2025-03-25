@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
-import { api } from '../../services/api'
-import { Loading } from '../Loading/Loading'
-import './CreateOrder.css'
+import { useNavigate } from 'react-router-dom'
 import Select from 'react-select'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { useNavigate } from 'react-router-dom'
+import { api } from '../../services/api'
+import { Loading } from '../Loading/Loading'
+import './CreateOrder.css'
 
 const customStyles = {
     control: (provided, state) => ({
@@ -94,20 +94,20 @@ export function CreateOrder() {
     }, [select])
 
     return (
-        <>
+        <div>
             <form onSubmit={createOrder} className="form-new-order">
-                <h3>Crear un nuevo pedido</h3>
+                <h3 className='title'>Crear un nuevo pedido</h3>
                 <div>
                     <button
                         type='button'
-                        className={select == 'client' ? 'btn btn-solid' : 'btn btn-thins'}
+                        className={select == 'client' ? 'btn btn-regular' : 'btn btn-thins'}
                         onClick={() => setSelect('client')}
                     >
                         Clientes
                     </button>
                     <button
                         type='button'
-                        className={select != 'client' ? 'btn btn-solid' : 'btn btn-thins'}
+                        className={select != 'client' ? 'btn btn-regular' : 'btn btn-thins'}
                         onClick={() => setSelect('users')}
                     >
                         Usuarios web
@@ -152,6 +152,6 @@ export function CreateOrder() {
                 theme="light"
                 transition:Bounce
                 stacked />
-        </>
+        </div>
     )
 }

@@ -1,13 +1,9 @@
 .form-new-order {
     background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    width: 300px;
-    min-width: 300px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    margin-bottom: 20px;
+    justify-content: space-between;
+    height: 100%;
 }
 
 .form-new-order>div:nth-child(2) {
