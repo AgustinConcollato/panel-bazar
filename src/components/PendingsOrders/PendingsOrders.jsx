@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react"
 import { api } from "api-services"
-import { Loading } from "../Loading/Loading"
-import './PendingsOrders.css'
+import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { formatDate } from '../../utils/formatDate'
+import { Loading } from "../Loading/Loading"
+import './PendingsOrders.css'
 
 export function PendingsOrders() {
 
@@ -40,7 +40,7 @@ export function PendingsOrders() {
 
     return (
         <div className="pendings-orders">
-            <h3>Pedidos pendientes</h3>
+            <h3 className='title'>Pedidos pendientes</h3>
             <div>
                 {orders ?
                     orders.length != 0 ?
