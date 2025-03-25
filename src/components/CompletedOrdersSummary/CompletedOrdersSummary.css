@@ -1,0 +1,71 @@
+.completed-orders-summary {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 300px;
+}
+
+.completed-orders-summary div h3 {
+    text-wrap: pretty;
+}
+
+.completed-orders-summary div div {
+    display: flex;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.completed-orders-summary div div h2 {
+    font-weight: 500;
+}
+
+.completed-orders-summary .active {
+    background: #66b81920;
+    color: #66b819;
+}
+
+.completed-orders-summary .inactive {
+    background: #b8191920;
+    color: #b81919;
+}
+
+.diference {
+    background: #f5f5f5;
+    border-radius: 30px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    padding: 5px 10px;
+}
+
+.completed-orders-summary .active,
+.completed-orders-summary .inactive,
+.diference {
+    position: relative;
+    font-size: 14px;
+    padding: 5px 10px;
+    border-radius: 30px;
+    width: max-content;
+}
+
+.completed-orders-summary .active span,
+.completed-orders-summary .inactive span,
+.diference span {
+    position: absolute;
+    padding: 5px 10px;
+    left: 50%;
+    top: calc(100% + 10px);
+    transform: translateX(-50%);
+    font-size: 14px;
+    border-radius: 5px;
+    width: max-content;
+    background: #000000c7;
+    color: #fff;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.completed-orders-summary .active:hover span,
+.completed-orders-summary .inactive:hover span,
+.diference:hover span {
+    opacity: 1;
+}
