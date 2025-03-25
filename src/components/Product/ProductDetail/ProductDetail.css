@@ -1,0 +1,195 @@
+.product-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    max-width: 700px;
+    width: 100%;
+    margin: 60px auto;
+}
+
+.info-product {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.info-product:last-child {
+    border-bottom: none;
+}
+
+.info-product header .active {
+    padding: 5px 10px;
+    border-radius: 30px;
+    background: #66b81920;
+    color: #66b819;
+    display: flex;
+    gap: 5px;
+    width: max-content;
+}
+
+.info-product header .inactive {
+    padding: 5px 10px;
+    border-radius: 30px;
+    background: #b8191920;
+    color: #b81919;
+    display: flex;
+    gap: 5px;
+    width: max-content;
+}
+
+.info-product header .active span,
+.info-product header .inactive span {
+    position: absolute;
+    left: -20px;
+    opacity: 0;
+}
+
+.info-product header .active:hover span,
+.info-product header .inactive:hover span {
+    opacity: 1;
+}
+
+.info-product header div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.info-product h1 {
+    margin-bottom: 10px;
+    cursor: pointer;
+    font-weight: 500;
+    max-width: 75%;
+    text-wrap: pretty;
+}
+
+.info-product h1 svg {
+    opacity: 0;
+    margin-left: 5px;
+}
+
+.info-product h1:hover svg {
+    opacity: 1;
+}
+
+.info-product p span {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.info-product ul {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.detail-description {
+    cursor: pointer;
+}
+
+.product-detail h3 {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+.detail-description svg {
+    opacity: 0;
+}
+
+.detail-description:hover svg {
+    opacity: 1;
+}
+
+.info-product ul li {
+    display: flex;
+    justify-content: space-between;
+    text-align: end;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.info-product ul li:hover {
+    background: #f5f5f5;
+}
+
+.info-product ul li span {
+    display: flex;
+    gap: 10px;
+}
+
+.info-product ul li span svg {
+    opacity: 0;
+}
+
+.info-product ul li:hover span svg {
+    opacity: 1;
+}
+
+.info-product ul li b {
+    max-width: 300px;
+}
+
+.info-product .purchase-price {
+    margin-top: 20px;
+}
+
+.info-product .purchase-price p {
+    margin-bottom: 10px;
+}
+
+.info-product .purchase-price .btn {
+    top: calc(50% + 14px);
+}
+
+.info-product .purchase-price+.btn {
+    margin-top: 10px;
+    width: 100%;
+}
+
+.actions-edit {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+textarea.input {
+    max-height: 200px;
+    min-height: 200px;
+    max-width: 100%;
+    min-width: 100%;
+}
+
+@media (max-width: 450px) {
+    .product-detail {
+        flex-direction: column;
+    }
+
+    .container-images {
+        flex-direction: column-reverse;
+    }
+
+    .container-main-image img {
+        height: 100%;
+        width: 100%;
+    }
+
+    .container-main-image .btn {
+        font-size: 14px;
+    }
+
+    .container-thumbnails {
+        flex-direction: row;
+        overflow-x: auto;
+        padding: 5px;
+        transform: translateX(-5px);
+    }
+
+    .info-product {
+        width: 100%;
+    }
+}
