@@ -3,6 +3,7 @@ import { CompletedOrders } from "../../components/CompletedOrders/CompletedOrder
 import { CreateOrder } from "../../components/CreateOrder/CreateOrder"
 import { PendingsOrders } from "../../components/PendingsOrders/PendingsOrders"
 import './OrderPage.css'
+import { CompletedOrdersSummary } from "../../components/CompletedOrdersSummary/CompletedOrdersSummary"
 
 export function OrderPage() {
 
@@ -12,9 +13,12 @@ export function OrderPage() {
 
     return (
         <section className="order-page">
-            <CreateOrder />
+            <div className="header-order-page">
+                <CreateOrder />
+                <CompletedOrdersSummary />
+            </div>
             <PendingsOrders />
-            <CompletedOrders />
+            {/* <CompletedOrders /> */}
         </section>
     )
 }

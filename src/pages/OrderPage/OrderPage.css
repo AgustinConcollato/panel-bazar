@@ -1,1 +1,21 @@
-.order-page {}
+.header-order-page {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.header-order-page>div {
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    width: 100%;
+    min-width: 280px;
+    max-width: 300px;
+    min-height: 270px;
+}
+
+@media (max-width: 450px){
+    .header-order-page>div {
+        max-width: 450px;
+    }
+}
