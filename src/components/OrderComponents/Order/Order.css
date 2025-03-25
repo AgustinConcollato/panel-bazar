@@ -43,21 +43,16 @@
     gap: 10px;
 }
 
-.order>div {
-    padding: 20px;
-    border-radius: 10px;
-    background: #fff;
-}
-
 .container-product-list {
     display: flex;
     gap: 20px;
-    overflow: auto;
+    position: relative;
 }
 
 .container-product-list>div {
     width: 50%;
 }
+
 
 .container-product-list .list {
     display: flex;
@@ -66,12 +61,27 @@
 }
 
 .container-order-table {
-    overflow: auto;
+    width: 100%;
+    max-width: 900px;
+    height: 80%;
+    background: #fff;
+    border-radius: 5px;
+    padding: 40px 10px 10px 10px;
+    z-index: 100;
+    position: relative;
+}
+
+.close-table {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+    padding: 5px 10px;
 }
 
 .order-table {
-    width: 100%;
-    min-width: 650px;
+    overflow: auto;
+    max-height: 100%;
 }
 
 .order-table thead td {
@@ -118,6 +128,9 @@ div.remit {
     right: 20px;
     width: 800px;
     background: #323639;
+    z-index: 100;
+    padding: 10px;
+    border-radius: 5px;
 }
 
 div.remit div {
@@ -139,19 +152,26 @@ iframe {
     border-radius: 10px;
 }
 
+.cancel-order p {
+    margin-bottom: 15px;
+}
+
 @media (max-width: 450px) {
-    .order-header>div:first-child {
+    .container-order-table {
+        width: calc(100% - 20px);
+    }
+
+    .order-header {
         flex-direction: column;
         gap: 15px;
     }
 
-    .order-header>div:last-child {
-        align-items: end;
-        gap: 10px;
+    .container-btn {
+        gap: 5px;
     }
 
-    .btn-images {
-        transform: translateY(-5px);
+    .container-btn .btn {
+        font-size: 15px;
     }
 
     div.remit {
@@ -166,13 +186,6 @@ iframe {
 }
 
 @media (max-width: 390px) {
-    .container-btn {
-        gap: 4px;
-    }
-
-    .container-btn .btn {
-        font-size: 15px;
-    }
 
     div.remit {
         top: 165px;
