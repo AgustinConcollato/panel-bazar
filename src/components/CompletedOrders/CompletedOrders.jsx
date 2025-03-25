@@ -75,7 +75,7 @@ export function CompletedOrders() {
     return (
         <div className="completed-orders">
             <div className="completed-orders-header">
-                <h3>Pedidos terminados</h3>
+                <h3 className='title'>Pedidos terminados</h3>
                 <div>
                     <div className="filter">
                         <span>Mes</span>
