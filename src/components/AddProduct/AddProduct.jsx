@@ -110,10 +110,8 @@ export function AddProduct() {
                     setSelectedSubcategories={setSelectedSubcategories}
                 />
                 <div>
-                    <div>
-                        <button type="submit" className="btn btn-solid">Agregar producto</button>
-                        <button type="reset" className="btn btn-regular">Descartar</button>
-                    </div>
+                    <button type="submit" className="btn btn-solid">Agregar producto</button>
+                    <button type="reset" className="btn btn-regular">Descartar</button>
                 </div>
                 <div>
                     <ul>
@@ -316,9 +314,8 @@ function Providers({ selectedProviders, setSelectedProviders }) {
 function Form2(props) {
 
     const { list, setList, selectedCategory, setSelectedCategory, setSelectedSubcategories } = props
-    const { Categories } = api
 
-    const categories = new Categories()
+    const { categories } = useContext(AppDataContext)
 
     const [resetList, setResetList] = useState(false)
 
@@ -334,13 +331,9 @@ function Form2(props) {
         }
     }
 
-    async function getCategories() {
-        setList(await categories.get({}))
-    }
-
     useEffect(() => {
-        getCategories()
-    }, [])
+        setList(categories)
+    }, [categories])
 
     useEffect(() => {
         if (selectedCategory) {
@@ -352,7 +345,8 @@ function Form2(props) {
 
     return (
         <>
-            {list.length != 0 ?
+            {list ?
+                list.length != 0 &&
                 <>
                     <div>
                         <h3>Categoría <span>*</span></h3>
