@@ -2,7 +2,7 @@ import { useState } from 'react'
 import './AddProvider.css'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { url } from '../../services/api'
+import { Providers } from '../../services/ProvidersService'
 
 
 export function AddProvider() {
@@ -17,22 +17,10 @@ export function AddProvider() {
         setErrors(null)
 
         const data = new FormData(e.target)
+        const providers = new Providers()
 
         try {
-            const response = await toast.promise(
-                fetch(`${url}/provider`, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-                    },
-                    body: data
-                }).then(async (res) => {
-                    if (!res.ok) {
-                        const errorData = await res.json(); // Obtiene el mensaje del backend
-                        throw errorData;
-                    }
-                    return res.json(); // Devuelve el JSON si todo está bien
-                }),
+            const response = await toast.promise(providers.add(data),
                 {
                     pending: 'Agregando proveedor...',
                     success: 'Se agregó correctamente',
@@ -40,7 +28,13 @@ export function AddProvider() {
                 }
             );
 
-            console.log(response);
+            if (response) {
+                setCode('')
+                setSuggestions([])
+                setErrors(null)
+                e.target[0].value = ''
+                e.target[2].value = ''
+            }
 
         } catch (error) {
             const e = []
