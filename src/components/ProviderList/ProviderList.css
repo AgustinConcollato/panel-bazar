@@ -1,0 +1,44 @@
+.provider-list {
+    overflow: auto;
+}
+
+.provider-list table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    min-width: 600px;
+}
+
+.provider-list table thead tr th:first-child {
+    border-radius: 5px 0 0 5px;
+}
+
+.provider-list table thead tr th:last-child {
+    border-radius: 0 5px 5px 0;
+}
+
+.provider-list table thead tr {
+    background-color: #f2f2f2;
+}
+
+.provider-list table tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+.provider-list table th,
+.provider-list table td {
+    padding: 10px;
+    text-align: left;
+}
+
+.provider-list table td a {
+    display: block;
+}
+
+.provider-list table td:last-child a {
+    color: #0d4eaf;
+}
+
+.provider-list table td a:hover {
+    text-decoration: underline;
+}
