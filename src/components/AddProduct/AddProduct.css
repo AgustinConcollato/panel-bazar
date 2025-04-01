@@ -61,7 +61,7 @@ li.error {
     width: 100%;
 }
 
-.provider-list div {
+.form-add-product .provider-list div {
     border: 1px solid #ddd;
     border-radius: 5px;
     display: inline-flex;

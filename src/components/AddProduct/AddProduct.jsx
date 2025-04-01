@@ -87,7 +87,7 @@ export function AddProduct() {
     }, [])
 
     return (
-        <section className=" section-form">
+        <section className="section-form">
             <form ref={formRef} className="form-add-product" onReset={discard} onSubmit={addProduct}>
                 <div className="header-form">
                     <h1>Cargar nuevo producto</h1>
