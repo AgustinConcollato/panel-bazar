@@ -1,10 +1,11 @@
-import { useContext, useState } from "react";
-import { url } from "../../../services/api";
+import { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { AppDataContext } from "../../../context/AppDataContext";
+import { url, api } from "../../../services/api";
 import { Loading } from "../../Loading/Loading";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { Modal } from "../../Modal/Modal";
+import { ArrowDown01Icon } from "hugeicons-react";
+import './ProductProviders.css'
 
 export function Providers({ currentProviders }) {
 
@@ -13,7 +14,8 @@ export function Providers({ currentProviders }) {
 
     const [selectedProviders, setSelectedProviders] = useState({});
     const [providerList, setProviderList] = useState(currentProviders || null)
-
+    const [price, setPrice] = useState(null)
+    const [btnHidden, setBtnHidden] = useState(true)
 
     function handleSelectProvider(providerId) {
         setSelectedProviders((prev) => {
@@ -81,6 +83,40 @@ export function Providers({ currentProviders }) {
 
     }
 
+    async function deleteProvider(providerId) {
+        const { Providers } = api
+
+        const providers = new Providers()
+
+        try {
+
+            const response = await providers.deleteProduct({ providerId, productId: id })
+
+            console.log(response)
+
+            setProviderList(response.providers)
+            setSelectedProviders({})
+            setBtnHidden(true)
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        const handleKeyUp = (e) => {
+            if (e.keyCode === 27) {
+                setSelectedProviders({})
+            }
+        };
+
+        document.addEventListener("keyup", handleKeyUp);
+
+        return () => {
+            document.removeEventListener("keyup", handleKeyUp);
+        };
+    }, []);
+
     return (
         providers ? (
             <div className="info-product" >
@@ -89,7 +125,6 @@ export function Providers({ currentProviders }) {
                     {providers.map((provider) => {
                         const existingProvider = providerList?.find(p => p.id === provider.id);
                         const hasPrice = existingProvider?.pivot?.purchase_price;
-
                         return (
                             <label htmlFor={provider.name}>
                                 <li key={provider.id} style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -109,38 +144,65 @@ export function Providers({ currentProviders }) {
                     })}
                 </ul>
                 {providers.length !== 0 ? (
-                    <form onSubmit={addPurchasePrice}>
-                        {Object.keys(selectedProviders).length > 0 && (
-                            <div>
-                                {Object.keys(selectedProviders).map((providerId) => {
-                                    const provider = providers.find((p) => p.id == providerId);
-                                    return (
-                                        <>
-                                            <div className="purchase-price">
-                                                <p>{provider.name}</p>
-                                                <input
-                                                    className="input"
-                                                    type="number"
-                                                    step={.01}
-                                                    value={selectedProviders[providerId]}
-                                                    onChange={(e) => handlePriceChange(providerId, e.target.value)}
-                                                    placeholder="Ingrese el precio"
-                                                />
-                                                <button
-                                                    type="button"
-                                                    className="btn"
-                                                    onClick={() => handlePriceChange(providerId, -1)}
-                                                >
-                                                    <FontAwesomeIcon icon={faXmark} size="xs" />
-                                                </button>
-                                            </div>
-                                        </>
-                                    );
-                                })}
-                                <button type="submit" className="btn btn-solid">Actualizar precios</button>
-                            </div>
-                        )}
-                    </form>
+                    Object.keys(selectedProviders).length > 0 && (
+                        <Modal>
+                            <form onSubmit={addPurchasePrice} className="container-children">
+                                <div>
+                                    {Object.keys(selectedProviders).map((providerId) => {
+                                        const provider = providers.find((p) => p.id == providerId);
+                                        const existingProvider = providerList?.find(p => p.id === provider.id);
+                                        const hasPrice = existingProvider?.pivot?.purchase_price;
+
+                                        return (
+                                            <>
+                                                <h2>{provider.name}</h2>
+                                                <div className="purchase-price">
+                                                    <input
+                                                        className="input"
+                                                        type="number"
+                                                        step={.01}
+                                                        onChange={(e) => {
+                                                            handlePriceChange(providerId, e.target.value)
+                                                            setPrice(e.target.value)
+                                                        }}
+                                                        placeholder="Ingrese el precio"
+                                                        value={price || hasPrice || ''}
+                                                        required
+                                                    />
+                                                </div>
+                                                <div className="actions-edit">
+
+                                                    <button
+                                                        type="button"
+                                                        className="btn"
+                                                        onClick={() => handlePriceChange(providerId, -1)}
+                                                    >
+                                                        Cancelar
+                                                    </button>
+                                                    <button type="submit" className="btn btn-solid">Actualizar precio</button>
+                                                </div>
+                                                {hasPrice &&
+                                                    <div className="delete-provider">
+                                                        <p onClick={() => setBtnHidden(!btnHidden)}>Eliminar relación con "{provider.name}" <ArrowDown01Icon size={18} /> </p>
+                                                        {!btnHidden &&
+                                                            <button
+                                                                type="button"
+                                                                className="btn btn-error-regular"
+                                                                onClick={() => deleteProvider(provider.id)}
+                                                            >
+                                                                Eliminar
+                                                            </button>
+                                                        }
+                                                    </div>
+                                                }
+                                            </>
+                                        );
+                                    })}
+
+                                </div>
+                            </form>
+                            <div className="background-modal" onClick={() => setSelectedProviders({})}></div>
+                        </Modal>)
                 ) : (
                     <div>
                         <p style={{ fontSize: "16px" }}>No hay proveedores agregados</p>

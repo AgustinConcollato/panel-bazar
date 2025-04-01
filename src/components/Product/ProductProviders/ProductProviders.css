@@ -1,0 +1,23 @@
+.delete-provider {
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+}
+
+.delete-provider p {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.delete-provider p:hover {
+    background-color: #eee;
+    cursor: pointer;
+}
