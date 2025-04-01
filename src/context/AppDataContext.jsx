@@ -1,34 +1,27 @@
-import { api, url } from "../services/api";
 import { createContext, useEffect, useState } from "react";
+import { api } from "../services/api";
 
 export const AppDataContext = createContext()
 
 export function AppDataProvider({ children }) {
 
-    const { Categories } = api
+    const { Categories, Providers } = api
 
     const [categories, setCategories] = useState(null)
     const [providers, setProviders] = useState(null);
 
     async function getCategories() {
-        const categories = new Categories()
-        setCategories(await categories.get({}))
+        try {
+            const categories = new Categories()
+            setCategories(await categories.get({}))
+        } catch (error) {
+            console.log(error)
+        }
     }
     async function getProviders() {
         try {
-            const response = await fetch(`${url}/provider`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-                },
-            });
-
-            if (!response.ok) {
-                const error = await response.json();
-                throw error;
-            }
-
-            const data = await response.json();
+            const providers = new Providers()
+            const data = await providers.get({})
             setProviders(data);
 
         } catch (error) {
