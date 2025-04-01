@@ -135,12 +135,20 @@ export function ProductDetail() {
         }
     }
 
-    document.onkeyup = (e) => {
-        if (e.keyCode == 27) {
-            setEditField(null)
-            setFormData(product)
-        }
-    }
+    useEffect(() => {
+        const handleKeyUp = (e) => {
+            if (e.keyCode === 27) {
+                setEditField(null);
+                setFormData(product);
+            }
+        };
+
+        document.addEventListener("keyup", handleKeyUp);
+
+        return () => {
+            document.removeEventListener("keyup", handleKeyUp);
+        };
+    }, [product]);
 
     useEffect(() => {
         setProduct(null)
