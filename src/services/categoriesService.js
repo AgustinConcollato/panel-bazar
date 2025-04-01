@@ -4,13 +4,29 @@ export class Categories {
     constructor() { }
 
     async get({ code = null }) {
-        if (code) {
-            const response = await fetch(`${url}/${code}`)
-            return await response.json()
-        }
+        try {
+            if (code) {
+                const response = await fetch(`${url}/${code}`)
 
-        const response = await fetch(url)
-        return await response.json()
+                if (!response.ok) {
+                    const error = await response.json()
+                    throw error
+                }
+
+                return await response.json()
+            }
+
+            const response = await fetch(url)
+
+            if (!response.ok) {
+                const error = await response.json()
+                throw error
+            }
+
+            return await response.json()
+        } catch (error) {
+            throw error
+        }
     }
 
 }
