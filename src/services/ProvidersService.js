@@ -56,6 +56,34 @@ export class Providers {
     }
 
     async edit() {
+        // editar nombre y contacto
+    }
+
+    async editProduct() {
+        // editar url 
 
     }
-}
+
+    async deleteProduct({ providerId, productId }) {
+        // eliminar producto del proveedor
+        try {
+            const response = await fetch(`${url}/${providerId}/product/${productId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${this.token}`
+                },
+            })
+
+            if (!response.ok) {
+                const error = await response.json()
+                throw error
+            }
+
+            return response.json()
+
+        } catch (error) {
+            throw error
+        }
+
+    }
+}   

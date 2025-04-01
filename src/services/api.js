@@ -6,7 +6,7 @@ import { Order } from "./ordersService"
 import { Clients } from "./clientsService"
 import { ShoppingCart } from "./shoppingCartServices"
 import { Address } from "./addressService"
-import { Providers } from "./ProvidersService"
+import { Providers } from "./providersService"
 
 export const api = {
     Products,
