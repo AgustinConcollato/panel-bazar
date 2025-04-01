@@ -55,7 +55,7 @@ export function ProductGrid({ data, updateProduct }) {
         const editedProduct = await updateProduct({ hasChanges, product, formData })
 
         if (editedProduct) {
-            setProduct(editedProduct)
+            setProduct(current => { return { ...current, ...editedProduct } })
             setEditField(null)
         }
     }
@@ -96,19 +96,21 @@ export function ProductGrid({ data, updateProduct }) {
                 <div className='prices'>
                     <div className='purchase-price'>
                         <p>Precios de compra</p>
-                        {providers.length != 0 ?
-                            <ul>
-                                {[...providers]
-                                    .sort((a, b) => a.pivot.purchase_price - b.pivot.purchase_price) // Ordena de menor a mayor
-                                    .map((e, index) =>
-                                        <li key={index}>
-                                            <span>{e.name}</span>
-                                            <ArrowRight04Icon />
-                                            ${parseFloat(e.pivot.purchase_price)}
-                                        </li>
-                                    )}
-                            </ul> :
-                            <span>No tiene</span>
+                        {providers ?
+                            providers.length != 0 ?
+                                <ul>
+                                    {[...providers]
+                                        .sort((a, b) => a.pivot.purchase_price - b.pivot.purchase_price) // Ordena de menor a mayor
+                                        .map((e, index) =>
+                                            <li key={index}>
+                                                <span>{e.name}</span>
+                                                <ArrowRight04Icon />
+                                                ${parseFloat(e.pivot.purchase_price)}
+                                            </li>
+                                        )}
+                                </ul> :
+                                <span>No tiene</span> :
+                            '$' + product.pivot.purchase_price
                         }
                     </div>
                     <div className='sale-price'>
