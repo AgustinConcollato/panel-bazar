@@ -1,0 +1,7 @@
+.header-provider-detail a {
+    color: #0d4eaf;
+}
+
+.header-provider-detail a:hover {
+    text-decoration: underline;
+}
