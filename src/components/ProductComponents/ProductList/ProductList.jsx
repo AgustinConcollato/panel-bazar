@@ -1,38 +1,27 @@
-import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { api } from "../../../services/api";
+import { Products } from "../../../services/productsService";
 import { Loading } from "../../Loading/Loading";
 import { Pagination } from "../../Pagination/Pagination";
 import { ProductGrid } from "../ProductGrid/ProductGrid";
 import "./ProductList.css";
 
-export function ProductList() {
-    const { Products } = api;
+export function ProductList({ productList, dataPage }) {
+
     const products = new Products();
 
     const [searchParams, setSearchParams] = useSearchParams();
 
-    // Estado para la paginación
-    const [dataPage, setDataPage] = useState(null);
-    const [productList, setProductList] = useState(null);
-
-    async function getProducts() {
-        const options = {
-            page: searchParams.get("page") || 1,
-            category: searchParams.get("category") || null,
-            price: searchParams.get("price") || null,
-            status: searchParams.get("status") || null,
-            panel: true,
-        };
-
-        setProductList(null);
-        const dataPage = await products.search({ options });
-        setDataPage(dataPage);
-        setProductList(dataPage.data);
-
-    }
+    const handlePageChange = (newPage) => {
+        const newParams = new URLSearchParams(searchParams);
+        if (newPage !== 1) {
+            newParams.set("page", newPage);
+        } else {
+            newParams.delete("page");
+        }
+        setSearchParams(newParams);
+    };
 
     async function updateProduct({ product, formData, hasChanges }) {
         if (hasChanges) {
@@ -50,20 +39,6 @@ export function ProductList() {
             toast.error("No hay cambios para guardar");
         }
     }
-
-    useEffect(() => {
-        getProducts();
-    }, [searchParams]);
-
-    const handlePageChange = (newPage) => {
-        const newParams = new URLSearchParams(searchParams);
-        if (newPage !== 1) {
-            newParams.set("page", newPage);
-        } else {
-            newParams.delete("page");
-        }
-        setSearchParams(newParams);
-    };
 
     return (
         <section className="product-section">
