@@ -10,7 +10,7 @@ import { Shortcuts } from './components/Shortcuts/Shortcuts'
 import { ClientsPage } from './pages/ClientsPage'
 import { OrderPage } from './pages/OrderPage/OrderPage'
 import { ProductsPage } from './pages/ProductsPage/ProductsPage'
-import { ProviderPage } from './pages/ProviderPage'
+import { ProviderPage } from './pages/ProviderPage/ProviderPage'
 import { Search } from './components/Search/Search'
 import { AddProvider } from './components/AddProvider/AddProvider'
 import { SearchResultsPage } from './pages/SearchResultsPage'
@@ -43,7 +43,7 @@ function App() {
             <Route path='/pedidos' element={<OrderPage />} />
             <Route path='/pedidos/:id' element={<Order />} />
             <Route path='/clientes' element={<ClientsPage />} />
-            <Route path='/proveedores' element={<ProviderPage />} />
+            <Route path='/proveedores/*' element={<ProviderPage />} />
             <Route path='/agregar-proveedor' element={<AddProvider />} />
             <Route path='/buscador/:productName' element={<SearchResultsPage />} />
             <Route path="*" element={<Navigate to="/panel" replace />} />
