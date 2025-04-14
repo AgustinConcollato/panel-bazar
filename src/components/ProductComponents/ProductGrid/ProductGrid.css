@@ -5,7 +5,7 @@
     margin-bottom: 30px;
 }
 
-.productGrid {
+.product-grid {
     position: relative;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -17,29 +17,29 @@
     gap: 20px;
 }
 
-.productGrid p {
+.product-grid p {
     margin-bottom: 5px;
     font-weight: 500;
 }
 
-.productGrid>div:first-child {
+.product-grid>div:first-child {
     display: flex;
     gap: 10px;
 }
 
-.productGrid img {
+.product-grid img {
     object-fit: contain;
     height: 100px;
     width: 100px;
 }
 
 
-.productGrid img+div {
+.product-grid img+div {
     width: 100%;
     max-width: calc(100% - 110px);
 }
 
-.productGrid h3 {
+.product-grid h3 {
     height: 25px;
     white-space: nowrap;
     overflow: hidden;
@@ -49,19 +49,19 @@
     font-weight: 400;
 }
 
-.productGrid img+div div {
+.product-grid img+div div {
     display: flex;
     gap: 10px;
     align-items: center;
 }
 
-.productGrid .code {
+.product-grid .code {
     display: inline-block;
     font-size: 14px;
     color: #aaa;
 }
 
-.productGrid .active {
+.product-grid .active {
     font-size: 14px;
     padding: 5px 10px;
     border-radius: 30px;
@@ -72,7 +72,7 @@
     width: max-content;
 }
 
-.productGrid .inactive {
+.product-grid .inactive {
     font-size: 14px;
     padding: 5px 10px;
     border-radius: 30px;
@@ -83,13 +83,13 @@
     width: max-content;
 }
 
-.productGrid>div:nth-child(2) {
+.product-grid>div:nth-child(2) {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
 }
 
-.productGrid>div:nth-child(2) span {
+.product-grid>div:nth-child(2) span {
     background: #f5f5f5;
     border-radius: 30px;
     border: 1px solid #ddd;
@@ -113,7 +113,7 @@
     opacity: 1;
 }
 
-.productGrid span span {
+.product-grid span span {
     position: absolute;
     background: #000000c7;
     border-radius: 5px;
@@ -171,13 +171,13 @@
     min-width: 40%;
 }
 
-.productGrid>div:nth-child(4) span {
+.product-grid>div:nth-child(4) span {
     display: flex;
     gap: 5px;
     align-items: center;
 }
 
-.productGrid a {
+.product-grid a {
     position: absolute;
     bottom: 15px;
     right: 15px;
@@ -191,17 +191,17 @@
     gap: 5px;
 }
 
-.productGrid a span {
+.product-grid a span {
     display: none;
 }
 
-.productGrid a:hover {
+.product-grid a:hover {
     border-color: #aaa;
     box-shadow: 0 5px 10px #00000010;
     width: auto;
     padding: 0 10px;
 }
 
-.productGrid a:hover span {
+.product-grid a:hover span {
     display: inline;
 }

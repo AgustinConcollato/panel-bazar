@@ -74,7 +74,7 @@ export function ProductGrid({ data, updateProduct }) {
     return (
         product &&
         <>
-            <div className="productGrid">
+            <div className="product-grid">
                 <div>
                     <img src={`${urlStorage}/${JSON.parse(product.thumbnails)[0]}`} />
                     <div>
