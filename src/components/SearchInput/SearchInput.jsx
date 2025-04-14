@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { api, urlStorage } from 'api-services'
+import { api, urlStorage } from '../../services/api'
 import './SearchInput.css'
 import { Loading } from '../Loading/Loading'
 import { Link, useNavigate } from 'react-router-dom'

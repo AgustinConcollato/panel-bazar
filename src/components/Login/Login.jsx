@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { api, url } from 'api-services'
+import { api, url } from '../../services/api'
 import './login.css'
 import { Navigate } from 'react-router-dom'
 
