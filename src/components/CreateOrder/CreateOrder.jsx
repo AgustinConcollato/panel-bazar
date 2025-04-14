@@ -58,7 +58,7 @@ export function CreateOrder() {
         const order = new Order()
 
         const formData = new FormData(e.target)
-        formData.append('status', 'pending')
+        formData.append('status', 'accepted')
         formData.append('total_amount', 0)
         formData.append('client_name', name)
 
@@ -70,7 +70,7 @@ export function CreateOrder() {
             })
 
             if (response) {
-                navigate('/pedidos/' + response.id)
+                navigate('/pedido/' + response.id)
             }
 
         } catch (error) {
