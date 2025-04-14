@@ -1,8 +1,7 @@
-import { api } from "api-services"
+import { api } from "../../services/api"
 import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
-import { formatDate } from '../../utils/formatDate'
 import { Loading } from "../Loading/Loading"
+import { PreViewOrder } from "../PreViewOrder/PreViewOrder"
 import './PendingsOrders.css'
 
 export function PendingsOrders() {
@@ -40,20 +39,17 @@ export function PendingsOrders() {
 
     return (
         <div className="pendings-orders">
-            <h3 className='title'>Pedidos pendientes</h3>
             <div>
                 {orders ?
                     orders.length != 0 ?
                         Object.keys(groupedOrders).map((monthYear) => (
                             <div key={monthYear}>
                                 <h4>{monthYear}</h4>
-                                {groupedOrders[monthYear].map((e) => (
-                                    <Link to={`/pedidos/${e.id}`} key={e.id}>
-                                        <span>{e.client_name}</span>
-                                        <span>{formatDate(e.created_at)}</span>
-                                        <span>Total: ${e.total_amount}</span>
-                                    </Link>
-                                ))}
+                                <div className="container-orders">
+                                    {groupedOrders[monthYear].map((e) => (
+                                        <PreViewOrder key={e.id} order={e} setOrders={setOrders} />
+                                    ))}
+                                </div>
                             </div>
                         )) :
                         <p>No hay pedidos pendientes</p>
