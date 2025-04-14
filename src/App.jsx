@@ -14,7 +14,7 @@ import { ProviderPage } from './pages/ProviderPage/ProviderPage'
 import { Search } from './components/Search/Search'
 import { AddProvider } from './components/AddProvider/AddProvider'
 import { SearchResultsPage } from './pages/SearchResultsPage'
-
+import { MonthlyOverviewPage } from './pages/MonthlyOverviewPage/MonthlyOverviewPage'
 
 function ProtectedLayout({ isAuthenticated }) {
   return (
@@ -40,11 +40,12 @@ function App() {
             <Route path='/producto/:id' element={<ProductDetail />} />
             <Route path='/agregar-producto' element={<AddProduct />} />
             <Route path='/agregar-cliente' element={<AddClient />} />
-            <Route path='/pedidos' element={<OrderPage />} />
-            <Route path='/pedidos/:id' element={<Order />} />
+            <Route path='/pedidos/*' element={<OrderPage />} />
+            <Route path='/pedido/:id' element={<Order />} />
             <Route path='/clientes' element={<ClientsPage />} />
             <Route path='/proveedores/*' element={<ProviderPage />} />
             <Route path='/agregar-proveedor' element={<AddProvider />} />
+            <Route path='/resumen-mensual' element={<MonthlyOverviewPage />} />
             <Route path='/buscador/:productName' element={<SearchResultsPage />} />
             <Route path="*" element={<Navigate to="/panel" replace />} />
           </Route>
