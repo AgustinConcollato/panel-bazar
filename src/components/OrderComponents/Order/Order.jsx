@@ -146,7 +146,7 @@ export function Order() {
                         <p>Precio total: ${orderData.total_amount}</p>
                     </div>
                     <div className="container-btn">
-
+                        {orderData.status == 'completed' && <button className="btn btn-regular" onClick={() => { setTable(true) }}><TableIcon /></button>}
                         {(orderData.status == 'accepted' && orderProducts?.length != 0) &&
                             <>
                                 <button className="btn btn-regular" onClick={() => { setTable(true) }}><TableIcon /></button>
