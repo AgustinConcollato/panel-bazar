@@ -147,7 +147,7 @@ export function Order() {
                     </div>
                     <div className="container-btn">
 
-                        {(orderData.status == 'pending' && orderProducts?.length != 0) &&
+                        {(orderData.status == 'accepted' && orderProducts?.length != 0) &&
                             <>
                                 <button className="btn btn-regular" onClick={() => { setTable(true) }}><TableIcon /></button>
                                 <button className="btn btn-solid" onClick={() => { setConfirm(true) }}>Confirmar pedido</button>
@@ -157,7 +157,7 @@ export function Order() {
                             <button className="btn btn-regular" onClick={downloadPDF}>Descargar detalle</button> :
                             <button className="btn btn-regular" onClick={generateRemit}>{loadingRemit ? <Loading /> : 'Generar detalle'}</button>
                         }
-                        {orderData.status == 'pending' && <button className="btn" onClick={() => setCancel(true)}>Cancelar</button>}
+                        {orderData.status == 'accepted' && <button className="btn" onClick={() => setCancel(true)}>Cancelar</button>}
                     </div>
                 </div>
                 <ProductList
@@ -214,7 +214,7 @@ export function Order() {
                                                 <td>p/unitario</td>
                                                 <td>Desc.</td>
                                                 <td>subtotal</td>
-                                                {orderData.status == 'pending' && <td>Opciones</td>}
+                                                {orderData.status == 'accepted' && <td>Opciones</td>}
                                             </tr>
                                         </thead>
                                         <tbody>
