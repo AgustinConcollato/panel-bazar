@@ -16,3 +16,42 @@
     margin: 20px 0 40px 0;
     gap: 10px;
 }
+
+.total-amount .active {
+    background: #66b81920;
+    color: #66b819;
+    padding: 5px 10px;
+    border-radius: 30px;
+    font-size: 14px;
+}
+
+.total-amount .inactive {
+    background: #b8191920;
+    color: #b81919;
+    padding: 5px 10px;
+    border-radius: 30px;
+    font-size: 14px;
+}
+
+.total-amount .active span,
+.total-amount .inactive span,
+.diference span {
+    position: absolute;
+    padding: 5px 10px;
+    left: 50%;
+    top: calc(100% + 10px);
+    transform: translateX(-50%);
+    font-size: 14px;
+    border-radius: 5px;
+    width: max-content;
+    background: #000000c7;
+    color: #fff;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.total-amount .active:hover span,
+.total-amount .inactive:hover span,
+.diference:hover span {
+    opacity: 1;
+}

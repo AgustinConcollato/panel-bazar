@@ -35,15 +35,7 @@
     border: 1px solid #ddd;
     font-size: 14px;
     padding: 5px 10px;
-}
-
-.completed-orders-summary .active,
-.completed-orders-summary .inactive,
-.diference {
     position: relative;
-    font-size: 14px;
-    padding: 5px 10px;
-    border-radius: 30px;
     width: max-content;
 }
 
