@@ -57,7 +57,8 @@ export function PreViewOrder({ order, setOrders }) {
             </div>
             <div>
                 <span>Método de pago</span>
-                <p>{order.payment_type}Efectivo</p>
+                <p>------</p>
+                {/* <p>{order.payment_type}Efectivo</p> */}
             </div>
             <div className="pre-view-order-comment">
                 {order.comment &&
