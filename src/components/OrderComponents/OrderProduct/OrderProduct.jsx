@@ -78,13 +78,13 @@ export function OrderProduct({
         product &&
         <>
             <tr>
-                <td className="quantity-td">{orderStatus == 'pending' ? <span onClick={() => handleEdit('quantity')}> {product.quantity} <FontAwesomeIcon icon={faPenToSquare} /> </span> : product.quantity}</td>
+                <td className="quantity-td">{orderStatus == 'accepted' ? <span onClick={() => handleEdit('quantity')}> {product.quantity} <FontAwesomeIcon icon={faPenToSquare} /> </span> : product.quantity}</td>
                 <td className="image-td" style={{ height: '65px', width: '65px' }}> <img loading='lazy' src={!product.picture ? notImage : `${urlStorage}/${JSON.parse(product.picture)[0]}`} /></td>
-                <td className="name-td">{orderStatus == 'pending' ? <span onClick={() => handleEdit('name')}> {product.name} <FontAwesomeIcon icon={faPenToSquare} /> </span> : product.name}</td>
-                <td className="price-td">{orderStatus == 'pending' ? <span onClick={() => handleEdit('price')}> ${parseFloat(product.price)} <FontAwesomeIcon icon={faPenToSquare} /> </span> : '$' + parseFloat(product.price)}</td>
+                <td className="name-td">{orderStatus == 'accepted' ? <span onClick={() => handleEdit('name')}> {product.name} <FontAwesomeIcon icon={faPenToSquare} /> </span> : product.name}</td>
+                <td className="price-td">{orderStatus == 'accepted' ? <span onClick={() => handleEdit('price')}> ${parseFloat(product.price)} <FontAwesomeIcon icon={faPenToSquare} /> </span> : '$' + parseFloat(product.price)}</td>
                 <td className="price-td"><span onClick={() => handleEdit('discount')}>{product.discount || 0}% <FontAwesomeIcon icon={faPenToSquare} /> </span></td>
                 <td className="subtotal-td" >${parseFloat(product.subtotal)}</td>
-                {orderStatus == 'pending' &&
+                {orderStatus == 'accepted' &&
                     <td className="options-td" >
                         <div>
                             <button className="btn btn-error-regular" onClick={() => removeProductOrder(product.product_id)}>{remove ? 'Eliminando...' : 'Eliminar'}</button>
