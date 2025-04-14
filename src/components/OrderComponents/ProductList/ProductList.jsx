@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { api, urlStorage } from "../../../services/api";
 import { Loading } from "../../Loading/Loading";
 import { Modal } from "../../Modal/Modal";
