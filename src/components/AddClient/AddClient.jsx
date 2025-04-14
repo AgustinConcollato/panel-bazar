@@ -4,8 +4,7 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import './AddClient.css'
-import { api } from 'api-services'
-
+import { api } from '../../services/api'
 
 export function AddClient() {
 

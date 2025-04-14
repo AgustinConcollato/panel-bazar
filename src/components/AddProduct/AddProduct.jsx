@@ -1,14 +1,14 @@
 import { faXmark } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { api } from "api-services"
+import { api } from "../../services/api"
 import { useContext, useEffect, useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { AppDataContext } from "../../context/AppDataContext"
 import { DragAndDrop } from "../DragAndDrop/DragAndDrop"
 import { Loading } from "../Loading/Loading"
 import './AddProduct.css'
-import { AppDataContext } from "../../context/AppDataContext"
 
 export function AddProduct() {
 
@@ -188,7 +188,7 @@ function Form1({ selectedProviders, setSelectedProviders, description, setDescri
                 </div>
                 <div>
                     <p>Cantidad de productos <span>*</span></p>
-                    <input type="text" className="input" name="available_quantity" placeholder="Stock" />
+                    <input type="number" className="input" name="available_quantity" placeholder="Stock" />
                 </div>
             </div>
             <Providers
