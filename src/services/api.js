@@ -20,6 +20,7 @@ export const api = {
     Providers
 }
 
+// const apiUrl = 'https://api.bazarrshop.com'
 const apiUrl = import.meta.env.DEV ? 'http://localhost:8000' : 'https://api.bazarrshop.com'
 
 export const url = new URL(apiUrl + '/api')

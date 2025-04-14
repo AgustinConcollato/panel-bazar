@@ -34,6 +34,58 @@ export class Order {
         return await response.json()
     }
 
+    async accepted(id = null) {
+
+        if (id) {
+            const response = await fetch(`${url}/accepted/${id}`)
+
+            return await response.json()
+        }
+
+        const response = await fetch(`${url}/accepted`)
+        return await response.json()
+    }
+
+    async rejectOrder(id) {
+        try {
+            const response = await fetch(`${url}/reject/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${this.token}`
+                }
+            })
+
+            if (!response.ok) {
+                const error = await response.json()
+                throw error
+            }
+
+            return await response.json()
+        } catch (error) {
+            throw error
+        }
+    }
+
+    async acceptOrder(id) {
+        try {
+            const response = await fetch(`${url}/accept/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${this.token}`
+                }
+            })
+
+            if (!response.ok) {
+                const error = await response.json()
+                throw error
+            }
+
+            return await response.json()
+        } catch (error) {
+            throw error
+        }
+    }
+
     async completed({ clientId, year, month }) {
         let urlRequest = `${url}/completed`;
 
