@@ -3,6 +3,7 @@ import { CompletedOrderFilter } from "../../components/CompletedOrderFilter/Comp
 import { CompletedOrders } from "../../components/CompletedOrders/CompletedOrders";
 import { Loading } from "../../components/Loading/Loading";
 import { useCompletedOrders } from "../../hooks/useCompletedOrders";
+import { useNetProfit } from "../../hooks/useNetProfit";
 import './MonthlyOverviewPage.css';
 
 export function MonthlyOverviewPage() {
@@ -12,9 +13,11 @@ export function MonthlyOverviewPage() {
     const [monthFilter, setMonthFilter] = useState(date.getMonth() + 1); // Estado para el mes seleccionado
 
     const { orders, difference } = useCompletedOrders(date);
+    const { netProfit, loading, error } = useNetProfit(date);
     const currentYear = currentDate.getFullYear();
     const startYear = 2025;
     const years = Array.from({ length: currentYear - startYear + 1 }, (_, i) => startYear + i);
+
 
     const months = [
         'Todos los meses',
@@ -55,17 +58,29 @@ export function MonthlyOverviewPage() {
                     handleMonthChange={handleMonthChange}
                     handleYearChange={handleYearChange}
                 />
-                <h1>Detalle de {months[date.getMonth() + 1]}</h1>
-                {orders ?
+                <h1>Detalle de {months[date.getMonth() + 1]}
+                    <p className={difference < 0 ? 'inactive' : difference > 0 ? 'active' : 'diference'}>
+                        {difference > 0 ? '+' : ''}
+                        {difference?.toFixed(2)}%
+                        <span>En relación al mes pasado</span>
+                    </p>
+                </h1>
+                {(orders && netProfit) ?
                     <div>
                         <p>Cantidad de pedidos <span>{orders.currentOrders.length}</span></p>
-                        <div className="total-amount">
-                            <h2>${parseInt(orders.currentOrders.reduce((a, order) => a + parseFloat(order.total_amount), 0)).toLocaleString()}</h2>
-                            <p className={difference < 0 ? 'inactive' : difference > 0 ? 'active' : 'diference'}>
-                                {difference > 0 ? '+' : ''}
-                                {difference.toFixed(2)}%
-                                <span>En relación al mes pasado</span>
-                            </p>
+                        <div className="profit">
+                            <h2>
+                                <span>Granancia bruta</span>
+                                ${parseFloat(orders.currentOrders.reduce((a, order) => a + parseFloat(order.total_amount), 0))}
+                            </h2>
+                            <h2>
+                                <span>Granancia neta</span>
+                                ${parseFloat(netProfit)}
+                            </h2>
+                            <h2>
+                                <span>Costos</span>
+                                ${parseFloat(orders.currentOrders.reduce((a, order) => a + parseFloat(order.total_amount), 0)) - parseFloat(netProfit)}
+                            </h2>
                         </div>
                     </div> :
                     <Loading />
