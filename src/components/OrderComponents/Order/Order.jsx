@@ -11,6 +11,7 @@ import { Modal } from "../../Modal/Modal"
 import { OrderProduct } from "../OrderProduct/OrderProduct"
 import { ProductList } from "../ProductList/ProductList"
 import './Order.css'
+import { AssembleOrder } from "../AssembleOrder/AssembleOrder"
 
 export function Order() {
 
@@ -160,12 +161,32 @@ export function Order() {
                         {orderData.status == 'accepted' && <button className="btn" onClick={() => setCancel(true)}>Cancelar</button>}
                     </div>
                 </div>
-                <ProductList
-                    orderId={orderData.id}
-                    setOrderProducts={setOrderProducts}
-                    setOrderData={setOrderData}
-                />
 
+                {orderData.status == 'completed' ?
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Cantidad</th>
+                                <th>Producto</th>
+                                <th>Precio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {orderProducts.map((e, i) =>
+                                <AssembleOrder
+                                    product={e}
+                                    key={i}
+                                />
+                            )}
+                        </tbody>
+                    </table>
+                    :
+                    <ProductList
+                        orderId={orderData.id}
+                        setOrderProducts={setOrderProducts}
+                        setOrderData={setOrderData}
+                    />
+                }
                 {(remit && !mobile) &&
                     <div className="remit">
                         <div>

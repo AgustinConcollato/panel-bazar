@@ -126,7 +126,7 @@ export function Providers({ currentProviders }) {
                         const existingProvider = providerList?.find(p => p.id === provider.id);
                         const hasPrice = existingProvider?.pivot?.purchase_price;
                         return (
-                            <label htmlFor={provider.name}>
+                            <label htmlFor={provider.name} key={provider.id}>
                                 <li key={provider.id} style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                                     <span>
                                         <input

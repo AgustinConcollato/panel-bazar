@@ -30,20 +30,45 @@ export class Order {
             return await response.json()
         }
 
-        const response = await fetch(`${url}/pending`)
+        const response = await fetch(`${url}/pending`, {
+            headers: {
+                'Authorization': `Bearer ${this.token}`
+            }
+        })
+        
         return await response.json()
     }
 
     async accepted(id = null) {
+        try {
 
-        if (id) {
-            const response = await fetch(`${url}/accepted/${id}`)
+            if (id) {
+                const response = await fetch(`${url}/accepted/${id}`)
+
+                if (!response.ok) {
+                    const error = await response.json()
+                    throw error
+                }
+
+                return await response.json()
+            }
+
+            const response = await fetch(`${url}/accepted`, {
+                headers: {
+                    'Authorization': `Bearer ${this.token}`
+                }
+            })
+
+            if (!response.ok) {
+                const error = await response.json()
+                throw error
+            }
 
             return await response.json()
-        }
 
-        const response = await fetch(`${url}/accepted`)
-        return await response.json()
+        } catch (error) {
+
+        }
     }
 
     async rejectOrder(id) {
@@ -120,7 +145,7 @@ export class Order {
 
     async get(id) {
         try {
-            const response = await fetch(`${url}/${id}`)
+            const response = await fetch(`${url}/detail/${id}`)
 
             if (!response.ok) {
                 const error = await response.json()

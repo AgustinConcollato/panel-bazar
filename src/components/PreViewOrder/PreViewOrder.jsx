@@ -56,9 +56,19 @@ export function PreViewOrder({ order, setOrders }) {
                 </div>
             </div>
             <div>
-                <span>Método de pago</span>
-                <p>------</p>
-                {/* <p>{order.payment_type}Efectivo</p> */}
+                <span>Métodos de pago</span>
+                {order.payments.length > 0 ?
+                    order.payments.map((e) =>
+                        <p>
+                            {e.method === 'transfer' && `Transferencia - $${e.expected_amount}`}
+                            {e.method === 'cash' && `Efectivo - $${e.expected_amount}`}
+                            {e.method === 'check' && `Cheque - $${e.expected_amount}`}
+                        </p>
+                    ) :
+                    <p>
+                        <button className="btn" onClick={e => e.preventDefault()}> Agregar método </button>
+                    </p>
+                }
             </div>
             <div className="pre-view-order-comment">
                 {order.comment &&

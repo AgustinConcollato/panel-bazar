@@ -8,12 +8,21 @@ export class Products {
 
     async search({ options = {}, id = null }) {
 
+        this.url.search = ''
+
         if (id) {
-            const response = await fetch(`${url}/${id}`);
+            const { panel } = options
+
+            if (panel) {
+                this.url = new URL(`${url}/${id}?panel=${panel}`)
+            }
+            else {
+                this.url = new URL(`${url}/${id}`)
+            }
+
+            const response = await fetch(this.url);
             return await response.json();
         }
-
-        this.url.search = ''
 
         Object.entries(options).forEach(([key, value]) => {
             if (value !== undefined && value !== null) {

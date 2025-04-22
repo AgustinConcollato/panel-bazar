@@ -38,7 +38,7 @@ export function ProductDetail() {
 
     async function getDetails(id) {
         try {
-            const response = await products.search({ id })
+            const response = await products.search({ id, options: { panel: true } })
             const { product, message, status } = response
             if (status === 'error') throw new Error(message)
 
@@ -58,7 +58,6 @@ export function ProductDetail() {
     }
 
     async function getSubcategories() {
-
         const subcategoryCodes = product.subcategory_code ? product.subcategory_code.split('|') : []
         const subcategoryNames = subcategoryCodes.map((code) => {
             const category = categories.find((category) => category.code === product.category_code)
@@ -156,7 +155,7 @@ export function ProductDetail() {
     }, [id])
 
     useEffect(() => {
-        getSubcategories()
+        product && getSubcategories()
     }, [product, categories])
 
     return (

@@ -184,24 +184,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 45px;
-    width: 45px;
     border-radius: 5px;
     border: 1px solid #ddd;
     gap: 5px;
-}
-
-.product-grid a span {
-    display: none;
+    padding: 10px 15px;
 }
 
 .product-grid a:hover {
     border-color: #aaa;
-    box-shadow: 0 5px 10px #00000010;
-    width: auto;
-    padding: 0 10px;
-}
-
-.product-grid a:hover span {
-    display: inline;
 }

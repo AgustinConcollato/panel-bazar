@@ -43,10 +43,6 @@
     cursor: pointer;
 }
 
-.form-add-product button[type="submit"] {
-    margin-right: 10px;
-}
-
 li.error {
     color: var(--color-error);
 }

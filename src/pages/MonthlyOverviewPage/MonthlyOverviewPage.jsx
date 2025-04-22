@@ -13,12 +13,25 @@ export function MonthlyOverviewPage() {
     const [monthFilter, setMonthFilter] = useState(date.getMonth() + 1); // Estado para el mes seleccionado
 
     const { orders, difference } = useCompletedOrders(date);
-    const { netProfit, loading, error } = useNetProfit(date);
+    const { netProfit } = useNetProfit(date);
     const currentYear = currentDate.getFullYear();
     const startYear = 2025;
     const years = Array.from({ length: currentYear - startYear + 1 }, (_, i) => startYear + i);
 
+    let grossProfit = 0;
+    let profit = 0;
+    let profitPercentage = 0;
+    let cost = 0;
 
+    if (orders && netProfit) {
+        grossProfit = parseFloat(
+            orders.currentOrders.reduce((a, order) => a + parseFloat(order.total_amount), 0)
+        );
+
+        profit = parseFloat(netProfit);
+        cost = grossProfit - profit;
+        profitPercentage = grossProfit > 0 ? (profit / grossProfit) * 100 : 0;
+    }
     const months = [
         'Todos los meses',
         'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
@@ -71,15 +84,19 @@ export function MonthlyOverviewPage() {
                         <div className="profit">
                             <h2>
                                 <span>Granancia bruta</span>
-                                ${parseFloat(orders.currentOrders.reduce((a, order) => a + parseFloat(order.total_amount), 0))}
+                                ${grossProfit.toFixed(2)}
                             </h2>
                             <h2>
                                 <span>Granancia neta</span>
-                                ${parseFloat(netProfit)}
+                                ${profit.toFixed(2)}
+                            </h2>
+                            <h2>
+                                <span>Porcentaje de ganancia</span>
+                                {profitPercentage.toFixed(2)}%
                             </h2>
                             <h2>
                                 <span>Costos</span>
-                                ${parseFloat(orders.currentOrders.reduce((a, order) => a + parseFloat(order.total_amount), 0)) - parseFloat(netProfit)}
+                                ${cost.toFixed(2)}
                             </h2>
                         </div>
                     </div> :
