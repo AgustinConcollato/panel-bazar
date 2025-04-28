@@ -30,7 +30,7 @@ export function Login() {
     }
 
     // function register() {
-    //     fetch('https://www.bazarrshop.com/api/register', {
+    //     fetch('http://localhost:8000/api/register', {
     //         method: 'POST',
     //         headers: { 'Content-Type': 'application/json' },
     //         body: JSON.stringify({ name: 'admin', password: '1872fa43', email: 'panelbazar@gmail.com' })
