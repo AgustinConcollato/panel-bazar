@@ -41,7 +41,7 @@ export function ProductList({ orderId, setOrderProducts, setOrderData }) {
 
         const purchasePrice = () => {
             if (providers.length == 0) {
-                return price / 2
+                return (price * 66) / 100;
             } else if (providers.length == 1) {
                 return providers[0].pivot.purchase_price
             } else {
@@ -167,7 +167,7 @@ export function ProductList({ orderId, setOrderProducts, setOrderData }) {
                                 </div>
                             </div>
                             <div className="actions-edit">
-                                <button type="submit" className="btn btn-solid">Guardar</button>
+                                <button type="submit" className="btn btn-solid">Agregar</button>
                                 <button type="button" className="btn" onClick={() => setSelected(false)}>Cancelar</button>
                             </div>
                         </form>
