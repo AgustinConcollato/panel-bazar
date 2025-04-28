@@ -6,22 +6,27 @@ export class Auth {
     }
 
     async login(password) {
-        const response = await fetch(`${url}/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                email: this.email,
-                password
-            }),
-        })
+        try {
+            const response = await fetch(`${url}/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: this.email,
+                    password
+                })
+            })
 
-        if (!response.ok && response.status == 401) {
-            throw new Error('Contraseña incorrecta - 401');
+            if (!response.ok) {
+                const error = response.json()
+                throw error
+            }
+
+            return await response.json()
+        } catch (error) {
+            throw error
         }
-
-        return await response.json()
     }
 
     async logout(token) {

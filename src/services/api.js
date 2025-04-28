@@ -1,7 +1,6 @@
 import { Categories } from "./categoriesService"
 import { Products } from "./productsService"
 import { Auth } from "./authService"
-import { Firebase } from "./firebaseService"
 import { Order } from "./ordersService"
 import { Clients } from "./clientsService"
 import { ShoppingCart } from "./shoppingCartServices"
@@ -12,7 +11,6 @@ export const api = {
     Products,
     Categories,
     Auth,
-    Firebase,
     Order,
     Clients,
     ShoppingCart,
