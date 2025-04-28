@@ -14,6 +14,7 @@ const customStyles = {
         borderColor: state.isFocused ? '#3d6caa' : '#ddd',
         borderRadius: '5px',
         boxShadow: null,
+        width: '100%',
         '&:hover': {
             borderColor: '',
         },
@@ -29,21 +30,12 @@ const customStyles = {
 
 export function CreateOrder() {
 
-    const { Firebase, Order, Clients } = api
+    const { Order, Clients } = api
 
-    const [error, setError] = useState(null)
-    const [users, setUsers] = useState(null)
     const [clients, setClients] = useState(null)
     const [name, setName] = useState(null)
-    const [select, setSelect] = useState('client')
 
     const navigate = useNavigate()
-
-    async function getUsers() {
-        const firebase = new Firebase()
-
-        setUsers(await firebase.users())
-    }
 
     async function getClients() {
         const clients = new Clients()
@@ -53,7 +45,6 @@ export function CreateOrder() {
 
     async function createOrder(e) {
         e.preventDefault()
-        setError(null)
 
         const order = new Order()
 
@@ -74,70 +65,35 @@ export function CreateOrder() {
             }
 
         } catch (error) {
-            const errorData = JSON.parse(error.message)
-            console.log(errorData)
-            if (errorData.errors?.client) {
-                setError('Selecciona un cliente')
-            } else if (errorData.error?.message) {
-                setError(errorData.error.message)
-            }
+            console.log(error)
         }
     }
 
     function changeSelect({ label }) {
         setName(label)
-        setError(null)
     }
 
     useEffect(() => {
-        select == 'client' ? clients ?? getClients() : users ?? getUsers()
-    }, [select])
+        getClients()
+    }, [])
 
     return (
         <div>
             <form onSubmit={createOrder} className="form-new-order">
-                <h3 className='title'>Crear un nuevo pedido</h3>
                 <div>
-                    <button
-                        type='button'
-                        className={select == 'client' ? 'btn btn-regular' : 'btn btn-thins'}
-                        onClick={() => setSelect('client')}
-                    >
-                        Clientes
-                    </button>
-                    <button
-                        type='button'
-                        className={select != 'client' ? 'btn btn-regular' : 'btn btn-thins'}
-                        onClick={() => setSelect('users')}
-                    >
-                        Usuarios web
-                    </button>
-                </div>
-                {select == 'client' ?
-                    clients ?
+                    <h3 className='title'>Crear un nuevo pedido</h3>
+                    {clients ?
                         < Select
                             styles={customStyles}
-                            options={clients.map(e => ({ value: e.id, label: e.name }))}
+                            options={clients.filter(e => e.source == 'dashboard').map(e => ({ value: e.id, label: e.name }))}
                             placeholder="Clientes"
                             onChange={changeSelect}
                             isSearchable
                             name='client_id'
                         /> :
-                        <Loading /> :
-                    users ?
-                        <Select
-                            styles={customStyles}
-                            options={users.map(e => ({ value: e.uid, label: e.displayName }))
-                            }
-                            placeholder="Usuarios de la web"
-                            isSearchable
-                            onChange={changeSelect}
-                            name='client_id'
-                        /> :
-                        <Loading />
-                }
+                        <Loading />}
+                </div>
                 <button type="submit" className="btn btn-solid">Crear</button>
-                {error && <p className='error'>{error}</p>}
             </form >
             <ToastContainer
                 position="top-right"
