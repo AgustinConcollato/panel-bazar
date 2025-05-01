@@ -1,8 +1,8 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { Modal } from "../../components/Modal/Modal"
 import { Order } from "../../services/ordersService"
 import './OrderOptions.css'
-import { useNavigate } from "react-router-dom"
 
 export function OrderOptions({ order, setOrders }) {
 
@@ -30,7 +30,7 @@ export function OrderOptions({ order, setOrders }) {
             const response = await orders.acceptOrder(order.id)
 
             if (response) {
-                navigate(`/pedido/${order.id}`)
+                navigate(`/pedido/${order.id}/${response.status}`)
             }
 
         } catch (error) {

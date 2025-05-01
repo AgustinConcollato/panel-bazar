@@ -2,7 +2,7 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { TableIcon } from "hugeicons-react"
 import { useEffect, useState } from "react"
-import { Link, useNavigate, useParams } from "react-router-dom"
+import { Navigate, Route, Routes, useNavigate, useParams } from "react-router-dom"
 import { toast, ToastContainer } from 'react-toastify'
 import { usePlatform } from "../../../hooks/usePlatform"
 import { api, url } from "../../../services/api"
@@ -11,7 +11,7 @@ import { Modal } from "../../Modal/Modal"
 import { OrderProduct } from "../OrderProduct/OrderProduct"
 import { ProductList } from "../ProductList/ProductList"
 import './Order.css'
-import { AssembleOrder } from "../AssembleOrder/AssembleOrder"
+import { PendingOrder } from "../PendingOrder/PendingOrder"
 
 export function Order() {
 
@@ -140,13 +140,9 @@ export function Order() {
 
     return (
         <>
-            <section className="order">
+            {/* <section className="order">
                 <div className="order-header">
-                    <div>
-                        <h3>{orderData.client_name}</h3>
-                        <p>Precio total: ${orderData.total_amount}</p>
-                    </div>
-                    <div className="container-btn">
+                  <div className="container-btn">
                         {orderData.status == 'completed' && <button className="btn btn-regular" onClick={() => { setTable(true) }}><TableIcon /></button>}
                         {(orderData.status == 'accepted' && orderProducts?.length != 0) &&
                             <>
@@ -161,32 +157,11 @@ export function Order() {
                         {orderData.status == 'accepted' && <button className="btn" onClick={() => setCancel(true)}>Cancelar</button>}
                     </div>
                 </div>
-
-                {orderData.status == 'completed' ?
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Cantidad</th>
-                                <th>Producto</th>
-                                <th>Precio</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {orderProducts.map((e, i) =>
-                                <AssembleOrder
-                                    product={e}
-                                    key={i}
-                                />
-                            )}
-                        </tbody>
-                    </table>
-                    :
-                    <ProductList
-                        orderId={orderData.id}
-                        setOrderProducts={setOrderProducts}
-                        setOrderData={setOrderData}
-                    />
-                }
+                <ProductList
+                    orderId={orderData.id}
+                    setOrderProducts={setOrderProducts}
+                    setOrderData={setOrderData}
+                />
                 {(remit && !mobile) &&
                     <div className="remit">
                         <div>
@@ -266,7 +241,15 @@ export function Order() {
                         }>
                     </div>
                 </Modal >
-            }
+            } */}
+            <Routes>
+                <Route path="pending" element={<PendingOrder order={orderData} products={orderProducts}/>} />
+                <Route path="accepted" element={'aceptado'} />
+                <Route path="completed" element={'completado'} />
+                <Route path="canceled" element={'cancelado'} />
+                <Route path="assemble" element={'armando'} />
+                <Route path="*" element={<Navigate to="/pedidos" replace />} />
+            </Routes>
             <ToastContainer
                 position="top-right"
                 autoClose={3000}

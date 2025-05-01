@@ -1,0 +1,138 @@
+.order-details {
+    width: 100%;
+    max-width: 500px;
+    position: sticky;
+    top: 20px;
+}
+
+.order-details>div {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.order-details .order-options {
+    display: flex;
+    gap: 10px;
+    justify-content: start;
+    align-items: stretch;
+    padding: 10px 0;
+}
+
+.order-details h2 {
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.order-details ul {
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0 20px;
+}
+
+.order-details ul:nth-last-child(2) {
+    border: none;
+}
+
+.order-details ul li {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    padding: 3px 0;
+    gap: 20px;
+}
+
+.order-details ul li b {
+    text-align: end;
+}
+
+.order-details ul li p {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+
+.order-details ul li a:hover {
+    text-decoration: underline;
+}
+
+.order-details ul li p .method:first-child {
+    margin-bottom: 10px;
+}
+
+.order-details ul li p span.discount {
+    text-decoration: line-through;
+}
+
+.order-confirmed {
+    margin: 60px auto;
+    max-width: 1200px;
+    display: flex;
+    align-items: start;
+    gap: 30px;
+}
+
+.container-order-product-table {
+    width: 100%;
+    overflow-x: auto;
+    border-left: 1px solid #ccc;
+    padding-left: 30px;
+}
+
+.order-product-table {
+    width: 100%;
+    min-width: 600px;
+}
+
+.order-product-table th {
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
+    text-align: end;
+}
+
+.order-product-table th:first-child {
+    text-align: center;
+}
+
+.order-product-table th:nth-child(2) {
+    text-align: start;
+}
+
+.order-product td {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 5px;
+    padding: 5px 0;
+    text-align: end;
+}
+
+.order-product td:first-child {
+    text-align: center;
+    padding: 5px 10px 5px 0;
+}
+
+.order-product td a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.order-product td a:hover {
+    text-decoration: underline;
+}
+
+.product-image {
+    object-fit: contain;
+    height: 60px;
+    width: 60px;
+}
+
+.order-product td .discount {
+    justify-content: end;
+}
+
+.orders-list li a div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}

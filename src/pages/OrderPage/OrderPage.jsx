@@ -3,7 +3,7 @@ import { Navigate, NavLink, Route, Routes } from "react-router-dom"
 import { AcceptedOrders } from "../../components/AcceptedOrders/AcceptedOrders"
 import { CompletedOrdersSummary } from "../../components/CompletedOrdersSummary/CompletedOrdersSummary"
 import { CreateOrder } from "../../components/CreateOrder/CreateOrder"
-import { PendingsOrders } from "../../components/PendingsOrders/PendingsOrders"
+import { PendingOrders } from "../../components/PendingOrders/PendingOrders"
 import './OrderPage.css'
 
 export function OrderPage() {
@@ -27,8 +27,8 @@ export function OrderPage() {
                 {/* <NavLink to='cancelados' className="link-orders">Cancelados</NavLink> */}
             </nav>
             <Routes>
-                <Route index element={<PendingsOrders />} />
-                <Route path='pendientes' element={<PendingsOrders />} />
+                <Route index element={<PendingOrders />} />
+                <Route path='pendientes' element={<PendingOrders />} />
                 <Route path='aceptados' element={<AcceptedOrders />} />
                 {/* <Route path='rechazados' element={<RejectedOrders />} />
                 <Route path='cancelados' element={<CancelledOrders />} /> */}
