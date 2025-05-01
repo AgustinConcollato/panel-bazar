@@ -41,7 +41,7 @@ function App() {
             <Route path='/agregar-producto' element={<AddProduct />} />
             <Route path='/agregar-cliente' element={<AddClient />} />
             <Route path='/pedidos/*' element={<OrderPage />} />
-            <Route path='/pedido/:id' element={<Order />} />
+            <Route path='/pedido/:id/*' element={<Order />} />
             <Route path='/clientes' element={<ClientsPage />} />
             <Route path='/proveedores/*' element={<ProviderPage />} />
             <Route path='/agregar-proveedor' element={<AddProvider />} />
