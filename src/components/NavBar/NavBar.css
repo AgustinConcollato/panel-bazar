@@ -1,5 +1,24 @@
-aside .btn {
-    margin: 0 20px;
+aside {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+aside div:last-child{
+    padding: 0 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+aside div:last-child a {
+    border: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+aside div:last-child a span {
+    font-size: 14px;
 }
 
 .btn.btn-navbar {

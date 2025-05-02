@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { api } from '../../services/api'
 import { ContainerTruck01Icon, DeliveryBox01Icon, Home09Icon, Task02Icon, UserGroupIcon } from 'hugeicons-react'
 import { useState } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import './NavBar.css'
 
 export function NavBar() {
@@ -88,7 +88,10 @@ export function NavBar() {
                     }}>cerrar sesión forzada</button></li>} */}
                 </ul>
             </nav>
-            <button className='btn btn-thins' onClick={logout}>Cerrar sesión</button>
+            <div>
+                <Link to={'https://www.bazarrshop.com'} target='_blank' className='btn'>Ver página <span>www.bazarrshop.com</span></Link>
+                <button className='btn btn-thins' onClick={logout}>Cerrar sesión</button>
+            </div>
         </aside>
     )
 }

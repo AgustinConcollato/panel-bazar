@@ -69,14 +69,7 @@ export function PreViewOrder({ order, setOrders }) {
                     }
                 </div>
             </Link>
-            {order.status === "pending" &&
-                <OrderOptions order={order} setOrders={setOrders} />
-            }
-            {order.status === "accepted" &&
-                <div className="order-options container-btn">
-                    <button className="btn btn-solid">Armar pedido</button>
-                </div>
-            }
+            <OrderOptions order={order} onAction={setOrders} />
         </div>
     )
 }

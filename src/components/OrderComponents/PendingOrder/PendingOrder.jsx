@@ -1,13 +1,15 @@
+import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { urlStorage } from '../../../services/api';
 import { formatDate } from '../../../utils/formatDate';
-import './PendingOrder.css';
 import { OrderOptions } from '../../OrderOptions/OrderOptions';
-import { useEffect } from 'react';
+import './PendingOrder.css';
 
-export function PendingOrder({ order, products }) {
+export function PendingOrder({ order }) {
 
     const navigate = useNavigate()
+
+    const products = order.products
 
     useEffect(() => {
         if (order.status !== 'pending') {
@@ -142,7 +144,7 @@ function Details({ order }) {
                     <li>Precio<b>${parseFloat(order.total_amount)}</b></li>
                 }
             </ul>
-            <OrderOptions order={order} setOrders={() => { navigate('/pedidos') }} />
+            <OrderOptions order={order} onAction={() => { navigate('/pedidos') }} />
         </div >
     )
 }

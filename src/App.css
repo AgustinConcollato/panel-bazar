@@ -50,9 +50,6 @@ ul {
 aside {
     grid-area: aside;
     padding: 20px 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
     max-height: 100vh;
     min-height: 100vh;
     position: sticky;

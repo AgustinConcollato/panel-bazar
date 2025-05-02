@@ -22,6 +22,35 @@ export class Order {
         return await response.json()
     }
 
+    async get({ status, clientId, year, month }) {
+
+        // Construimos los parámetros de la URL
+        const params = new URLSearchParams();
+        params.append("status", status);
+
+        if (year) {
+            params.append("year", year);
+        }
+
+        if (clientId) {
+            params.append("client_id", clientId);
+        }
+
+        if (month !== undefined && month !== "all") {
+            params.append("month", month);
+        }
+
+        // Concatenamos los parámetros solo si existen
+        const fullUrl = `${url}?${params.toString()}`;
+        const response = await fetch(fullUrl, {
+            headers: {
+                'Authorization': `Bearer ${this.token}`
+            }
+        })
+
+        return await response.json()
+    }
+
     async pending(id = null) {
 
         if (id) {
@@ -35,7 +64,7 @@ export class Order {
                 'Authorization': `Bearer ${this.token}`
             }
         })
-        
+
         return await response.json()
     }
 
@@ -143,7 +172,7 @@ export class Order {
         }
     }
 
-    async get(id) {
+    async detail(id) {
         try {
             const response = await fetch(`${url}/detail/${id}`)
 

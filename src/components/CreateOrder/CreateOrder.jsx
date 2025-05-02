@@ -61,7 +61,7 @@ export function CreateOrder() {
             })
 
             if (response) {
-                navigate('/pedido/' + response.id)
+                navigate(`/pedido/${response.id}/${response.status}`)
             }
 
         } catch (error) {

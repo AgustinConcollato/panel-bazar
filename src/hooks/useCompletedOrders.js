@@ -17,8 +17,8 @@ export function useCompletedOrders(date) {
         const lastYear = currentMonth === 1 ? currentYear - 1 : currentYear;
 
         try {
-            const currentOrders = await order.completed({ month: currentMonth, year: currentYear });
-            const lastOrders = await order.completed({ month: lastMonth, year: lastYear });
+            const currentOrders = await order.get({ month: currentMonth, year: currentYear, status: 'completed' });
+            const lastOrders = await order.get({ month: lastMonth, year: lastYear, status: 'completed' });
 
             setOrders({ currentOrders, lastOrders });
 

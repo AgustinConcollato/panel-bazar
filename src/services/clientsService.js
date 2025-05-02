@@ -32,16 +32,22 @@ export class Clients {
 
     async add(data) {
         try {
-            const response = await fetch(url, {
+            const response = await fetch(`${url}/register`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${this.token}`
                 },
                 body: data
             })
+
+            if (!response.ok) {
+                const error = await response.json()
+                throw error
+            }
+
             return await response.json()
         } catch (error) {
-            throw new Error(error)
+            throw error
         }
     }
 }

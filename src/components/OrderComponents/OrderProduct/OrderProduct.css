@@ -1,29 +1,43 @@
-.edit-order-product {
-    z-index: 1000;
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    width: 500px;
-}
-
-.order-table span{
-    cursor: pointer;
-    padding: 5px 10px;
+.order-product {
+    border: 1px solid #ccc;
     border-radius: 5px;
-    display: inline-block;
-    transform: translateX(-10px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 150px;
+    height: 150px;
+    position: relative;
+    cursor: pointer;
+    padding: 5px;
 }
 
-.order-table span:hover{
-    background: #f0f0f0;
+.order-product .quantity {
+    background: #303030;
+    color: #fff;
+    position: absolute;
+    font-size: 14px;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 10px;
+    left: 10px;
+    border-radius: 5px;
 }
 
-.order-table span svg {
-    margin-left: 10px;
-    opacity: 0;
+.order-product h4 {
+    font-weight: 400;
+    text-align: center;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    width: 100%;
 }
 
-.order-table span:hover svg {
-    opacity: 1;
+.order-product img {
+    object-fit: contain;
+    width: 100px;
+    height: 100px;
 }
-

@@ -1,40 +1,42 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from 'react-toastify';
 import { api, urlStorage } from "../../../services/api";
 import { Loading } from "../../Loading/Loading";
 import { Modal } from "../../Modal/Modal";
-import { Pagination } from "../../Pagination/Pagination";
-import './ProductList.css';
+import './OrderSearch.css';
 
-export function ProductList({ orderId, setOrderProducts, setOrderData }) {
+export function OrderSearch({ orderId, setOrderProducts, setOrderData }) {
     const { Products, Order } = api;
     const products = new Products();
 
-    const [page, setPage] = useState(1);
-    const [dataPage, setDataPage] = useState(null);
     const [productList, setProductList] = useState(null);
     const [selected, setSelected] = useState(false);
     const [name, setName] = useState(null);
+    const [filteredOptions, setFilteredOptions] = useState([])
+    const [highlightedIndex, setHighlightedIndex] = useState(-1)
+    const [hidden, setHidden] = useState(true)
+
+    const inputRef = useRef(null)
+    const dropdownRef = useRef(null)
+    const optionRefs = useRef([])
 
     async function getProducts() {
         const options = {
-            page,
-            category: null,
+            page: 1,
             status: 'active',
             name
         };
 
         setProductList(null);
         const dataPage = await products.search({ options });
-        setDataPage(dataPage);
         setProductList(dataPage.data);
-
+        setFilteredOptions(dataPage.data)
     }
 
     async function addProduct(e) {
         e.preventDefault()
 
-        const orders = new Order()
+        const order = new Order()
         const formData = new FormData(e.target)
 
         const { thumbnails, id, name, price, providers } = selected
@@ -58,18 +60,19 @@ export function ProductList({ orderId, setOrderProducts, setOrderData }) {
         formData.append('price', price)
 
         try {
-            const product = await toast.promise(orders.add(formData), {
+            const product = await toast.promise(order.add(formData), {
                 pending: 'Agregando producto...',
                 success: 'Se agregó correctamente',
             })
 
             setOrderProducts(current => [...current, product])
 
-            setOrderData(current => ({
-                ...current,
-                total_amount: parseFloat(current.total_amount) + product.subtotal
-            }));
+            // setOrderData(current => ({
+            //     ...current,
+            //     total_amount: parseFloat(current.total_amount) + product.subtotal
+            // }));
 
+            setName('')
             setSelected(false)
 
         } catch (error) {
@@ -81,61 +84,107 @@ export function ProductList({ orderId, setOrderProducts, setOrderData }) {
         }
     }
 
-    useEffect(() => {
-        getProducts();
-    }, [page, name]);
+    function handleKeyDown(event) {
+        if (event.key === 'ArrowDown') {
+            setHighlightedIndex((prevIndex) =>
+                prevIndex === -1 ? 0 : Math.min(prevIndex + 1, filteredOptions.length - 1)
+            )
+        } else if (event.key === 'ArrowUp') {
+            setHighlightedIndex((prevIndex) => Math.max(prevIndex - 1, -1))
+        } else if (event.key === 'Enter') {
+
+            if (highlightedIndex < 0) return
+
+            event.preventDefault()
+            const selectedOption = filteredOptions[highlightedIndex]
+            if (selectedOption) {
+                setSelected(selectedOption)
+            }
+        }
+    }
 
     useEffect(() => {
+        name && getProducts();
+    }, [name]);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                dropdownRef.current &&
+                !dropdownRef.current.contains(event.target) &&
+                inputRef.current &&
+                !inputRef.current.contains(event.target)
+            ) {
+                setHidden(true)
+            }
+        }
+
         const handleKeyUp = (e) => {
             if (e.keyCode == 27) {
                 setSelected(false)
+                inputRef.current.focus()
             }
         }
 
         document.addEventListener("keyup", handleKeyUp)
-
+        document.addEventListener('click', handleClickOutside)
         return () => {
+            document.removeEventListener('click', handleClickOutside)
             document.removeEventListener("keyup", handleKeyUp)
+
         }
     }, [])
 
+    useEffect(() => {
+        if (optionRefs.current[highlightedIndex]) {
+            optionRefs.current[highlightedIndex].scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest'
+
+            })
+        }
+    }, [highlightedIndex])
+
     return (
-        <div>
+        <div className="order-search">
             <div>
                 <input
-                    type="text"
+                    type="search"
+                    ref={inputRef}
                     placeholder="Buscar producto por nombre"
                     className="input"
                     onChange={(e) => setName(e.target.value)}
+                    onKeyDown={handleKeyDown}
                 />
             </div>
-            {dataPage ? (
-                <>
-                    <div className="list">
-                        {productList ?
-                            productList.length !== 0 &&
-                            productList.map((product) => (
-                                <div className="product" key={product.id} onClick={() => setSelected(product)}>
-                                    <img src={`${urlStorage}/${JSON.parse(product.images)[0]}`} />
-                                    <span>${parseFloat(product.price)}</span>
-                                    <p>{product.name}</p>
-                                </div>
-                            ))
-                            :
-                            <Loading />
-                        }
-                    </div>
-                    {dataPage.total > 0 && (
-                        <Pagination
-                            currentPage={dataPage.current_page}
-                            lastPage={dataPage.last_page}
-                            onPageChange={setPage}
-                        />
-                    )}
-                </>
-            ) : (
-                <Loading />
-            )}
+            {name && hidden &&
+                <ul className="results">
+                    {productList ?
+                        productList.length !== 0 ?
+                            productList.map((product, index) => (
+                                <li
+                                    className={`product${highlightedIndex === index ? ' highlighted' : ''}`}
+                                    key={product.id}
+                                    onClick={() => setSelected(product)}
+                                    ref={(el) => (optionRefs.current[index] = el)}
+                                >
+                                    <img src={`${urlStorage}/${JSON.parse(product.thumbnails)[0]}`} />
+                                    <p>
+                                        {product.name}
+                                        <span>${parseFloat(product.price)}</span>
+                                    </p>
+
+                                </li>
+                            )) :
+                            <li className="no-results">
+                                <p>No se encontraron resultados</p>
+                            </li>
+                        :
+                        <Loading />
+                    }
+                </ul>
+            }
+
             {selected &&
                 <Modal>
                     <section className="section-form container-children">

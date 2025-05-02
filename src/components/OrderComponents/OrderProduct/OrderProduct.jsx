@@ -1,48 +1,26 @@
 import { useEffect, useState } from 'react'
 import notImage from '../../../assets/img/not-image-min.jpg'
-import { api, urlStorage } from '../../../services/api'
-import { EditField } from '../../EditField/EditField'
+import { urlStorage } from '../../../services/api'
 import { Modal } from '../../Modal/Modal'
 import './OrderProduct.css'
-import { faPenToSquare } from '@fortawesome/free-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export function OrderProduct({
     product: productData,
-    setOrderProducts,
+    setProducts,
     setOrderData,
     orderId,
     orderStatus,
+    removeProductOrder,
     updateOrder,
 }) {
 
-    const { Order } = api
-
     const [edit, setEdit] = useState(null)
-    const [remove, setRemove] = useState(false)
     const [formData, setFormData] = useState({})
     const [product, setProduct] = useState({})
 
-    const order = new Order()
-
-    async function removeProductOrder(id) {
-
-        setRemove(true)
-        setOrderProducts(null)
-        
-        try {
-            const response = await order.remove({ orderId, productId: id })
-
-            if (response) {
-                setOrderProducts(response.products)
-                setOrderData(response)
-                setRemove(false)
-            }
-
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    const [price, setPrice] = useState(productData.price)
+    const [quantity, setQuantity] = useState(productData.quantity)
+    const [discount, setDiscount] = useState(productData.discount)
 
     async function saveChange(e) {
         e.preventDefault()
@@ -52,16 +30,23 @@ export function OrderProduct({
 
         if (response) {
             setProduct(response)
+            setProducts((prev) =>
+                prev.map((p) => (p.id === response.id ? response : p))
+            )
             setEdit(null)
         }
     }
 
     function handleEditChange(field, value) {
         setFormData((prevData) => ({ ...prevData, [field]: value }))
-    }
 
-    function handleEdit(field) {
-        setEdit(field)
+        if (field === 'price') {
+            setPrice(value)
+        } else if (field === 'quantity') {
+            setQuantity(value)
+        } else if (field === 'discount') {
+            setDiscount(value)
+        }
     }
 
     document.onkeyup = (e) => {
@@ -71,41 +56,52 @@ export function OrderProduct({
     useEffect(() => {
         setFormData(productData)
         setProduct(productData)
-        // console.log(productData)
     }, [])
 
     return (
         product &&
         <>
-            <tr>
-                <td className="quantity-td">{orderStatus == 'accepted' ? <span onClick={() => handleEdit('quantity')}> {product.quantity} <FontAwesomeIcon icon={faPenToSquare} /> </span> : product.quantity}</td>
-                <td className="image-td" style={{ height: '65px', width: '65px' }}> <img loading='lazy' src={!product.picture ? notImage : `${urlStorage}/${JSON.parse(product.picture)[0]}`} /></td>
-                <td className="name-td">{orderStatus == 'accepted' ? <span onClick={() => handleEdit('name')}> {product.name} <FontAwesomeIcon icon={faPenToSquare} /> </span> : product.name}</td>
-                <td className="price-td">{orderStatus == 'accepted' ? <span onClick={() => handleEdit('price')}> ${parseFloat(product.price)} <FontAwesomeIcon icon={faPenToSquare} /> </span> : '$' + parseFloat(product.price)}</td>
-                <td className="price-td"><span onClick={() => handleEdit('discount')}>{product.discount || 0}% <FontAwesomeIcon icon={faPenToSquare} /> </span></td>
-                <td className="subtotal-td" >${parseFloat(product.subtotal)}</td>
-                {orderStatus == 'accepted' &&
-                    <td className="options-td" >
-                        <div>
-                            <button className="btn btn-error-regular" onClick={() => removeProductOrder(product.product_id)}>{remove ? 'Eliminando...' : 'Eliminar'}</button>
-                        </div>
-                    </td>
-                }
-            </tr>
-            {
-                edit &&
+            <div onClick={() => setEdit(true)} className='order-product'>
+                <div className="container-img">
+                    <img loading='lazy' src={!product.picture ? notImage : `${urlStorage}/${JSON.parse(product.picture)[0]}`} />
+                </div>
+                <h4>{product.name}</h4>
+                <p>${product.price}</p>
+                <p className='quantity'>{product.quantity}</p>
+                <p>{product.discount ? product.discount + '%' : null}</p>
+            </div>
+
+            {edit &&
                 <Modal>
-                    <form className='edit-order-product'>
-                        <EditField
-                            field={edit}
-                            value={formData[edit]}
-                            onChange={handleEditChange}
-                            type={edit != 'name' ? 'number' : 'text'}
+                    <form className='edit-order-product container-children'>
+                        <h2>Editar {product.name}</h2>
+                        <input
+                            className='input'
+                            type="number"
+                            placeholder='Precio'
+                            name='price'
+                            value={price}
+                            onChange={(e) => handleEditChange('price', e.target.value)}
                         />
-                        <div className="actions-edit">
-                            <button type="button" className="btn" onClick={() => setEdit(null)}>Cancelar</button>
-                            <button type="submit" className="btn btn-solid" onClick={saveChange} >Guardar</button>
-                        </div>
+                        <input
+                            className='input'
+                            type="number"
+                            placeholder='Cantidad'
+                            name='quantity'
+                            value={quantity}
+                            onChange={(e) => handleEditChange('quantity', e.target.value)}
+                        />
+                        <input
+                            className='input'
+                            type="number"
+                            placeholder='Descuento'
+                            name='discount'
+                            value={discount}
+                            onChange={(e) => handleEditChange('discount', e.target.value)}
+                        />
+                        <button type="submit" className="btn btn-solid" onClick={saveChange} >Guardar cambios</button>
+                        <button type="button" className="btn" onClick={() => setEdit(null)}>Cancelar</button>
+                        <button type='button' className='btn btn-error-regular' onClick={() => removeProductOrder(product.product_id)}>Eliminar del pedido</button>
                     </form>
                     <div className="background-modal" onClick={() => setEdit(null)}></div>
                 </Modal>

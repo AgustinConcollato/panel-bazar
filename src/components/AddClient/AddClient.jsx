@@ -50,6 +50,16 @@ export function AddClient() {
                             placeholder='Nombre del cliente'
                             required
                         />
+                        <input
+                            type="text"
+                            className='input'
+                            name='phone_number'
+                            placeholder='Teléfono del cliente'
+                        />
+                        <input type="text" hidden name='email' value={''} />
+                        <input type="text" hidden name='source' value={'dashboard'} />
+                        <input type="text" hidden name='password' value={'Dashboard123$'} />
+                        <input type="text" hidden name='password_confirmation' value={'Dashboard123$'} />
                         <button type="submit" className='btn btn-solid'>Agregar</button>
                         <button type="reset" className='btn btn-thins'>Descartar</button>
                     </form>
