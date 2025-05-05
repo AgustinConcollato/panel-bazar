@@ -94,7 +94,7 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    max-width: 18 0px;
+    max-width: 180px;
     pointer-events: none;
     display: inline-block;
 }
