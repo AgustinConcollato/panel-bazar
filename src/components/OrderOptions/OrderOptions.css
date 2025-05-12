@@ -2,3 +2,8 @@
     padding: 10px;
     border-top: 1px solid #ddd;
 }
+
+.container-btn {
+    display: flex;
+    gap: 10px;
+}

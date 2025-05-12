@@ -3,15 +3,22 @@ import { useNavigate } from "react-router-dom"
 import { Modal } from "../../components/Modal/Modal"
 import { Order } from "../../services/ordersService"
 import './OrderOptions.css'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCircleNotch } from "@fortawesome/free-solid-svg-icons"
+import { usePlatform } from "../../hooks/usePlatform"
 
 export function OrderOptions({ order: orderData, onAction }) {
 
     const order = new Order()
+
     const navigate = useNavigate()
+    const mobile = usePlatform()
 
     const [modal, setModal] = useState(false)
     const [confirm, setConfirm] = useState(false)
     const [cancel, setCancel] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const [loadingShare, setLoadingShare] = useState(false)
 
     async function rejectOrder() {
         try {
@@ -32,7 +39,7 @@ export function OrderOptions({ order: orderData, onAction }) {
             const response = await order.acceptOrder(orderData.id)
 
             if (response) {
-                navigate(`/pedido/${order.id}/${response.status}`)
+                navigate(`/pedido/${response.id}/${response.status}`)
             }
 
         } catch (error) {
@@ -60,6 +67,50 @@ export function OrderOptions({ order: orderData, onAction }) {
             }
         } catch (error) {
             console.log(error)
+        }
+    }
+
+
+    async function downloadPDF() {
+        try {
+            setLoading(true)
+            const blob = await order.downloadPDF(orderData.id)
+
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `Pedido de ${orderData.client_name}.pdf`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+        } catch (error) {
+            console.error("Error al descargar el PDF", error);
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    async function shareOnWhatsApp() {
+        try {
+            setLoadingShare(true)
+            const blob = await order.downloadPDF(orderData.id)
+            const file = new File([blob], `Pedido de ${orderData.client_name}.pdf`, { type: 'application/pdf' })
+
+            if (navigator.share) {
+                await navigator.share({
+                    files: [file],
+                    title: `Pedido de ${orderData.client_name}`,
+                    text: `Detalle del pedido de ${orderData.client_name}`
+                })
+            } else {
+                // Fallback para navegadores que no soportan Web Share API
+                const whatsappUrl = `https://wa.me/?text=Detalle del pedido de ${encodeURIComponent(orderData.client_name)}`
+                window.open(whatsappUrl, '_blank')
+            }
+        } catch (error) {
+            console.error("Error al compartir el PDF", error);
+        } finally {
+            setLoadingShare(false)
         }
     }
 
@@ -119,6 +170,24 @@ export function OrderOptions({ order: orderData, onAction }) {
                         <div className="background-modal" onClick={() => setModal(false)}></div>
                     </Modal>
                 }
+            </>
+        )
+    }
+
+    if (orderData.status === 'completed') {
+        return (
+            <>
+                <div className="order-options container-btn">
+                    <button className="btn btn-solid" onClick={downloadPDF} disabled={loading}>
+                        {loading ? <FontAwesomeIcon icon={faCircleNotch} spin /> : 'Descargar detalle'}
+                    </button>
+
+                    {mobile &&
+                        <button className="btn btn-regular" onClick={shareOnWhatsApp} disabled={loadingShare}>
+                            {loadingShare ? <FontAwesomeIcon icon={faCircleNotch} spin /> : 'Compartir en WhatsApp'}
+                        </button>
+                    }
+                </div>
             </>
         )
     }
