@@ -31,23 +31,11 @@ export function AcceptedOrder({ order: orderData }) {
     //     }
     // }
 
-    // async function downloadPDF() {
-    //     try {
-    //         const response = await fetch(`${url}/order/pdf/${orderData.id}?date=${new Date().getTime()}`);
-    //         const blob = await response.blob();
-    //         const link = document.createElement('a');
-    //         link.href = URL.createObjectURL(blob);
-    //         link.download = `Pedido de ${orderData.client_name}.pdf`;
-    //         document.body.appendChild(link);
-    //         link.click();
-    //         document.body.removeChild(link);
-    //     } catch (error) {
-    //         console.error("Error al descargar el PDF", error);
-    //     }
-    // }
 
     const { Order } = api
     const order = new Order()
+
+    const navigate = useNavigate()
 
     const [products, setProducts] = useState(orderData.products)
     const [data, setData] = useState(orderData)
@@ -77,16 +65,6 @@ export function AcceptedOrder({ order: orderData }) {
                 success: 'Se editó correctamente',
                 error: 'Error, no se puedo editar'
             })
-
-            // setOrderData(currentOrder => ({
-            //     ...currentOrder,
-            //     total_amount: currentOrder.products.reduce((total, p) =>
-            //         p.product_id === response.product_id
-            //             ? total + parseFloat(response.subtotal)
-            //             : total + parseFloat(p.subtotal),
-            //         0
-            //     )
-            // }))
 
             return await response
         } else {
