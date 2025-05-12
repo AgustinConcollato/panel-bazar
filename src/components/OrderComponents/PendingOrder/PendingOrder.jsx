@@ -27,9 +27,8 @@ export function PendingOrder({ order }) {
                             <table className="order-product-table" cellSpacing={0}>
                                 <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th>Producto</th>
                                         <th>Cantidad</th>
+                                        <th>Producto</th>
                                         <th>Precio</th>
                                         <th>Total</th>
                                     </tr>
@@ -37,7 +36,7 @@ export function PendingOrder({ order }) {
                                 <tbody>
                                     {products.map((product, i) => (
                                         <tr key={product.product_id}>
-                                            <td>{i + 1}</td>
+                                            <td>{product.quantity}</td>
                                             <td>
                                                 <Link to={`/producto/${product.product_id}`}>
                                                     <img
@@ -48,7 +47,6 @@ export function PendingOrder({ order }) {
                                                     {product.name}
                                                 </Link>
                                             </td>
-                                            <td>{product.quantity}</td>
                                             <td>{product.discount ?
                                                 <>
                                                     <p className="discount">
