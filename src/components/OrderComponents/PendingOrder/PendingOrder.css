@@ -136,3 +136,15 @@
     align-items: center;
     gap: 10px;
 }
+
+@media (max-width: 450px) {
+
+    .order-confirmed {
+        flex-wrap: wrap;
+    }
+    
+    .container-order-product-table {
+        border-left: none;
+        padding-left: 0;
+    }
+}
