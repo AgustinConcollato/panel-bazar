@@ -7,6 +7,9 @@ import './OrderPage.css'
 
 export function OrderPage() {
 
+    const year = new Date().getFullYear()
+    const month = new Date().getMonth() + 1
+
     useEffect(() => {
         document.title = 'Pedidos'
     }, [])
@@ -28,7 +31,7 @@ export function OrderPage() {
                 <Route index element={<OrderList status={'pending'} />} />
                 <Route path='pendientes' element={<OrderList status={'pending'} />} />
                 <Route path='aceptados' element={<OrderList status={'accepted'} />} />
-                <Route path='completados' element={<OrderList status={'completed'} />} />
+                <Route path='completados' element={<OrderList status={'completed'} year={year} month={month} />} />
                 <Route path='rechazados' element={<OrderList status={'rejected'} />} />
                 <Route path='cancelados' element={<OrderList status={'cancelled'} />} />
                 <Route path="*" element={<Navigate to="/panel" replace />} />
