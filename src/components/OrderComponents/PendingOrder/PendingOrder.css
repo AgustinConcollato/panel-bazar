@@ -99,25 +99,25 @@
     text-align: start;
 }
 
-.order-product td {
+.order-product-table td {
     border-bottom: 1px solid #ccc;
     margin-bottom: 5px;
     padding: 5px 0;
     text-align: end;
 }
 
-.order-product td:first-child {
+.order-product-table td:first-child {
     text-align: center;
     padding: 5px 10px 5px 0;
 }
 
-.order-product td a {
+.order-product-table td a {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.order-product td a:hover {
+.order-product-table td a:hover {
     text-decoration: underline;
 }
 
@@ -127,7 +127,7 @@
     width: 60px;
 }
 
-.order-product td .discount {
+.order-product-table td .discount {
     justify-content: end;
 }
 

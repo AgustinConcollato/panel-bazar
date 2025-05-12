@@ -36,7 +36,7 @@ export function PendingOrder({ order }) {
                                 </thead>
                                 <tbody>
                                     {products.map((product, i) => (
-                                        <tr className="order-product" key={product.product_id}>
+                                        <tr key={product.product_id}>
                                             <td>{i + 1}</td>
                                             <td>
                                                 <Link to={`/producto/${product.product_id}`}>
