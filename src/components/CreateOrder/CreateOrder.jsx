@@ -40,7 +40,11 @@ export function CreateOrder() {
     async function getClients() {
         const clients = new Clients()
 
-        setClients(await clients.get())
+        const response = await clients.get({ source: 'dashboard' })
+
+        console.log(response)
+
+        setClients(response)
     }
 
     async function createOrder(e) {
@@ -85,7 +89,7 @@ export function CreateOrder() {
                     {clients ?
                         < Select
                             styles={customStyles}
-                            options={clients.filter(e => e.source == 'dashboard').map(e => ({ value: e.id, label: e.name }))}
+                            options={clients.map(e => ({ value: e.id, label: e.name }))}
                             placeholder="Clientes"
                             onChange={changeSelect}
                             isSearchable
