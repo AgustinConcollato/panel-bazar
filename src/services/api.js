@@ -6,6 +6,7 @@ import { Clients } from "./clientsService"
 import { ShoppingCart } from "./shoppingCartServices"
 import { Address } from "./addressService"
 import { Providers } from "./providersService"
+import { Analytics } from "./analyticsService"
 
 export const api = {
     Products,
@@ -15,7 +16,8 @@ export const api = {
     Clients,
     ShoppingCart,
     Address,
-    Providers
+    Providers,
+    Analytics
 }
 
 // const apiUrl = 'https://api.bazarrshop.com'

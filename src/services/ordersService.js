@@ -22,12 +22,17 @@ export class Order {
         return await response.json()
     }
 
-    async get({ status, clientId, year, month }) {
+    async get({ status, clientId, year, month, page }) {
 
         // Construimos los parámetros de la URL
         const params = new URLSearchParams();
-        params.append("status", status);
 
+        params.append("page", page);
+
+        if (status) {
+            params.append("status", status);
+        }
+        
         if (year) {
             params.append("year", year);
         }
@@ -162,13 +167,18 @@ export class Order {
         return await response.json();
     }
 
-    async getAll(userId) {
+    async downloadPDF(id) {
         try {
-            const response = await fetch(`${url}/user/${userId}`)
-            const orders = await response.json()
-            return orders
+            const response = await fetch(`${url}/pdf/${id}`)
+
+            if (!response.ok) {
+                const error = await response.json()
+                throw error
+            }
+
+            return await response.blob()
         } catch (error) {
-            console.log('error al obtener todos los pedidos', error)
+            throw error
         }
     }
 

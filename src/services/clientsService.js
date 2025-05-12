@@ -4,12 +4,13 @@ export class Clients {
 
     constructor() {
         this.token = localStorage.getItem('authToken')
+        this.url = url
     }
 
-    async get(id = null) {
+    async get({ id = null, source = null }) {
         try {
             if (id) {
-                const response = await fetch(`${url}/${id}`, {
+                const response = await fetch(`${this.url}/${id}`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${this.token}`
@@ -18,12 +19,23 @@ export class Clients {
                 return await response.json()
             }
 
-            const response = await fetch(url, {
+
+            if (source) {
+                this.url = `${this.url}?source=${source}`
+            }
+
+            const response = await fetch(this.url, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${this.token}`
                 }
             })
+
+            if (!response.ok) {
+                const error = await response.json()
+                throw error
+            }
+
             return await response.json()
         } catch (error) {
             console.log(error)
@@ -32,7 +44,7 @@ export class Clients {
 
     async add(data) {
         try {
-            const response = await fetch(`${url}/register`, {
+            const response = await fetch(`${this.url}/register/panel`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${this.token}`
