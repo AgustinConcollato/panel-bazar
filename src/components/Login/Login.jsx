@@ -1,29 +1,26 @@
-import { useEffect, useState } from 'react'
-import { api, url } from '../../services/api'
-import './login.css'
+import { useContext, useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom'
+import { AuthContext } from '../../context/AuthContext'
+import './login.css'
+import { Loading } from '../Loading/Loading'
 
 export function Login() {
+
+    const { user, login } = useContext(AuthContext)
+
     const [password, setPassword] = useState('')
     const [error, setError] = useState(null)
-    const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('authToken'))
-
-    const { Auth } = api
+    const [userStatus, setUserStatus] = useState(null)
 
     async function submitLogin(e) {
         e.preventDefault()
-        const auth = new Auth()
 
         try {
-            const response = await auth.login(password)
+            const user = await login(password)
 
-            if (response.token) {
-                localStorage.setItem('authToken', response.token)
-                setIsAuthenticated(true)
-            } else {
-                console.error('Error de login:', response);
+            if (user) {
+                window.location.href = '/panel'
             }
-
         } catch (error) {
             setError('Contraseña incorrecta')
         }
@@ -43,20 +40,26 @@ export function Login() {
     //     register()
     // }, [])
 
-    return isAuthenticated ?
-        <Navigate to="/" replace /> :
-        <section className='login'>
-            <form onSubmit={submitLogin}>
-                <h2>Iniciar sesión</h2>
-                <input
-                    className='input'
-                    type="text"
-                    placeholder='Contraseña'
-                    onChange={({ target }) => setPassword(target.value)}
-                    required
-                />
-                <button className='btn btn-solid' type="submit">Ingresar</button>
-            </form>
-            {error && <p className='error'>{error}</p>}
-        </section>
+    useEffect(() => {
+        setUserStatus(user)
+    }, [user])
+
+    return !userStatus ?
+        <Loading /> :
+        userStatus.user ?
+            <Navigate to="/panel" replace /> :
+            <section className='login'>
+                <form onSubmit={submitLogin}>
+                    <h2>Iniciar sesión</h2>
+                    <input
+                        className='input'
+                        type="text"
+                        placeholder='Contraseña'
+                        onChange={({ target }) => setPassword(target.value)}
+                        required
+                    />
+                    <button className='btn btn-solid' type="submit">Ingresar</button>
+                </form>
+                {error && <p className='error'>{error}</p>}
+            </section>
 }
