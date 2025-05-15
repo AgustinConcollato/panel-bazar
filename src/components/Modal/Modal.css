@@ -35,10 +35,3 @@
 /* .container-children p {
     margin-bottom: 20px;
 } */
-
-@media (max-width: 450px) {
-    .container-children {
-        transform: translateX(-8px);
-    }
-
-}

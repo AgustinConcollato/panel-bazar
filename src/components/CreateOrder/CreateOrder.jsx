@@ -42,8 +42,6 @@ export function CreateOrder() {
 
         const response = await clients.get({ source: 'dashboard' })
 
-        console.log(response)
-
         setClients(response)
     }
 

@@ -1,28 +1,25 @@
 import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { api } from '../../services/api'
-import { ContainerTruck01Icon, DeliveryBox01Icon, Home09Icon, Task02Icon, UserGroupIcon } from 'hugeicons-react'
 import { useState } from 'react'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
+import { ClientIcon, HomeIcon, OrderIcon, ProductIcon, ProviderIcon, WalletIcon } from '../../icons/icons'
+import { api } from '../../services/api'
 import './NavBar.css'
 
 export function NavBar() {
 
-    const navigate = useNavigate()
     const [hidden, setHidden] = useState(true)
 
     async function logout() {
 
-        const token = localStorage.getItem('authToken')
-
         const { Auth } = api
         const auth = new Auth()
 
-        const response = await auth.logout(token)
+        const response = await auth.logout()
 
         if (response) {
             localStorage.removeItem('authToken')
-            navigate('/ingresar')
+            window.location.href = '/ingresar'
         }
     }
 
@@ -39,8 +36,9 @@ export function NavBar() {
                 <ul onClick={() => !hidden && setHidden(true)}>
                     <li>
                         <NavLink to={'/panel'}>
-                            <Home09Icon
-                                size={18}
+                            <HomeIcon
+                                width={18}
+                                height={18}
                                 color='#000'
                             />
                             Inicio
@@ -48,8 +46,9 @@ export function NavBar() {
                     </li>
                     <li>
                         <NavLink to={'/pedidos'}>
-                            <Task02Icon
-                                size={18}
+                            <OrderIcon
+                                width={18}
+                                height={18}
                                 color='#000'
                             />
                             Pedidos
@@ -57,8 +56,9 @@ export function NavBar() {
                     </li>
                     <li>
                         <NavLink to={'/productos'}>
-                            <DeliveryBox01Icon
-                                size={18}
+                            <ProductIcon
+                                width={18}
+                                height={18}
                                 color='#000'
                             />
                             Productos
@@ -66,8 +66,9 @@ export function NavBar() {
                     </li>
                     <li>
                         <NavLink to={'/clientes'}>
-                            <UserGroupIcon
-                                size={18}
+                            <ClientIcon
+                                width={18}
+                                height={18}
                                 color='#000'
                             />
                             Clientes
@@ -75,11 +76,22 @@ export function NavBar() {
                     </li>
                     <li>
                         <NavLink to={'/proveedores'}>
-                            <ContainerTruck01Icon
-                                size={18}
+                            <ProviderIcon
+                                width={18}
+                                height={18}
                                 color='#000'
                             />
                             Proveedores
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to={'/caja'}>
+                            <WalletIcon
+                                width={18}
+                                height={18}
+                                color='#000'
+                            />
+                            Caja
                         </NavLink>
                     </li>
                     {/* {!hidden && <li><button onClick={() => {
