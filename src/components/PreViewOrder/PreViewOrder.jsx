@@ -1,3 +1,5 @@
+import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import { formatDate } from "../../utils/formatDate";
 import { OrderOptions } from "../OrderOptions/OrderOptions";
@@ -31,13 +33,13 @@ export function PreViewOrder({ order, setOrders }) {
                 </div>
                 <div className="prices">
                     <div>
-                        <span>Descuento</span>
+                        <h4>Descuento</h4>
                         <p>{order.discount || 0}%</p>
                     </div>
                     <div>
                         {order.discount && (
                             <>
-                                <span>Precio con descuento</span>
+                                <h4>Precio con descuento</h4>
                                 <p>
                                     ${order.total_amount - (order.total_amount * order.discount) / 100}
                                 </p>
@@ -46,13 +48,14 @@ export function PreViewOrder({ order, setOrders }) {
                     </div>
                 </div>
                 <div>
-                    <span>Métodos de pago</span>
+                    <h4>Métodos de pago</h4>
                     {order.payments.length > 0 ?
                         order.payments.map((e) =>
-                            <p>
-                                {e.method === 'transfer' && `Transferencia - $${e.expected_amount}`}
-                                {e.method === 'cash' && `Efectivo - $${e.expected_amount}`}
-                                {e.method === 'check' && `Cheque - $${e.expected_amount}`}
+                            <p className="payment-method">
+                                {e.method === 'transfer' && <p>Transferencia <span> ${e.expected_amount} {e.paid_at && <FontAwesomeIcon icon={faCircleCheck} color="#66b819" />}</span></p>}
+                                {e.method === 'cash' && <p>Efectivo <span> ${e.expected_amount} {e.paid_at && <FontAwesomeIcon icon={faCircleCheck} color="#66b819" />}  </span></p>}
+                                {e.method === 'check' && <p>Cheque <span> ${e.expected_amount} {e.paid_at && <FontAwesomeIcon icon={faCircleCheck} color="#66b819" />}  </span></p>}
+
                             </p>
                         ) :
                         <p>
@@ -63,7 +66,7 @@ export function PreViewOrder({ order, setOrders }) {
                 <div className="pre-view-order-comment">
                     {order.comment &&
                         <>
-                            <span>Comentario</span>
+                            <h4>Comentario</h4>
                             <p>{order.comment}</p>
                         </>
                     }
