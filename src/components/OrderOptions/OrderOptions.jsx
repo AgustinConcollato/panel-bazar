@@ -38,10 +38,9 @@ export function OrderOptions({ order: orderData, onAction }) {
         try {
             const response = await order.acceptOrder(orderData.id)
 
-            if (response) {
-                navigate(`/pedido/${response.id}/${response.status}`)
+            if (response.status == 'accepted') {
+                window.location.href = `/pedido/${orderData.id}/${response.status}`
             }
-
         } catch (error) {
             console.log(error)
         }
@@ -113,6 +112,7 @@ export function OrderOptions({ order: orderData, onAction }) {
             setLoadingShare(false)
         }
     }
+
 
     useEffect(() => {
         const handleKeyUp = (e) => {
