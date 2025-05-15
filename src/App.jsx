@@ -1,56 +1,66 @@
+import { useContext, useEffect, useState } from 'react'
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
 import './App.css'
 import { AddClient } from './components/AddClient/AddClient'
 import { AddProduct } from './components/AddProduct/AddProduct'
+import { AddProvider } from './components/AddProvider/AddProvider'
 import { NavBar } from './components/NavBar/NavBar'
 import { Order } from './components/OrderComponents/Order/Order'
 import { ProductDetail } from './components/Product/ProductDetail/ProductDetail'
-import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute'
+import { Search } from './components/Search/Search'
 import { Shortcuts } from './components/Shortcuts/Shortcuts'
+import { AuthContext } from './context/AuthContext'
 import { ClientsPage } from './pages/ClientsPage'
+import { MonthlyOverviewPage } from './pages/MonthlyOverviewPage/MonthlyOverviewPage'
 import { OrderPage } from './pages/OrderPage/OrderPage'
 import { ProductsPage } from './pages/ProductsPage/ProductsPage'
 import { ProviderPage } from './pages/ProviderPage/ProviderPage'
-import { Search } from './components/Search/Search'
-import { AddProvider } from './components/AddProvider/AddProvider'
 import { SearchResultsPage } from './pages/SearchResultsPage'
-import { MonthlyOverviewPage } from './pages/MonthlyOverviewPage/MonthlyOverviewPage'
-
-function ProtectedLayout({ isAuthenticated }) {
-  return (
-    <ProtectedRoute isAuthenticated={isAuthenticated}>
-      <Outlet />
-    </ProtectedRoute>
-  );
-}
+import { Loading } from './components/Loading/Loading'
 
 function App() {
-  const isAuthenticated = !!localStorage.getItem('authToken')
+  const { user } = useContext(AuthContext)
+
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+
+  useEffect(() => {
+    setIsAuthenticated(user)
+  }, [user])
+
   return (
     <>
-      <NavBar />
-      <header>
-        <Search />
-      </header>
-      <main>
-        <Routes>
-          <Route element={<ProtectedLayout isAuthenticated={isAuthenticated} />}>
-            <Route path='/panel' element={<Shortcuts />} />
-            <Route path='/productos' element={<ProductsPage />} />
-            <Route path='/producto/:id' element={<ProductDetail />} />
-            <Route path='/agregar-producto' element={<AddProduct />} />
-            <Route path='/agregar-cliente' element={<AddClient />} />
-            <Route path='/pedidos/*' element={<OrderPage />} />
-            <Route path='/pedido/:id/*' element={<Order />} />
-            <Route path='/clientes' element={<ClientsPage />} />
-            <Route path='/proveedores/*' element={<ProviderPage />} />
-            <Route path='/agregar-proveedor' element={<AddProvider />} />
-            <Route path='/resumen-mensual' element={<MonthlyOverviewPage />} />
-            <Route path='/buscador/:productName' element={<SearchResultsPage />} />
-            <Route path="*" element={<Navigate to="/panel" replace />} />
-          </Route>
-        </Routes>
-      </main>
+      {isAuthenticated ?
+        isAuthenticated.user ?
+          <>
+            <NavBar />
+            <header>
+              <Search />
+            </header>
+            <main>
+              <Routes>
+                <Route path='/panel' element={<Shortcuts />} />
+                <Route path='/productos' element={<ProductsPage />} />
+                <Route path='/producto/:id' element={<ProductDetail />} />
+                <Route path='/agregar-producto' element={<AddProduct />} />
+                <Route path='/agregar-cliente' element={<AddClient />} />
+                <Route path='/pedidos/*' element={<OrderPage />} />
+                <Route path='/pedido/:id/*' element={<Order />} />
+                <Route path='/clientes' element={<ClientsPage />} />
+                <Route path='/proveedores/*' element={<ProviderPage />} />
+                <Route path='/agregar-proveedor' element={<AddProvider />} />
+                <Route path='/resumen-mensual' element={<MonthlyOverviewPage />} />
+                <Route path='/buscador/:productName' element={<SearchResultsPage />} />
+                <Route path="*" element={<Navigate to="/panel" replace />} />
+              </Routes>
+            </main>
+          </> :
+          <Routes>
+            <Route path="*" element={<Navigate to="/ingresar" replace />} />
+          </Routes> :
+        <div>
+          <Loading />
+        </div>
+      }
     </>
   )
 }
