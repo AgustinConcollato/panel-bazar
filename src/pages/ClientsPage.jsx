@@ -13,7 +13,7 @@ export function ClientsPage() {
         const clients = new Clients()
 
         try {
-            const response = await clients.get()
+            const response = await clients.get({source: null})
             setClients(response)
         } catch (error) {
             console.log(error)
