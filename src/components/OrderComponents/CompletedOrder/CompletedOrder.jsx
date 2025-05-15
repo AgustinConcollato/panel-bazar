@@ -1,11 +1,10 @@
+import { faCircleCheck, faCircleExclamation, faCircleNotch } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useEffect, useState } from 'react'
 import { Payments } from '../../../services/paymentsServices'
+import { Modal } from '../../Modal/Modal'
 import { OrderDetail } from '../OrderDetail/OrderDetail'
 import './CompletedOrder.css'
-import { Loading } from '../../Loading/Loading'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleCheck, faCircleExclamation, faCircleNotch } from '@fortawesome/free-solid-svg-icons'
-import { Modal } from '../../Modal/Modal'
 
 export function CompletedOrder({ order }) {
 
@@ -41,24 +40,30 @@ export function CompletedOrder({ order }) {
             <OrderDetail order={order} />
             <div className='order-payments'>
                 <h2>Pagos</h2>
-                <ul>
-                    {payments.map(payment => (
-                        <li onClick={() => !payment.paid_at ? setConfirmPayment(payment) : null}>
-                            <p>
-                                {payment.method == 'transfer' ? 'Transferencia' : payment.method == 'cash' ? 'Efectivo' : 'Cheque'}
-                                <b>${payment.expected_amount}</b>
-                            </p>
-                            {!payment.paid_at ?
-                                <>
-                                    <p>Pendiente <FontAwesomeIcon icon={faCircleExclamation} color="#ff8800" /></p>
-                                    <span> Confirmar pago </span>
-                                </>
-                                :
-                                <p>Pagado <FontAwesomeIcon icon={faCircleCheck} color="#66b819" /></p>
-                            }
-                        </li>
-                    ))}
-                </ul>
+                {payments.length > 0 ?
+                    <ul>
+                        {payments.map(payment => (
+                            <li onClick={() => !payment.paid_at ? setConfirmPayment(payment) : null}>
+                                <p>
+                                    {payment.method == 'transfer' ? 'Transferencia' : payment.method == 'cash' ? 'Efectivo' : 'Cheque'}
+                                    <b>${payment.expected_amount}</b>
+                                </p>
+                                {!payment.paid_at ?
+                                    <>
+                                        <p>Pendiente <FontAwesomeIcon icon={faCircleExclamation} color="#ff8800" /></p>
+                                        <span> Confirmar pago </span>
+                                    </>
+                                    :
+                                    <p>Pagado <FontAwesomeIcon icon={faCircleCheck} color="#66b819" /></p>
+                                }
+                            </li>
+                        ))}
+                    </ul> :
+                    <div className='order-payments-empty'>
+                        <p>No hay pagos</p>
+                        <button className='btn btn-regular'>Agregar pago</button>
+                    </div>
+                }
             </div>
             {confirmPayment &&
                 <Modal>
