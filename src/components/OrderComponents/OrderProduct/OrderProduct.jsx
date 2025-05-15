@@ -73,36 +73,53 @@ export function OrderProduct({
 
             {edit &&
                 <Modal>
-                    <form className='edit-order-product container-children'>
-                        <h2>Editar {product.name}</h2>
-                        <input
-                            className='input'
-                            type="number"
-                            placeholder='Precio'
-                            name='price'
-                            value={price}
-                            onChange={(e) => handleEditChange('price', e.target.value)}
-                        />
-                        <input
-                            className='input'
-                            type="number"
-                            placeholder='Cantidad'
-                            name='quantity'
-                            value={quantity}
-                            onChange={(e) => handleEditChange('quantity', e.target.value)}
-                        />
-                        <input
-                            className='input'
-                            type="number"
-                            placeholder='Descuento'
-                            name='discount'
-                            value={discount}
-                            onChange={(e) => handleEditChange('discount', e.target.value)}
-                        />
-                        <button type="submit" className="btn btn-solid" onClick={saveChange} >Guardar cambios</button>
-                        <button type="button" className="btn" onClick={() => setEdit(null)}>Cancelar</button>
-                        <button type='button' className='btn btn-error-regular' onClick={() => removeProductOrder(product.product_id)}>Eliminar del pedido</button>
-                    </form>
+                    <section className="section-form container-children">
+                        <form className='edit-order-product'>
+                            <h2>Editar {product.name}</h2>
+                            <div>
+                                <div>
+                                    <p>Precio</p>
+                                    <input
+                                        className='input'
+                                        type="number"
+                                        placeholder='Precio'
+                                        name='price'
+                                        value={price}
+                                        onChange={(e) => handleEditChange('price', e.target.value)}
+                                    />
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <p>Cantidad</p>
+                                    <input
+                                        className='input'
+                                        type="number"
+                                        placeholder='Cantidad'
+                                        name='quantity'
+                                        value={quantity}
+                                        onChange={(e) => handleEditChange('quantity', e.target.value)}
+                                    />
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <p>Descuento</p>
+                                    <input
+                                        className='input'
+                                        type="number"
+                                        placeholder='Descuento'
+                                        name='discount'
+                                        value={discount}
+                                        onChange={(e) => handleEditChange('discount', e.target.value)}
+                                    />
+                                </div>
+                            </div>
+                            <button type="submit" className="btn btn-solid" onClick={saveChange} >Guardar cambios</button>
+                            <button type="button" className="btn" onClick={() => setEdit(null)}>Cancelar</button>
+                            <button type='button' className='btn btn-error-regular' onClick={() => removeProductOrder(product.product_id)}>Eliminar del pedido</button>
+                        </form>
+                    </section>
                     <div className="background-modal" onClick={() => setEdit(null)}></div>
                 </Modal>
             }

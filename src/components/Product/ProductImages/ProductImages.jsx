@@ -1,10 +1,10 @@
-import { ImageAdd01Icon } from "hugeicons-react"
-import { useState } from "react"
-import { api, urlStorage } from "../../../services/api"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faXmark } from "@fortawesome/free-solid-svg-icons"
-import { toast } from "react-toastify"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { useState } from "react"
 import { useParams } from "react-router-dom"
+import { toast } from "react-toastify"
+import { AddImageIcon } from "../../../icons/icons"
+import { api, urlStorage } from "../../../services/api"
 import './ProductImages.css'
 
 export function ProductImages({ images, thumbnails, setImages, setThumbnails, handleEdit, position, setPosition }) {
@@ -59,8 +59,10 @@ export function ProductImages({ images, thumbnails, setImages, setThumbnails, ha
                 {images.length <= 4 &&
                     <form onSubmit={addNewImage} className="form-add-image">
                         <span>
-                            <ImageAdd01Icon
-                                size={32}
+                            <AddImageIcon
+                                width={32}
+                                height={32}
+                                color={"#636363"}
                             />
                             Nueva foto
                         </span>

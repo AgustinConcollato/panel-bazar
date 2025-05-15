@@ -1,11 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { AppDataContext } from "../../../context/AppDataContext";
-import { url, api } from "../../../services/api";
+import { AngleDownIcon } from "../../../icons/icons";
+import { api, url } from "../../../services/api";
 import { Loading } from "../../Loading/Loading";
 import { Modal } from "../../Modal/Modal";
-import { ArrowDown01Icon } from "hugeicons-react";
-import './ProductProviders.css'
+import './ProductProviders.css';
 
 export function Providers({ currentProviders }) {
 
@@ -183,7 +183,7 @@ export function Providers({ currentProviders }) {
                                                 </div>
                                                 {hasPrice &&
                                                     <div className="delete-provider">
-                                                        <p onClick={() => setBtnHidden(!btnHidden)}>Eliminar relación con "{provider.name}" <ArrowDown01Icon size={18} /> </p>
+                                                        <p onClick={() => setBtnHidden(!btnHidden)}>Eliminar relación con "{provider.name}" <AngleDownIcon width={18} height={18} color={'#000'} /> </p>
                                                         {!btnHidden &&
                                                             <button
                                                                 type="button"

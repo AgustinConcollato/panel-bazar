@@ -1,5 +1,5 @@
-import { ContainerTruck01Icon, DropboxIcon, UserAdd02Icon } from 'hugeicons-react';
 import { Link } from 'react-router-dom';
+import { AddClientIcon, AddProductIcon, ProviderIcon } from '../../icons/icons';
 import './Shortcuts.css';
 
 export function Shortcuts() {
@@ -18,30 +18,30 @@ export function Shortcuts() {
                 </Link> */}
                 <Link to={'/agregar-producto'}>
                     <div className='shortcut-icon'>
-                        <DropboxIcon
-                            size={24}
+                        <AddProductIcon
+                            width={24}
+                            height={24}
                             color={"#000"}
-                            variant={"stroke"}
                         />
                     </div>
                     <p>Cargar producto</p>
                 </Link>
                 <Link to={'/agregar-cliente'}>
                     <div className='shortcut-icon'>
-                        <UserAdd02Icon
-                            size={24}
+                        <AddClientIcon
+                            width={24}
+                            height={24}
                             color={"#000"}
-                            variant={"stroke"}
                         />
                     </div>
                     <p>Nuevo cliente</p>
                 </Link>
                 <Link to={'/agregar-proveedor'}>
                     <div className='shortcut-icon'>
-                        <ContainerTruck01Icon
-                            size={24}
+                        <ProviderIcon
+                            width={24}
+                            height={24}
                             color={"#000"}
-                            variant={"stroke"}
                         />
                     </div>
                     <p>Agregar proveedor</p>

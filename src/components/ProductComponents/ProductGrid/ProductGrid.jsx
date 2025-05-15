@@ -1,4 +1,3 @@
-import { ArrowRight04Icon, ArrowRightDoubleIcon } from 'hugeicons-react'
 import { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { AppDataContext } from '../../../context/AppDataContext'
@@ -6,6 +5,7 @@ import { urlStorage } from '../../../services/api'
 import { EditField } from '../../EditField/EditField'
 import { Modal } from '../../Modal/Modal'
 import './ProductGrid.css'
+import { AngleRightDoubleIcon, ArrowRightIcon } from '../../../icons/icons'
 
 export function ProductGrid({ data, updateProduct }) {
 
@@ -104,7 +104,11 @@ export function ProductGrid({ data, updateProduct }) {
                                         .map((e, index) =>
                                             <li key={index}>
                                                 <span>{e.name}</span>
-                                                <ArrowRight04Icon />
+                                                <ArrowRightIcon
+                                                    width={24}
+                                                    height={24}
+                                                    color={'#000'}
+                                                />
                                                 ${parseFloat(e.pivot.purchase_price)}
                                             </li>
                                         )}
@@ -124,9 +128,17 @@ export function ProductGrid({ data, updateProduct }) {
                         <span>No tiene descuento</span> :
                         <span>
                             <pre>{product.discount}%</pre>
-                            <ArrowRight04Icon />
+                            <ArrowRightIcon
+                                width={24}
+                                height={24}
+                                color={'#000'}
+                            />
                             <pre> ${(product.discount * product.price) / 100}</pre>
-                            <ArrowRight04Icon />
+                            <ArrowRightIcon
+                                width={24}
+                                height={24}
+                                color={'#000'}
+                            />
                             <pre> ${product.price - (product.discount * product.price) / 100}</pre>
                         </span>
                     }
@@ -135,7 +147,14 @@ export function ProductGrid({ data, updateProduct }) {
                     <p>Stock</p>
                     <span onClick={() => handleEdit('available_quantity')}> <span>Cambiar</span>{product.available_quantity}</span>
                 </div>
-                <Link to={'/producto/' + product.id}> <span>Ver detalle</span> <ArrowRightDoubleIcon /> </Link>
+                <Link to={'/producto/' + product.id}>
+                    <span>Ver detalle</span>
+                    <AngleRightDoubleIcon
+                        width={24}
+                        height={24}
+                        color={'#000'}
+                    />
+                </Link>
             </div>
             {editField &&
                 <Modal>
