@@ -1,6 +1,6 @@
-import { Image01Icon, ImageDownloadIcon } from 'hugeicons-react'
 import { useRef, useState } from 'react'
 import './DragAndDrop.css'
+import { ImageDownloadIcon, ImageIcon } from '../../icons/icons'
 
 export function DragAndDrop({ setImages }) {
     const [dragging, setDragging] = useState(false)
@@ -81,13 +81,16 @@ export function DragAndDrop({ setImages }) {
             <span>{dragging ?
                 <div>
                     <ImageDownloadIcon
-                        size={64}
+                        width={64}
+                        height={64}
                     />
                     Soltar Imagen/es
                 </div> :
                 <div>
-                    <Image01Icon
-                        size={64}
+                    <ImageIcon
+                        width={64}
+                        height={64}
+                        color={"#000"}
                     />
                     ¡Click o arrastrar la imagen acá!
                 </div>}
