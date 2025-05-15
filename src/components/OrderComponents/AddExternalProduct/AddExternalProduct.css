@@ -1,0 +1,11 @@
+.btn-add-external-product {
+    font-size: 14px;
+    width: 100%;
+    max-width: 200px;
+}
+
+@media (max-width: 450px) {
+    .btn-add-external-product {
+        max-width: 100%;
+    }
+}
