@@ -4,7 +4,7 @@ import { formatDate } from "../../../utils/formatDate";
 
 export function OrderDetail({ order }) {
 
-    const address = JSON.parse(order.address);
+    const address = order.address ? JSON.parse(order.address) : null;
 
     const navigate = useNavigate()
 
@@ -15,7 +15,7 @@ export function OrderDetail({ order }) {
                 <li>Código<b>{order.id}</b></li>
                 <li>Fecha<b>{formatDate(order.created_at)}</b></li>
             </ul>
-            {
+            {address ?
                 address.transport ?
                     <ul>
                         <li>Retirar
@@ -37,7 +37,14 @@ export function OrderDetail({ order }) {
                                 <span>{address.city}, {address.province}</span>
                             </p>
                         </li>
-                    </ul>
+                    </ul> :
+                <ul>
+                    <li>Enviar
+                        <p>
+                            <b>No hay dirección asignada</b>
+                        </p>
+                    </li>
+                </ul>
             }
             {order.status !== 'completed' &&
                 <ul>
