@@ -66,12 +66,7 @@ export function OrderSearch({ orderId, setOrderProducts, setOrderData }) {
             })
 
             setOrderProducts(current => [...current, product])
-
-            // setOrderData(current => ({
-            //     ...current,
-            //     total_amount: parseFloat(current.total_amount) + product.subtotal
-            // }));
-
+            
             setName('')
             setSelected(false)
 
@@ -147,16 +142,14 @@ export function OrderSearch({ orderId, setOrderProducts, setOrderData }) {
 
     return (
         <div className="order-search">
-            <div>
-                <input
-                    type="search"
-                    ref={inputRef}
-                    placeholder="Buscar producto por nombre"
-                    className="input"
-                    onChange={(e) => setName(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                />
-            </div>
+            <input
+                type="search"
+                ref={inputRef}
+                placeholder="Buscar producto por nombre"
+                className="input"
+                onChange={(e) => setName(e.target.value)}
+                onKeyDown={handleKeyDown}
+            />
             {name && hidden &&
                 <ul className="results">
                     {productList ?
