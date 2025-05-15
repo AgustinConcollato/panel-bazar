@@ -12,12 +12,12 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    color: #000;
     font-family: 'Rubik';
 }
 
 a {
     text-decoration: none;
+    color: #000;
 }
 
 ul {
