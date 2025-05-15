@@ -10,12 +10,7 @@
 .order-header {
     display: flex;
     gap: 20px;
-}
-
-.order-header .btn {
-    width: 300px;
-    font-size: 14px;
-    cursor: not-allowed;
+    align-items: stretch;
 }
 
 .order-info {
@@ -125,5 +120,21 @@
 @media (max-width: 450px) {
     .order {
         flex-wrap: wrap;
+    }
+
+    .order-detail {
+        width: 100%;
+        min-width: 100%;
+        max-height: 100%;
+        overflow: hidden;
+    }
+
+    .order-detail-list .name {
+        width: 100%;
+        max-width: 150px;
+    }
+
+    .order-header {
+        flex-wrap: wrap-reverse;
     }
 }

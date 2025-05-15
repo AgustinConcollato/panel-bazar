@@ -7,25 +7,9 @@ import { OrderOptions } from '../../OrderOptions/OrderOptions'
 import { OrderProduct } from '../OrderProduct/OrderProduct'
 import { OrderSearch } from '../OrderSearch/OrderSearch'
 import './AcceptedOrder.css'
+import { AddExternalProduct } from '../AddExternalProduct/AddExternalProduct'
 
 export function AcceptedOrder({ order: orderData }) {
-
-    // const mobile = usePlatform()
-
-    // const [remit, setRemit] = useState(null)
-    // const [loadingRemit, setLoadingRemit] = useState(false)
-
-
-    // async function generateRemit() {
-    //     setLoadingRemit(true)
-    //     try {
-    //         setRemit(await order.remit(orderData))
-    //         setLoadingRemit(false)
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
-
 
     const { Order } = api
     const order = new Order()
@@ -95,7 +79,10 @@ export function AcceptedOrder({ order: orderData }) {
                         setOrderProducts={setProducts}
                         setOrderData={() => { }}
                     />
-                    <button className='btn'>Cargar producto externo</button>
+                    <AddExternalProduct
+                        orderId={orderData.id}
+                        setOrderProducts={setProducts}
+                    />
                 </div>
                 <div className='order-products'>
                     {products.length > 0 ?
