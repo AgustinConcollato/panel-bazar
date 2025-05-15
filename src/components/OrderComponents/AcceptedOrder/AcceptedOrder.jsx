@@ -1,17 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { toast } from 'react-toastify'
-import { Modal } from '../../Modal/Modal'
-import { usePlatform } from '../../../hooks/usePlatform'
-import { TableIcon } from "hugeicons-react"
+import { api } from '../../../services/api'
 import { Loading } from '../../Loading/Loading'
+import { OrderOptions } from '../../OrderOptions/OrderOptions'
 import { OrderProduct } from '../OrderProduct/OrderProduct'
 import { OrderSearch } from '../OrderSearch/OrderSearch'
-import { api } from '../../../services/api'
 import './AcceptedOrder.css'
-import { OrderOptions } from '../../OrderOptions/OrderOptions'
 
 export function AcceptedOrder({ order: orderData }) {
 

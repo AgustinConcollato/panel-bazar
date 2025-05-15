@@ -4,7 +4,8 @@ import { ToastContainer } from 'react-toastify'
 import { api } from "../../../services/api"
 import { Loading } from "../../Loading/Loading"
 import { AcceptedOrder } from "../AcceptedOrder/AcceptedOrder"
-import { PendingOrder } from "../PendingOrder/PendingOrder"
+import { CompletedOrder } from "../CompletedOrder/CompletedOrder"
+import { OrderPending } from "../OrderPending/OrderPending"
 import './Order.css'
 
 export function Order() {
@@ -39,11 +40,10 @@ export function Order() {
     return (
         <>
             <Routes>
-                <Route path="pending" element={<PendingOrder order={order} />} />
+                <Route path="pending" element={<OrderPending order={order} />} />
                 <Route path="accepted" element={<AcceptedOrder order={order} />} />
-                <Route path="completed" element={'completado'} />
+                <Route path="completed" element={<CompletedOrder order={order} />} />
                 <Route path="canceled" element={'cancelado'} />
-                <Route path="assemble" element={'armando'} />
                 <Route path="*" element={<Navigate to="/pedidos" replace />} />
             </Routes>
             <ToastContainer
