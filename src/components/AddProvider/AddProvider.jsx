@@ -2,7 +2,7 @@ import { useState } from 'react'
 import './AddProvider.css'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { Providers } from '../../services/ProvidersService'
+import { Providers } from '../../services/providersService'
 
 
 export function AddProvider() {

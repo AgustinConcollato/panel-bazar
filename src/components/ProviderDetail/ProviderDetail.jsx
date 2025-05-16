@@ -1,5 +1,5 @@
 import { Link, useParams, useSearchParams } from "react-router-dom";
-import { Providers } from "../../services/ProvidersService";
+import { Providers } from "../../services/providersService";
 import { useEffect, useState } from "react";
 import { ProductList } from "../ProductComponents/ProductList/ProductList";
 import './ProviderDetail.css';
