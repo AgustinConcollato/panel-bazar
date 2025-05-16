@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
-import { Loading } from "../components/Loading/Loading"
+import { Loading } from "../../components/Loading/Loading"
 import { Link } from "react-router-dom"
-import { ClientList } from "../components/ClientList/ClientList"
-import { api } from "../services/api"
+import { ClientList } from "../../components/ClientList/ClientList"
+import { api } from "../../services/api"
 
 export function ClientsPage() {
 
