@@ -24,7 +24,7 @@ export function AddClient() {
                 error: 'Error, no se puedo agregar'
             })
 
-            if (response.status == 'success') {
+            if (response) {
                 e.target.reset()
             }
 
