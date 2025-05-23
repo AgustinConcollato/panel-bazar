@@ -52,13 +52,13 @@ export function OrderPending({ order }) {
                                                 <>
                                                     <p className="discount">
                                                         <span>-{product.discount}%</span>
-                                                        <p className="price">${parseFloat(product.price)}</p>
+                                                        <p className="price">${parseFloat(product.price).toLocaleString('es-AR', { maximumFractionDigits: 2 })}</p>
                                                     </p>
-                                                    <p>${parseFloat(product.price - (product.discount * product.price) / 100)}</p>
+                                                    <p>${parseFloat(product.price - (product.discount * product.price) / 100).toLocaleString('es-AR', { maximumFractionDigits: 2 })}</p>
                                                 </> :
-                                                <p>${parseFloat(product.price)}</p>
+                                                <p>${parseFloat(product.price).toLocaleString('es-AR', { maximumFractionDigits: 2 })}</p>
                                             }</td>
-                                            <td>${parseFloat(product.subtotal)}</td>
+                                            <td>${parseFloat(product.subtotal).toLocaleString('es-AR', { maximumFractionDigits: 2 })}</td>
                                         </tr>
                                     ))}
                                 </tbody>

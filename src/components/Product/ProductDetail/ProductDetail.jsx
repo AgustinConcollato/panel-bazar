@@ -201,7 +201,7 @@ export function ProductDetail() {
                     <div className="info-product">
                         <ul>
                             <li onClick={() => handleEdit('available_quantity')}><span>Stock <FontAwesomeIcon icon={faPenToSquare} /></span><b>{product.available_quantity}</b></li>
-                            <li onClick={() => handleEdit('price')}><span>Precio venta <FontAwesomeIcon icon={faPenToSquare} /></span><b>${product.price}</b></li>
+                            <li onClick={() => handleEdit('price')}><span>Precio venta <FontAwesomeIcon icon={faPenToSquare} /></span><b>${parseFloat(product.price).toLocaleString('es-AR', { maximumFractionDigits: 2})}</b></li>
                             <li onClick={() => handleEdit('discount')}><span>Descuento <FontAwesomeIcon icon={faPenToSquare} /></span><b>{product.discount || 0}%</b></li>
                             <li onClick={() => handleEdit('category_code')}><span>Categoría <FontAwesomeIcon icon={faPenToSquare} /></span><b>{categories && categories.find(e => e.code === product.category_code)?.name}</b></li>
                             <li onClick={() => handleEdit('subcategory_code')}><span>Subcategorías <FontAwesomeIcon icon={faPenToSquare} /></span><b>{subcategories.join(' - ')}</b></li>

@@ -16,7 +16,7 @@ export function PreViewOrder({ order, setOrders }) {
                 </div>
                 <div className="prices">
                     <div>
-                        <h3 className="title">${order.total_amount}</h3>
+                        <h3 className="title">${parseFloat(order.total_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })}</h3>
                     </div>
                     <div>
                         {order.status === "completed" ?
@@ -41,7 +41,7 @@ export function PreViewOrder({ order, setOrders }) {
                             <>
                                 <h4>Precio con descuento</h4>
                                 <p>
-                                    ${order.total_amount - (order.total_amount * order.discount) / 100}
+                                    ${parseFloat(order.total_amount - (order.total_amount * order.discount) / 100).toLocaleString('es-AR', { maximumFractionDigits: 2 })}
                                 </p>
                             </>
                         )}
@@ -52,9 +52,9 @@ export function PreViewOrder({ order, setOrders }) {
                     {order.payments.length > 0 ?
                         order.payments.map((e) =>
                             <p className="payment-method">
-                                {e.method === 'transfer' && <p>Transferencia <span> ${e.expected_amount} {e.paid_at && <FontAwesomeIcon icon={faCircleCheck} color="#66b819" />}</span></p>}
-                                {e.method === 'cash' && <p>Efectivo <span> ${e.expected_amount} {e.paid_at && <FontAwesomeIcon icon={faCircleCheck} color="#66b819" />}  </span></p>}
-                                {e.method === 'check' && <p>Cheque <span> ${e.expected_amount} {e.paid_at && <FontAwesomeIcon icon={faCircleCheck} color="#66b819" />}  </span></p>}
+                                {e.method === 'transfer' && <p>Transferencia <span> ${parseFloat(e.expected_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })} {e.paid_at && <FontAwesomeIcon icon={faCircleCheck} color="#66b819" />}</span></p>}
+                                {e.method === 'cash' && <p>Efectivo <span> ${parseFloat(e.expected_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })} {e.paid_at && <FontAwesomeIcon icon={faCircleCheck} color="#66b819" />}  </span></p>}
+                                {e.method === 'check' && <p>Cheque <span> ${parseFloat(e.expected_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })} {e.paid_at && <FontAwesomeIcon icon={faCircleCheck} color="#66b819" />}  </span></p>}
 
                             </p>
                         ) :

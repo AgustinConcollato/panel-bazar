@@ -137,7 +137,7 @@ export function Providers({ currentProviders }) {
                                         />
                                         {provider.name}
                                     </span>
-                                    {hasPrice ? <b>${hasPrice}</b> : '-'}
+                                    {hasPrice ? <b>${parseFloat(hasPrice).toLocaleString('es-AR', { maximumFractionDigits: 2 })}</b> : '-'}
                                 </li>
                             </label>
                         );
@@ -147,59 +147,54 @@ export function Providers({ currentProviders }) {
                     Object.keys(selectedProviders).length > 0 && (
                         <Modal>
                             <form onSubmit={addPurchasePrice} className="container-children">
-                                <div>
-                                    {Object.keys(selectedProviders).map((providerId) => {
-                                        const provider = providers.find((p) => p.id == providerId);
-                                        const existingProvider = providerList?.find(p => p.id === provider.id);
-                                        const hasPrice = existingProvider?.pivot?.purchase_price;
+                                {Object.keys(selectedProviders).map((providerId) => {
+                                    const provider = providers.find((p) => p.id == providerId);
+                                    const existingProvider = providerList?.find(p => p.id === provider.id);
+                                    const hasPrice = existingProvider?.pivot?.purchase_price;
 
-                                        return (
-                                            <>
-                                                <h2>{provider.name}</h2>
-                                                <div className="purchase-price">
-                                                    <input
-                                                        className="input"
-                                                        type="number"
-                                                        step={.01}
-                                                        onChange={(e) => {
-                                                            handlePriceChange(providerId, e.target.value)
-                                                            setPrice(e.target.value)
-                                                        }}
-                                                        placeholder="Ingrese el precio"
-                                                        value={price || hasPrice || ''}
-                                                        required
-                                                    />
+                                    return (
+                                        <>
+                                            <h2>{provider.name}</h2>
+                                            <div className="purchase-price">
+                                                <input
+                                                    className="input"
+                                                    type="number"
+                                                    step={.01}
+                                                    onChange={(e) => {
+                                                        handlePriceChange(providerId, e.target.value)
+                                                        setPrice(e.target.value)
+                                                    }}
+                                                    placeholder="Ingrese el precio"
+                                                    value={price || hasPrice || ''}
+                                                    required
+                                                />
+                                            </div>
+                                            <button type="submit" className="btn btn-solid">Actualizar precio</button>
+                                            <button
+                                                type="button"
+                                                className="btn"
+                                                onClick={() => handlePriceChange(providerId, -1)}
+                                            >
+                                                Cancelar
+                                            </button>
+                                            {hasPrice &&
+                                                <div className="delete-provider">
+                                                    <p onClick={() => setBtnHidden(!btnHidden)}>Eliminar relación con "{provider.name}" <AngleDownIcon width={18} height={18} color={'#000'} /> </p>
+                                                    {!btnHidden &&
+                                                        <button
+                                                            type="button"
+                                                            className="btn btn-error-regular"
+                                                            onClick={() => deleteProvider(provider.id)}
+                                                        >
+                                                            Eliminar
+                                                        </button>
+                                                    }
                                                 </div>
-                                                <div className="actions-edit">
+                                            }
+                                        </>
+                                    );
+                                })}
 
-                                                    <button
-                                                        type="button"
-                                                        className="btn"
-                                                        onClick={() => handlePriceChange(providerId, -1)}
-                                                    >
-                                                        Cancelar
-                                                    </button>
-                                                    <button type="submit" className="btn btn-solid">Actualizar precio</button>
-                                                </div>
-                                                {hasPrice &&
-                                                    <div className="delete-provider">
-                                                        <p onClick={() => setBtnHidden(!btnHidden)}>Eliminar relación con "{provider.name}" <AngleDownIcon width={18} height={18} color={'#000'} /> </p>
-                                                        {!btnHidden &&
-                                                            <button
-                                                                type="button"
-                                                                className="btn btn-error-regular"
-                                                                onClick={() => deleteProvider(provider.id)}
-                                                            >
-                                                                Eliminar
-                                                            </button>
-                                                        }
-                                                    </div>
-                                                }
-                                            </>
-                                        );
-                                    })}
-
-                                </div>
                             </form>
                             <div className="background-modal" onClick={() => setSelectedProviders({})}></div>
                         </Modal>)

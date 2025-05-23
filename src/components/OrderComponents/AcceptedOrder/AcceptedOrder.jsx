@@ -58,10 +58,7 @@ export function AcceptedOrder({ order: orderData }) {
     }, [])
 
     useEffect(() => {
-        const total = products.reduce(
-            (accumulator, currentValue) => accumulator + parseInt(currentValue.subtotal),
-            0
-        )
+        const total = products.reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.subtotal), 0)
 
         setData(prev => ({
             ...prev,
@@ -114,7 +111,7 @@ export function AcceptedOrder({ order: orderData }) {
                                 )}
                             </b>
                         </li>
-                        <li>Subtotal <b>$ {parseFloat(data.total_amount).toFixed(2)}</b></li>
+                        <li>Subtotal <b>$ {data.total_amount.toLocaleString('es-AR', { maximumFractionDigits: 2 })}</b></li>
                     </ul>
                 </div>
 
@@ -127,17 +124,17 @@ export function AcceptedOrder({ order: orderData }) {
                                     <span className='name'>{e.name}</span>
                                 </div>
                                 <div>
-                                    <p>${e.price}</p>
-                                    <p>${e.subtotal}</p>
+                                    <p>${e.price.toLocaleString('es-AR', { maximumFractionDigits: 2 })}</p>
+                                    <p>${e.subtotal.toLocaleString('es-AR', { maximumFractionDigits: 2 })}</p>
                                 </div>
                             </li>)
                         }
                     </ul>
                 </div>
-
+                {console.log(data)}
                 <div>
                     <p>Descuento {discount ?? <button>Agregar descuento</button>}</p>
-                    <h2>${parseFloat(data.total_amount).toFixed(2)}</h2>
+                    <h2>${data.total_amount.toLocaleString('es-AR', { maximumFractionDigits: 2 })}</h2>
                 </div>
 
                 <OrderOptions order={orderData} onAction={() => { }} />

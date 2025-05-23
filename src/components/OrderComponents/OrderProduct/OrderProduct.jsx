@@ -115,9 +115,11 @@ export function OrderProduct({
                                     />
                                 </div>
                             </div>
-                            <button type="submit" className="btn btn-solid" onClick={saveChange} >Guardar cambios</button>
-                            <button type="button" className="btn" onClick={() => setEdit(null)}>Cancelar</button>
-                            <button type='button' className='btn btn-error-regular' onClick={() => removeProductOrder(product.product_id)}>Eliminar del pedido</button>
+                            <div>
+                                <button type="submit" className="btn btn-solid" onClick={saveChange} >Guardar cambios</button>
+                                <button type="button" className="btn" onClick={() => setEdit(null)}>Cancelar</button>
+                                <button type='button' className='btn btn-error-regular' onClick={() => removeProductOrder(product.product_id)}>Eliminar del pedido</button>
+                            </div>
                         </form>
                     </section>
                     <div className="background-modal" onClick={() => setEdit(null)}></div>

@@ -109,7 +109,7 @@ export function ProductGrid({ data, updateProduct }) {
                                                     height={24}
                                                     color={'#000'}
                                                 />
-                                                ${parseFloat(e.pivot.purchase_price)}
+                                                ${parseFloat(e.pivot.purchase_price).toLocaleString('es-AR', { maximumFractionDigits: 2 })}
                                             </li>
                                         )}
                                 </ul> :
@@ -119,7 +119,7 @@ export function ProductGrid({ data, updateProduct }) {
                     </div>
                     <div className='sale-price'>
                         <p>Precio de venta</p>
-                        <span onClick={() => handleEdit('price')}> <span>Cambiar</span> ${product.price}</span>
+                        <span onClick={() => handleEdit('price')}> <span>Cambiar</span> ${parseFloat(product.price).toLocaleString('es-AR', { maximumFractionDigits: 2 })}</span>
                     </div>
                 </div>
                 <div>
@@ -133,13 +133,13 @@ export function ProductGrid({ data, updateProduct }) {
                                 height={24}
                                 color={'#000'}
                             />
-                            <pre> ${(product.discount * product.price) / 100}</pre>
+                            <pre> ${parseFloat((product.discount * product.price) / 100).toLocaleString('es-AR', { maximumFractionDigits: 2 })}</pre>
                             <ArrowRightIcon
                                 width={24}
                                 height={24}
                                 color={'#000'}
                             />
-                            <pre> ${product.price - (product.discount * product.price) / 100}</pre>
+                            <pre> ${parseFloat(product.price - (product.discount * product.price) / 100).toLocaleString('es-AR', { maximumFractionDigits: 2 })}</pre>
                         </span>
                     }
                 </div>

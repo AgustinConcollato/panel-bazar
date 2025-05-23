@@ -22,7 +22,7 @@ export function CompletedOrdersSummary() {
                     <h3 className="title">Pedidos terminados en {months[date.getMonth()]}</h3>
                     <p>Cantidad de pedidos <span>{orders.quantity}</span></p>
                     <div>
-                        <h2>${orders.total_amount}</h2>
+                        <h2>${(orders.total_amount + 0.588).toLocaleString('es-AR', { maximumFractionDigits: 2})}</h2>
                         <p className={comparison.gross_profit_change < 0 ? 'inactive' : comparison.gross_profit_change > 0 ? 'active' : 'diference'}>
                             {comparison.gross_profit_change > 0 ? '+' : ''}
                             {comparison.gross_profit_change.toFixed(2)}%

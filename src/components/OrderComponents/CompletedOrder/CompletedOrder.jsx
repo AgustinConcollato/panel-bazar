@@ -46,7 +46,7 @@ export function CompletedOrder({ order }) {
                             <li onClick={() => !payment.paid_at ? setConfirmPayment(payment) : null}>
                                 <p>
                                     {payment.method == 'transfer' ? 'Transferencia' : payment.method == 'cash' ? 'Efectivo' : 'Cheque'}
-                                    <b>${payment.expected_amount}</b>
+                                    <b>${parseFloat(payment.expected_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })}</b>
                                 </p>
                                 {!payment.paid_at ?
                                     <>
