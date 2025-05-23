@@ -1,0 +1,86 @@
+.campaign-detail {
+    max-width: 1200px;
+    margin: 40px auto;
+}
+
+.campaign-detail-info h2 {
+    display: flex;
+    gap: 20px;
+    font-weight: 500;
+    margin-top: 15px;
+}
+
+.campaign-detail-info>a:hover {
+    text-decoration: underline;
+}
+
+.campaign-detail-info h4 {
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.campaign-detail-info p a {
+    color: #1872fa;
+}
+
+.campaign-detail-info p a:hover {
+    text-decoration: underline;
+}
+
+.campaign-detail-info p.active span,
+.campaign-detail-info p.inactive span {
+    height: 7px;
+    width: 7px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.campaign-detail-info p.active {
+    color: #66b819;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.campaign-detail-info p.active span {
+    background-color: #66b819;
+}
+
+.campaign-detail-info p.inactive {
+    color: #b81919;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.campaign-detail-info p.inactive span {
+    background: #b81919;
+}
+
+.campaign-detail-info>div {
+    padding-top: 10px;
+    margin-top: 10px;
+    border-top: 1px solid #ccc;
+}
+
+.campaign-detail-info>div:last-child {
+    border: none;
+}
+
+.campaign-date {
+    display: flex;
+    max-width: 300px;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.campaign-image {
+    object-fit: contain;
+    width: 100%;
+    max-width: 300px;
+    max-height: 200px;
+}
