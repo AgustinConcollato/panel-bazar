@@ -1,0 +1,139 @@
+.campaign-products {
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background: #f9f9f9;
+    border-radius: 10px;
+}
+
+.campaign-products p {
+    text-align: center;
+    padding: 10px;
+}
+
+.campaign-products h3 {
+    font-size: 18px;
+    font-weight: 400;
+    margin: 20px 0 10px;
+}
+
+.campaign-products .product {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100px;
+    height: 100px;
+    position: relative;
+    cursor: pointer;
+    padding: 5px;
+    background: #fff;
+}
+
+.campaign-products .product-select {
+    outline: 1px solid #1872fa;
+    border-color: #1872fa;
+    outline-offset: 1px;
+}
+
+.campaign-products .product:hover {
+    border-color: #727272;
+}
+
+.campaign-products .product-select:hover {
+    border-color: #1872fa;
+}
+
+.campaign-products .product-in-campaign {
+    filter: grayscale(1);
+    cursor: not-allowed;
+    opacity: .6;
+    border: 2px dashed #ccc;
+}
+
+.campaign-products .product-in-campaign:hover {
+    border-color: #ccc;
+}
+
+.campaign-products .product .container-img {
+    height: 70px;
+    width: 100%;
+}
+
+.campaign-products .product .container-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.campaign-products .product h4 {
+    font-weight: 400;
+    text-align: center;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    width: 100%;
+}
+
+.campaign-products .product .remove {
+    background: #303030;
+    color: #fff;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 12px;
+    height: 20px;
+    width: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    opacity: 0;
+}
+
+.campaign-products .product:hover .remove {
+    opacity: 1;
+}
+
+.results {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.campaign-products .results:last-child {
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    margin-bottom: 0;
+}
+
+.campaign-products ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.campaign-products ul li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+    max-width: 200px;
+    border: 1px solid #1872fa;
+    color: #1872fa;
+    background: #1872fa10;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.campaign-products ul li span {
+    text-wrap: nowrap;
+    overflow: hidden;
+    max-width: 180px;
+    text-overflow: ellipsis;
+}
