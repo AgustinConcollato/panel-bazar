@@ -2,7 +2,7 @@ import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { ClientIcon, HomeIcon, OrderIcon, ProductIcon, ProviderIcon, WalletIcon } from '../../icons/icons'
+import { CalendarIcon, ClientIcon, HomeIcon, OrderIcon, ProductIcon, ProviderIcon, WalletIcon } from '../../icons/icons'
 import { api } from '../../services/api'
 import './NavBar.css'
 
@@ -94,10 +94,16 @@ export function NavBar() {
                             Caja
                         </NavLink>
                     </li>
-                    {/* {!hidden && <li><button onClick={() => {
-                        localStorage.removeItem('authToken')
-                        window.location.href = '/'
-                    }}>cerrar sesión forzada</button></li>} */}
+                    <li>
+                        <NavLink to={'/eventos'}>
+                            <CalendarIcon
+                                width={18}
+                                height={18}
+                                color='#000'
+                            />
+                            Eventos
+                        </NavLink>
+                    </li>
                 </ul>
             </nav>
             <div>
