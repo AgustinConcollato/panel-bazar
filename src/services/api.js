@@ -8,6 +8,7 @@ import { Address } from "./addressService"
 import { Providers } from "./providersService"
 import { Analytics } from "./analyticsService"
 import { Payments } from "./paymentsServices"
+import { Campaign } from './campaignServices'
 
 export const api = {
     Products,
@@ -19,7 +20,8 @@ export const api = {
     Address,
     Providers,
     Analytics,
-    Payments
+    Payments,
+    Campaign
 }
 
 const apiUrl = import.meta.env.DEV ? 'http://localhost:8000' : 'https://api.bazarrshop.com'
@@ -35,3 +37,4 @@ export const urlAddress = new URL(url + '/user')
 export const urlProvider = new URL(url + '/provider')
 export const urlAnalytics = new URL(url + '/analytics')
 export const urlPayments = new URL(url + '/payments')
+export const urlCampaigns = new URL(url + '/campaigns')
