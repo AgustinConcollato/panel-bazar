@@ -1,0 +1,35 @@
+.campaign-product {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 200px;
+    background: #fff;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.campaign-product:hover {
+    border-color: #727272;
+}
+
+.campaign-product h4 {
+    overflow: hidden;
+    max-width: 180px;
+    text-overflow: ellipsis;
+    text-wrap: nowrap;
+    font-weight: 500;
+}
+
+.campaign-product .container-img {
+    width: 100px;
+    height: 100px;
+}
+
+.campaign-product .container-img img {
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+}
