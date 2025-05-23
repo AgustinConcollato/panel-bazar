@@ -74,7 +74,7 @@ export function MonthlyOverviewPage() {
                         <h1>Detalle de {months[date.getMonth() + 1]}
                             <p className={comparison.gross_profit_change < 0 ? 'inactive' : comparison.gross_profit_change > 0 ? 'active' : 'diference'}>
                                 {comparison.gross_profit_change > 0 ? '+' : ''}
-                                {comparison.gross_profit_change.toFixed(2)}%
+                                {comparison.gross_profit_change.toLocaleString('es-AR', { maximumFractionDigits: 2 })}%
                                 <span>En relación al mes pasado</span>
                             </p>
                         </h1>
@@ -83,19 +83,19 @@ export function MonthlyOverviewPage() {
                             <div className="profit">
                                 <h2>
                                     <span>Granancia bruta</span>
-                                    ${resume.gross_profit.toFixed(2)}
+                                    ${resume.gross_profit.toLocaleString('es-AR', { maximumFractionDigits: 2 })}
                                 </h2>
                                 <h2>
                                     <span>Granancia neta</span>
-                                    ${resume.net_profit.toFixed(2)}
+                                    ${resume.net_profit.toLocaleString('es-AR', { maximumFractionDigits: 2 })}
                                 </h2>
                                 <h2>
                                     <span>Porcentaje de ganancia</span>
-                                    {resume.profit_percentage.toFixed(2)}%
+                                    {resume.profit_percentage.toLocaleString('es-AR', { maximumFractionDigits: 2 })}%
                                 </h2>
                                 <h2>
                                     <span>Costos</span>
-                                    ${resume.cost.toFixed(2)}
+                                    ${resume.cost.toLocaleString('es-AR', { maximumFractionDigits: 2 })}
                                 </h2>
                             </div>
                         </div>
