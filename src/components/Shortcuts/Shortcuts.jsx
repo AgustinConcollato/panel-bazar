@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { AddClientIcon, AddProductIcon, ProviderIcon } from '../../icons/icons';
+import { AddClientIcon, AddProductIcon, CalendarIcon, ProviderIcon } from '../../icons/icons';
 import './Shortcuts.css';
 
 export function Shortcuts() {
@@ -45,6 +45,16 @@ export function Shortcuts() {
                         />
                     </div>
                     <p>Agregar proveedor</p>
+                </Link>
+                <Link to={'/agregar-evento'}>
+                    <div className='shortcut-icon'>
+                        <CalendarIcon
+                            width={24}
+                            height={24}
+                            color={"#000"}
+                        />
+                    </div>
+                    <p>Agregar evento</p>
                 </Link>
             </div>
         </>
