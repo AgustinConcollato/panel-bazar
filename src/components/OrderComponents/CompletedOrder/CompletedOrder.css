@@ -61,6 +61,10 @@
     padding: 20px;
 }
 
+.payment-methods {
+    width: 100%;
+}
+
 @media (max-width: 450px) {
 
     .order-payments ul li {

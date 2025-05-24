@@ -3,18 +3,36 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useEffect, useState } from 'react'
 import { Payments } from '../../../services/paymentsServices'
 import { Modal } from '../../Modal/Modal'
+import { PaymentOption } from '../../PaymentOption/PaymentOption'
 import { OrderDetail } from '../OrderDetail/OrderDetail'
 import './CompletedOrder.css'
+import { useNavigate } from 'react-router-dom'
 
 export function CompletedOrder({ order }) {
 
+    const navigate = useNavigate()
+
     const [payments, setPayments] = useState([])
     const [loading, setLoading] = useState(false)
+    const [createLoading, setCreateLoading] = useState(false)
     const [error, setError] = useState(false)
     const [confirmPayment, setConfirmPayment] = useState(false)
 
-    async function payOrder(payment) {
+    async function createPay(data) {
+        const payments = new Payments()
 
+        try {
+            setCreateLoading(true)
+            const response = await payments.create(data)
+            setPayments([response.payment])
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setCreateLoading(false)
+        }
+    }
+
+    async function payOrder(payment) {
         const payments = new Payments()
 
         try {
@@ -32,6 +50,7 @@ export function CompletedOrder({ order }) {
     }
 
     useEffect(() => {
+        order.status = 'completed'
         setPayments(order.payments)
     }, [])
 
@@ -61,7 +80,14 @@ export function CompletedOrder({ order }) {
                     </ul> :
                     <div className='order-payments-empty'>
                         <p>No hay pagos</p>
-                        <button className='btn btn-regular'>Agregar pago</button>
+                        <div className="payment-methods">
+                            <p>Agregar un métodos de pago</p>
+                            <PaymentOption
+                                createPay={createPay}
+                                order={order}
+                                loading={createLoading}
+                            />
+                        </div>
                     </div>
                 }
             </div>
