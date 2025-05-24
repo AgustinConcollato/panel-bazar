@@ -131,7 +131,6 @@ export function AcceptedOrder({ order: orderData }) {
                         }
                     </ul>
                 </div>
-                {console.log(data)}
                 <div>
                     <p>Descuento {discount ?? <button>Agregar descuento</button>}</p>
                     <h2>${data.total_amount.toLocaleString('es-AR', { maximumFractionDigits: 2 })}</h2>
