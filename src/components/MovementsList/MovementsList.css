@@ -1,0 +1,79 @@
+.movements-container {
+    margin-top: 20px;
+}
+
+.movement-group {
+    margin-bottom: 20px;
+}
+
+.movement-date-header {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    padding: 10px;
+    background: #f5f5f5;
+    border-radius: 5px;
+}
+
+.movements-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px;
+}
+
+.movement {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+.movement-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.movement-info div:last-child {
+    display: flex;
+    flex-direction: column;
+}
+
+.movement-info-icon {
+    height: 45px;
+    width: 45px;
+    background: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+}
+
+.movement-type {
+    font-weight: 500;
+}
+
+.movement.in .movement-type {
+    color: #2e7d32;
+}
+
+.movement.out .movement-type {
+    color: #c62828;
+}
+
+.movement-details {
+    text-align: right;
+}
+
+.movement-amount {
+    display: block;
+    font-weight: 500;
+    font-size: 1.1em;
+}
+
+.movement-time {
+    font-size: 0.9em;
+    color: #666;
+} 
