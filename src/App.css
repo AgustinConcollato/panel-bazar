@@ -6,6 +6,7 @@
 :root {
     --primary: #3d6caa;
     --color-error: #e74c3c;
+    --color-success: #66b819;
 }
 
 * {
@@ -138,7 +139,6 @@ main {
 
 .btn-error-regular {
     color: var(--color-error);
-    /* border: 1px solid var(--color-error); */
     background: #e74c3c20;
 }
 
@@ -152,6 +152,38 @@ main {
 .btn-error-regular:active,
 .btn-error-thins:active {
     box-shadow: 0 0 0 4px #e74c3c30;
+}
+
+.btn-success-solid {
+    color: #fff;
+    border: 1px solid var(--color-success);
+    background: var(--color-success);
+}
+
+.btn-success-solid svg path {
+    color: #fff;
+}
+
+.btn-success-regular svg path,
+.btn-success-thins svg path {
+    color: var(--color-success);
+}
+
+.btn-success-regular {
+    color: var(--color-success);
+    background: #66b81920;
+}
+
+.btn-success-thins {
+    color: var(--color-success);
+    border: 1px solid var(--color-success);
+    background: #fff;
+}
+
+.btn-success-solid:active,
+.btn-success-regular:active,
+.btn-success-thins:active {
+    box-shadow: 0 0 0 4px #66b81930;
 }
 
 .input {
