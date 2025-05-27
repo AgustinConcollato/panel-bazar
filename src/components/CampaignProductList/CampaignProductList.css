@@ -97,7 +97,7 @@
     opacity: 1;
 }
 
-.results {
+.campaign-products .results {
     margin-top: 10px;
     display: flex;
     flex-wrap: wrap;

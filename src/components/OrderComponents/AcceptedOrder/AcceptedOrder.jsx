@@ -136,7 +136,7 @@ export function AcceptedOrder({ order: orderData }) {
                     <h2>${data.total_amount.toLocaleString('es-AR', { maximumFractionDigits: 2 })}</h2>
                 </div>
 
-                <OrderOptions order={orderData} onAction={() => { }} />
+                <OrderOptions order={orderData} onAction={() => navigate('/pedidos/aceptados')} />
             </div>
         </section >
     )
