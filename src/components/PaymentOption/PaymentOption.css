@@ -12,6 +12,7 @@
 }
 
 .methods label {
+    width: 100%;
     min-width: 200px;
     display: inline-flex;
     align-items: center;
@@ -21,4 +22,14 @@
     border-radius: 10px;
     border: 1px solid #ccc;
     cursor: pointer;
+}
+
+.payment-method-controls .container-btn {
+    flex-wrap: wrap;
+
+}
+
+.payment-method-controls .container-btn .methods,
+.payment-method-controls .container-btn .btn {
+    width: 100%;
 }

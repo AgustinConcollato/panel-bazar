@@ -56,11 +56,11 @@ export function PaymentOption({ createPay, order, loading }) {
             </div>
             {selectedMethod &&
                 <div className="container-btn">
-                    <button className='btn btn-regular' onClick={addMethod} disabled={loading}>
-                        {loading ? <FontAwesomeIcon icon={faCircleNotch} spin /> : 'Agregar'}
-                    </button>
                     <button className='btn btn-solid' onClick={addMethodAndConfirmPay} disabled={loading}>
                         {loading ? <FontAwesomeIcon icon={faCircleNotch} spin /> : 'Agregar y confirmar pago'}
+                    </button>
+                    <button className='btn btn-regular' onClick={addMethod} disabled={loading}>
+                        {loading ? <FontAwesomeIcon icon={faCircleNotch} spin /> : 'Agregar método'}
                     </button>
                 </div>}
         </div>
