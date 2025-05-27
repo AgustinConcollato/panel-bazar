@@ -6,11 +6,8 @@ import { Modal } from '../../Modal/Modal'
 import { PaymentOption } from '../../PaymentOption/PaymentOption'
 import { OrderDetail } from '../OrderDetail/OrderDetail'
 import './CompletedOrder.css'
-import { useNavigate } from 'react-router-dom'
 
-export function CompletedOrder({ order }) {
-
-    const navigate = useNavigate()
+export function CompletedOrder({ order, getOrder }) {
 
     const [payments, setPayments] = useState([])
     const [loading, setLoading] = useState(false)
@@ -52,6 +49,7 @@ export function CompletedOrder({ order }) {
     useEffect(() => {
         order.status = 'completed'
         setPayments(order.payments)
+        getOrder(order.id)
     }, [])
 
     return (

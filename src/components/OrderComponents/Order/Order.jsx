@@ -42,7 +42,7 @@ export function Order() {
             <Routes>
                 <Route path="pending" element={<OrderPending order={order} />} />
                 <Route path="accepted" element={<AcceptedOrder order={order} />} />
-                <Route path="completed" element={<CompletedOrder order={order} />} />
+                <Route path="completed" element={<CompletedOrder order={order}getOrder={getOrder} />} />
                 <Route path="canceled" element={'cancelado'} />
                 <Route path="*" element={<Navigate to="/pedidos" replace />} />
             </Routes>
