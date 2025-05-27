@@ -1,0 +1,15 @@
+.home-page {
+    max-width: 800px;
+    margin: 60px auto;
+}
+
+.home-page .cash-register-actions {
+    display: none;
+}
+
+@media (max-width: 450px) {
+    .home-page {
+        margin: 20px auto;
+    }
+
+}
