@@ -7,7 +7,7 @@
 
 .methods {
     display: flex;
-    align-content: center;
+    align-items: center;
     gap: 10px;
 }
 
@@ -32,4 +32,25 @@
 .payment-method-controls .container-btn .methods,
 .payment-method-controls .container-btn .btn {
     width: 100%;
+}
+
+.amount-input p{
+    margin-bottom: 10px;
+}
+
+.amount-input div .container-btn {
+    flex-wrap: nowrap;
+    margin-top: 10px;
+}
+
+.amount-input div .container-btn button {
+    background: #f5f5f5;
+    border: 1px solid #aaa;
+    padding: 10px;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.amount-input div .container-btn button:hover {
+    background: #eee;
 }
