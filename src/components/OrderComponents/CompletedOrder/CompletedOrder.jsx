@@ -12,10 +12,9 @@ export function CompletedOrder({ order, getOrder }) {
     const [payments, setPayments] = useState([])
     const [loading, setLoading] = useState(false)
     const [createLoading, setCreateLoading] = useState(false)
-    const [error, setError] = useState(false)
     const [confirmPayment, setConfirmPayment] = useState(false)
     const [completePayment, setCompletePayment] = useState(false)
-const [partialPayment, setPartialPayment] = useState(null)
+    const [partialPayment, setPartialPayment] = useState(null)
     const [partialAmount, setPartialAmount] = useState('')
 
     async function createPay(data) {
@@ -85,7 +84,6 @@ const [partialPayment, setPartialPayment] = useState(null)
             setPayments(currentPayments => currentPayments.map(p => p.id === payment.id ? response : p))
             setPartialPayment(null)
             setPartialAmount('')
-            setError(false)
             getOrder(order.id)
         } catch (error) {
             toast.error(error?.message || 'Error al agregar pago parcial');
@@ -108,6 +106,13 @@ const [partialPayment, setPartialPayment] = useState(null)
         return calculateTotalPaid() >= parseFloat(order.total_amount)
     }
 
+    // Calcula el color de la barra de progreso según el porcentaje pagado
+    function getProgressColor(percent) {
+        if (percent < 0.3) return '#e74c3c'; // rojo
+        if (percent < 1) return '#ff8800'; // naranja
+        return '#66b819'; // verde
+    }
+
     return (
         <div className='order-confirmed'>
             <OrderDetail order={order} />
@@ -120,7 +125,10 @@ const [partialPayment, setPartialPayment] = useState(null)
                             <div className="progress-bar">
                                 <div 
                                     className="progress-fill" 
-                                    style={{ width: `${(calculateTotalPaid() / order.total_amount) * 100}%` }}
+                                    style={{ 
+                                        width: `${(calculateTotalPaid() / order.total_amount) * 100}%`,
+                                        backgroundColor: getProgressColor(Math.min(1, calculateTotalPaid() / order.total_amount))
+                                    }}
                                 ></div>
                             </div>
                         </div>
@@ -194,7 +202,6 @@ const [partialPayment, setPartialPayment] = useState(null)
                         <h2>Completar pago</h2>
                         <p>¿Estás seguro de que quieres marcar el pago restante como pagado?</p>
                         <p>Monto restante: ${(completePayment.expected_amount - (completePayment.paid_amount || 0)).toLocaleString('es-AR', { maximumFractionDigits: 2 })}</p>
-                        {error && <p className='error'>{error}</p>}
                         <button className="btn btn-solid" onClick={() => completeRemainingPayment(completePayment)}>
                             {loading ? <FontAwesomeIcon icon={faCircleNotch} spin /> : 'Completar'}
                         </button>
@@ -222,7 +229,6 @@ const [partialPayment, setPartialPayment] = useState(null)
                                 if (e.key === 'Enter') { addPartialPayment(partialPayment, partialAmount)}
                             }}
                         />
-                        {error && <p className='error'>{error}</p>}
                         <button
                             className="btn btn-solid"
                             disabled={!partialAmount || parseFloat(partialAmount) <= 0}
