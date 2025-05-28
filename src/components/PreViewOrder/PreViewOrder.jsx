@@ -88,7 +88,10 @@ export function PreViewOrder({ order, setOrders }) {
                                                     ${parseFloat(e.paid_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })}
                                                     {parseFloat(e.paid_amount) >= parseFloat(e.expected_amount)
                                                         ? <FontAwesomeIcon icon={faCircleCheck} color="#66b819" />
-                                                        : <FontAwesomeIcon icon={faCircleExclamation} color="#ff8800" />
+                                                        : <>
+                                                        {' '} / ${parseFloat(e.expected_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })} 
+                                                        <FontAwesomeIcon icon={faCircleExclamation} color="#ff8800" />
+                                                        </> 
                                                     }
                                                 </span>
                                             </p>
@@ -97,10 +100,13 @@ export function PreViewOrder({ order, setOrders }) {
                                             <p>
                                                 Efectivo
                                                 <span>
-                                                     ${parseFloat(e.paid_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })} 
+                                                     ${parseFloat(e.paid_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })}
                                                      {parseFloat(e.paid_amount) >= parseFloat(e.expected_amount)
                                                         ? <FontAwesomeIcon icon={faCircleCheck} color="#66b819" />
-                                                        : <FontAwesomeIcon icon={faCircleExclamation} color="#ff8800" />
+                                                        : <>
+                                                        {' '} / ${parseFloat(e.expected_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })} 
+                                                        <FontAwesomeIcon icon={faCircleExclamation} color="#ff8800" />
+                                                        </> 
                                                      }
                                                 </span>
                                             </p>
@@ -112,7 +118,10 @@ export function PreViewOrder({ order, setOrders }) {
                                                      ${parseFloat(e.paid_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })} 
                                                      {parseFloat(e.paid_amount) >= parseFloat(e.expected_amount)
                                                         ? <FontAwesomeIcon icon={faCircleCheck} color="#66b819" />
-                                                        : <FontAwesomeIcon icon={faCircleExclamation} color="#ff8800" />
+                                                        : <>
+                                                        {' '} / ${parseFloat(e.expected_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })} 
+                                                        <FontAwesomeIcon icon={faCircleExclamation} color="#ff8800" />
+                                                        </> 
                                                      }
                                                 </span>
                                             </p>
