@@ -24,7 +24,8 @@ export function OrderSearch({ orderId, setOrderProducts, setOrderData }) {
         const options = {
             page: 1,
             status: 'active',
-            name
+            name,
+            panel: true
         };
 
         setProductList(null);
