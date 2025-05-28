@@ -1,13 +1,13 @@
-import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
+import { faCircleCheck, faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
-import { formatDate } from "../../utils/formatDate";
-import { OrderOptions } from "../OrderOptions/OrderOptions";
-import './PreViewOrder.css';
-import { Payments } from "../../services/paymentsServices";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { Payments } from "../../services/paymentsServices";
+import { formatDate } from "../../utils/formatDate";
 import { Modal } from "../Modal/Modal";
+import { OrderOptions } from "../OrderOptions/OrderOptions";
 import { PaymentOption } from "../PaymentOption/PaymentOption";
+import './PreViewOrder.css';
 
 export function PreViewOrder({ order, setOrders }) {
 
@@ -75,29 +75,64 @@ export function PreViewOrder({ order, setOrders }) {
                             )}
                         </div>
                     </div>
-                    <div>
-                        <h4>Métodos de pago</h4>
-                        {payments.length > 0 ?
-                            payments.map((e) =>
-                                <p className="payment-method">
-                                    {e.method === 'transfer' && <p>Transferencia <span> ${parseFloat(e.expected_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })} {e.paid_at && <FontAwesomeIcon icon={faCircleCheck} color="#66b819" />}</span></p>}
-                                    {e.method === 'cash' && <p>Efectivo <span> ${parseFloat(e.expected_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })} {e.paid_at && <FontAwesomeIcon icon={faCircleCheck} color="#66b819" />}  </span></p>}
-                                    {e.method === 'check' && <p>Cheque <span> ${parseFloat(e.expected_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })} {e.paid_at && <FontAwesomeIcon icon={faCircleCheck} color="#66b819" />}  </span></p>}
+                    {order.status === "completed" &&
+                        <div>
+                            <h4>Métodos de pago</h4>
+                            {payments.length > 0 ?
+                                payments.map((e) =>
+                                    <p className="payment-method">
+                                        {e.method === 'transfer' &&
+                                            <p>
+                                                Transferencia
+                                                <span>
+                                                    ${parseFloat(e.paid_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })}
+                                                    {parseFloat(e.paid_amount) >= parseFloat(e.expected_amount)
+                                                        ? <FontAwesomeIcon icon={faCircleCheck} color="#66b819" />
+                                                        : <FontAwesomeIcon icon={faCircleExclamation} color="#ff8800" />
+                                                    }
+                                                </span>
+                                            </p>
+                                         }
+                                        {e.method === 'cash' && 
+                                            <p>
+                                                Efectivo
+                                                <span>
+                                                     ${parseFloat(e.paid_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })} 
+                                                     {parseFloat(e.paid_amount) >= parseFloat(e.expected_amount)
+                                                        ? <FontAwesomeIcon icon={faCircleCheck} color="#66b819" />
+                                                        : <FontAwesomeIcon icon={faCircleExclamation} color="#ff8800" />
+                                                     }
+                                                </span>
+                                            </p>
+                                        }
+                                        {e.method === 'check' &&
+                                            <p>
+                                                Cheque
+                                                <span>
+                                                     ${parseFloat(e.paid_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })} 
+                                                     {parseFloat(e.paid_amount) >= parseFloat(e.expected_amount)
+                                                        ? <FontAwesomeIcon icon={faCircleCheck} color="#66b819" />
+                                                        : <FontAwesomeIcon icon={faCircleExclamation} color="#ff8800" />
+                                                     }
+                                                </span>
+                                            </p>
+                                         }
 
+                                    </p>
+                                ) :
+                                <p>
+                                    <button className="btn"
+                                        onClick={(e) => {
+                                            e.preventDefault()
+                                            setAddPayment(true)
+                                        }}
+                                    >
+                                        Agregar método
+                                    </button>
                                 </p>
-                            ) :
-                            <p>
-                                <button className="btn"
-                                    onClick={(e) => {
-                                        e.preventDefault()
-                                        setAddPayment(true)
-                                    }}
-                                >
-                                    Agregar método
-                                </button>
-                            </p>
-                        }
-                    </div>
+                            }
+                        </div> 
+                    }
                     <div className="pre-view-order-comment">
                         {order.comment &&
                             <>
