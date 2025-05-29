@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import { MoneyReceiveIcon, MoneySendIcon } from "../../icons/icons"
 import './MovementsList.css'
 
@@ -23,28 +24,30 @@ export function MovementsList({ movements }) {
                         <ul className="movements-list">
                             {dateMovements.map((e, index) => (
                                 <li key={index} className={`movement ${e.type}`}>
-                                    <div className="movement-info">
-                                        <div className="movement-info-icon">
-                                            {e.type === "in" ?
-                                                <MoneyReceiveIcon color={'#000'} height={'30px'} width={'30px'} /> :
-                                                <MoneySendIcon color={'#000'} height={'30px'} width={'30px'} />
-                                            }
+                                    <Link to={e.payment ? `/pedido/${e.payment.order_id}/completed` : ''}>
+                                        <div className="movement-info">
+                                            <div className="movement-info-icon">
+                                                {e.type === "in" ?
+                                                    <MoneyReceiveIcon color={'#000'} height={'30px'} width={'30px'} /> :
+                                                    <MoneySendIcon color={'#000'} height={'30px'} width={'30px'} />
+                                                }
+                                            </div>
+                                            <div>
+                                                <span className="movement-type">
+                                                    {e.type === "in" ? "Ingreso" : "Egreso"}
+                                                </span>
+                                                <span className="movement-description">{e.description}</span>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <span className="movement-type">
-                                                {e.type === "in" ? "Ingreso" : "Egreso"}
+                                        <div className="movement-details">
+                                            <span className="movement-amount movement-type">
+                                                {e.type === "in" ? '+' : '-'} ${parseFloat(e.amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })}
                                             </span>
-                                            <span className="movement-description">{e.description}</span>
+                                            <span className="movement-time">
+                                                {new Date(e.updated_at).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false })} hs
+                                            </span>
                                         </div>
-                                    </div>
-                                    <div className="movement-details">
-                                        <span className="movement-amount movement-type">
-                                            {e.type === "in" ? '+' : '-'} ${parseFloat(e.amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })}
-                                        </span>
-                                        <span className="movement-time">
-                                            {new Date(e.updated_at).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false })} hs
-                                        </span>
-                                    </div>
+                                    </Link>
                                 </li>
                             ))}
                         </ul>
