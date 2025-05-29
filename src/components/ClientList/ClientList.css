@@ -1,9 +1,16 @@
-.container-table-clients {
-    border-radius: 10px;
-    background: #fff;
-    padding: 20px;
+.client-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
-.client-name {
-    width: 300px;
+.client-list li ul{
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.client-list li .container-btn {
+    margin-top: 10px;
 }
