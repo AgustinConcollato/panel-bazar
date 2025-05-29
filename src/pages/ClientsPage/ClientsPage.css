@@ -1,0 +1,10 @@
+.header-client-page {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header-client-page .input {
+    width: 200px;
+}
