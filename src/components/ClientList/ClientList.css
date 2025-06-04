@@ -4,13 +4,26 @@
     gap: 15px;
 }
 
-.client-list li ul{
-    margin-top: 5px;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+
+.client-list li {
+    position: relative;
 }
 
 .client-list li .container-btn {
     margin-top: 10px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+}
+
+.payment-pending {
+    color: #ff8800;
+    background: #ff880020;
+    padding: 5px 7px;
+    border-radius: 5px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
