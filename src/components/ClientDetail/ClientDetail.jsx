@@ -3,7 +3,8 @@ import { api } from "../../services/api"
 import { useEffect, useState } from "react"
 import { Loading } from "../Loading/Loading"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faAngleLeft } from "@fortawesome/free-solid-svg-icons"
+import { faAngleLeft, faCircleExclamation } from "@fortawesome/free-solid-svg-icons"
+import './ClientDetail.css'
 
 export function ClientDetail() {
 
@@ -25,8 +26,11 @@ export function ClientDetail() {
 
     useEffect(() => {
         getClient()
-        document.title = 'Detalle del cliente' + client?.name
     }, [id])
+
+    useEffect(() => {
+        document.title = 'Detalle de ' + client?.name
+    }, [client])
 
     return (
         <section className="client-page">
@@ -35,7 +39,7 @@ export function ClientDetail() {
             </div>
             {client ? (
                 <div className="client-detail">
-                    <h1>Detalle del cliente: {client.name}</h1>
+                    <h1>Detalle de {client.name}</h1>
                     <ul>
                         <li>Correo: {client.email}</li>
                         <li>Teléfono: {client.phone_number}</li>
@@ -56,14 +60,24 @@ export function ClientDetail() {
                                 <span>Sin direcciones</span>
                             )}
                         </li>
-                        <li>Pagos pendientes: 
+                        <li>Pagos pendientes: {client.payments.length} <FontAwesomeIcon icon={faCircleExclamation} color="#ff8800" />
                             {client.payments.length === 0 ? ' No hay' : 
-                                client.payments.map((p, i) => (
-                                    <div key={i}>
-                                        <span>{p.method === 'cash' ? 'Efectivo' : p.method === 'transfer' ? 'Transferencia' : 'Cheque'}: </span>
-                                        <span>${parseFloat(p.expected_amount - (p.paid_amount || 0)).toLocaleString('es-AR', { maximumFractionDigits: 2 })} / ${parseFloat(p.expected_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })}</span>
-                                    </div>
-                                ))
+                                <ul className="pending-payments-detail">
+                                    {client.payments.map((p, i) => (
+                                        <li key={p.id || i}>
+                                            {/* <span>{p.method === 'cash' ? 'Efectivo' : p.method === 'transfer' ? 'Transferencia' : 'Cheque'}:</span>  */}
+                                            <p>
+                                                Debe:
+                                                ${parseFloat(p.expected_amount - (p.paid_amount || 0)).toLocaleString('es-AR', { maximumFractionDigits: 2 })}
+                                            </p>
+                                            <p>
+                                                De: 
+                                                ${parseFloat(p.expected_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })}
+                                            </p>
+                                            <Link to={`/pedido/${p.order_id}/completed`} className='btn'>Ver pedido</Link>
+                                        </li>
+                                    ))}
+                                </ul>               
                             }
                         </li>
                     </ul>
