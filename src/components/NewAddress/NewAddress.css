@@ -1,0 +1,42 @@
+.form-new-address {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.form-new-address h4 {
+    margin-bottom: 10px;
+}
+
+.form-new-address .container-options-list {
+    width: 100%;
+    left: 0;
+}
+
+.form-new-address .container-options-list .options-list li {
+    padding: 3px 7px;
+}
+
+.div-street {
+    display: flex;
+    gap: 10px;
+}
+
+.div-street input {
+    width: 100%;
+}
+
+.div-street .input-address {
+    width: 100%;
+}
+
+.input-address {
+    position: relative;
+}
+
+.btn-new-address {
+    width: 100%;
+}
