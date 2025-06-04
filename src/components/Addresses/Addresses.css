@@ -1,0 +1,73 @@
+.addresses {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 10px;
+    width: 100%;
+    max-width: 610px;
+}
+
+.addresses h4 {
+    font-weight: 500;
+}
+
+.container-address {
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 100%;
+}
+
+.address {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    gap: 15px;
+}
+
+.address .address:hover {
+    background: #f5f5f5;
+}
+
+.address-selected {
+    background: #f5f5f5;
+}
+
+.address-selected svg path {
+    color: var(--color-primary);
+}
+
+.address .btn-error-regular path {
+    color: var(--color-error);
+}
+
+.address p:first-child {
+    font-weight: 500;
+}
+
+.container-btn-change-address {
+    display: flex;
+    gap: 10px;
+}
+
+@media (max-width: 800px) {
+    .addresses {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .container-address,
+    .address {
+        padding: 5px;
+    }
+
+    .container-btn-change-address {
+        flex-direction: column-reverse;
+    }
+
+}
