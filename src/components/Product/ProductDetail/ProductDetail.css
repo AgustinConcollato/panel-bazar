@@ -8,11 +8,38 @@
 }
 
 .info-product {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     border-bottom: 1px solid #eee;
     padding-bottom: 10px;
+    z-index: 10;
+}
+
+.info-product>div {
+    margin-top: 20px;
+}
+
+.info-product>div ul {
+    margin-bottom: 0;
+}
+
+.info-product>div ul li {
+    cursor: auto;
+    text-align: start;
+    flex-wrap: wrap;
+    padding: 5px 0;
+}
+
+.info-product>div ul li div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.info-product>div ul li.hover {
+    background: #fff;
 }
 
 .info-product:last-child {
@@ -117,7 +144,7 @@
     cursor: pointer;
 }
 
-.info-product ul li:hover {
+.info-product>ul li:hover {
     background: #f5f5f5;
 }
 
@@ -188,12 +215,16 @@ textarea.input {
 
     .container-thumbnails {
         flex-direction: row;
-        overflow-x: auto;
+        flex-wrap: wrap;
         padding: 5px;
         transform: translateX(-5px);
     }
 
     .info-product {
         width: 100%;
+    }
+
+    .info-product>div ul li>div {
+        margin-top: 5px;
     }
 }

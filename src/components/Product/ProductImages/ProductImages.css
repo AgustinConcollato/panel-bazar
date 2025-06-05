@@ -13,6 +13,7 @@
     box-shadow: 0 5px 10px #00000020;
     border: 1px solid #ddd;
     padding: 10px;
+    z-index: 100;
 }
 
 .container-main-image div {
