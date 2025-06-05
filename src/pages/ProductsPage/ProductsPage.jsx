@@ -3,6 +3,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import { ProductFilters } from "../../components/ProductComponents/ProductFilters/ProductFilters";
 import { ProductList } from "../../components/ProductComponents/ProductList/ProductList";
 import { Products } from "../../services/productsService";
+import { ProductPriorityAnalytics } from '../../components/ProductComponents/ProductPriorityAnalytics/ProductPriorityAnalytics';
 import './ProductsPage.css';
 
 export function ProductsPage() {
@@ -39,6 +40,7 @@ export function ProductsPage() {
 
     return (
         <section className="products-page">
+            <ProductPriorityAnalytics />
             <div className="header-products-page">
                 <ProductFilters />
                 <Link to={'/agregar-producto'} className="btn btn-solid">+ Nuevo producto </Link>

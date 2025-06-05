@@ -1,0 +1,67 @@
+.priority-analytics-cards {
+  margin-bottom: 40px;
+}
+
+.priority-analytics-cards h3 {
+    margin-bottom: 20px;    
+}
+
+.priority-cards {
+    display: flex;
+    gap: 10px;
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.priority-card {
+    min-width: 450px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    gap: 10px;
+    transition: box-shadow 0.2s, transform 0.2s;
+    border: 1px solid #ccc;
+}
+
+.priority-card:hover {
+  border-color: #aaa;
+}
+
+.priority-card-img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}
+
+.priority-card ul li{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+    max-width: 318px;
+}
+
+.priority-card ul li:last-child,
+.priority-card ul li:first-child {
+    border-bottom: none;
+}
+
+.priority-product-name {
+    max-width: calc(100% - 10px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@media (max-width: 450px) {
+    .priority-card {
+        min-width: 90%;
+        flex-direction: column;
+    }
+
+    .priority-card ul li{
+        max-width: 100%;
+    }
+}
