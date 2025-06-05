@@ -87,4 +87,25 @@ export class Analytics {
             throw error
         }
     }
+
+    async priorityProducts(){
+        const fullUrl = `${url}/products/priority`;
+
+        try {
+            const response = await fetch(fullUrl, {
+                headers: {
+                    'Authorization': `Bearer ${this.token}`
+                }
+            })
+
+            if (!response.ok) {
+                const error = await response.json()
+                throw error
+            }
+            
+            return await response.json()
+        } catch (error) {
+            throw error
+        }
+    }
 }
