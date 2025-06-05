@@ -40,8 +40,7 @@ export function ProductPriorityAnalytics() {
                     let img = null;
                     try {
                         const thumbs = JSON.parse(product.thumbnails);
-                        // ${urlStorage}
-                        img = thumbs && thumbs.length > 0 ? `https://api.bazarrshop.com/storage/${thumbs[0]}` : null;
+                        img = thumbs && thumbs.length > 0 ? `${urlStorage}/${thumbs[0]}` : null;
                     } catch {
                         img = null;
                     }
