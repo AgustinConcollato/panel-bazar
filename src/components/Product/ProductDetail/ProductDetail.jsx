@@ -184,6 +184,55 @@ export function ProductDetail() {
                                 </span>
                             </p>
                         </header>
+                        <div>
+                            <h3>Últimas ventas</h3>
+                            <ul>
+                                <li>
+                                    Estado del stock
+                                    <b>
+                                        <span style={{
+                                            background: product.sales_velocity.status === 'sin_ventas' ? '#eee' : product.sales_velocity.status.includes('bajo') ? '#ff8800' : '#e74c3c',
+                                            color: product.sales_velocity.status === 'sin_ventas' ? '#000' : '#fff',
+                                            borderRadius: 6,
+                                            padding: '2px 8px',
+                                            fontWeight: 400
+                                        }}>
+                                            {product.sales_velocity.status === 'sin_ventas'
+                                                ? product.sales_velocity.status.replace('_', ' ')
+                                                : product.sales_velocity.status.split('_')[1]}
+                                        </span>
+                                    </b>
+                                </li>
+                                <li>Venta en los últimos 30 días <b>{product.sales_velocity.total_sold_last_30_days}</b></li>
+                                <li>Venta en la última semana <b>{product.sales_velocity.total_sold_last_week}</b></li>
+                                <li>Cantidad aprox. por semana <b>{product.sales_velocity.velocity_per_week}</b></li>
+                                <li>
+                                    Semanas aprox. para agotar stock
+                                    <div>
+                                        <b style={{ marginLeft: 8 }}>{product.sales_velocity.weeks_until_stockout || 0}</b>
+                                    <div style={{
+                                        width: 180,
+                                        height: 10,
+                                        background: '#eee',
+                                        borderRadius: 5,
+                                        marginTop: 4,
+                                        position: 'relative',
+                                        display: 'inline-block',
+                                        verticalAlign: 'middle'
+                                    }}>
+                                        <div style={{
+                                            width: `${Math.min(1, product.sales_velocity.weeks_until_stockout / 12) * 100}%`,
+                                            height: '100%',
+                                            background: product.sales_velocity.weeks_until_stockout < 3 ? '#e74c3c' : product.sales_velocity.weeks_until_stockout < 6 ? '#ff8800' : '#66b819',
+                                            borderRadius: 5,
+                                            transition: 'width 0.3s'
+                                        }} />
+                                    </div>
+                                    <span style={{ fontSize: 12, color: '#888', marginLeft: 8 }}>(máx. 12 semanas)</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                     <ProductImages
                         images={images}
