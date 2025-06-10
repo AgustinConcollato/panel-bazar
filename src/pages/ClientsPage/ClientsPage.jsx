@@ -43,7 +43,10 @@ export function ClientsPage() {
             </div>
             {clients ?
                 clients.length != 0 ?
-                    <ClientList clients={clients} /> :
+                <>
+                    <p>Cantidad de clientes: {clients.length}</p>
+                    <ClientList clients={clients} /> 
+                </> :
                     <p>No hay clientes</p> :
                 <Loading />
             }

@@ -130,7 +130,7 @@ export function ProductDetail() {
             setProduct(editedProduct)
             setEditField(null)
         } else {
-            toast.error('No hay cambios para guardar')
+            toast.info('No hay cambios para guardar')
         }
     }
 

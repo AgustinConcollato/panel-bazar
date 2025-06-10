@@ -62,4 +62,26 @@ export class Clients {
             throw error
         }
     }
+
+    async update({id, data}) {
+         try {
+            const response = await fetch(`${this.url}/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${this.token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+
+            if (!response.ok) {
+                const error = await response.json()
+                throw error
+            }
+
+            return await response.json()
+        } catch (error) {
+            throw error
+        }
+    }
 }
