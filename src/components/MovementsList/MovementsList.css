@@ -60,6 +60,15 @@
     font-weight: 500;
 }
 
+.movement-type .movement-time {
+    font-weight: 400;
+    opacity: 0;
+}
+
+.movement:hover .movement-type .movement-time {
+    opacity:1;
+}
+
 .movement.in .movement-type {
     color: #2e7d32;
 }

@@ -34,17 +34,20 @@ export function MovementsList({ movements }) {
                                             </div>
                                             <div>
                                                 <span className="movement-type">
-                                                    {e.type === "in" ? "Ingreso" : "Egreso"}
+                                                    {e.type === "in" ? "Ingreso " : "Egreso "}
+                                                    <span className="movement-time">
+                                                        {new Date(e.updated_at).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false })} hs
+                                                    </span>
                                                 </span>
                                                 <span className="movement-description">{e.description}</span>
                                             </div>
                                         </div>
                                         <div className="movement-details">
                                             <span className="movement-amount movement-type">
-                                                {e.type === "in" ? '+' : '-'} ${parseFloat(e.amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })}
+                                                {e.type === "in" ? '+' : '-'} ${parseFloat(e.total_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })}
                                             </span>
                                             <span className="movement-time">
-                                                {new Date(e.updated_at).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false })} hs
+                                                {e.type === "in" ? '+' : '-'} ${parseFloat(e.amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })}
                                             </span>
                                         </div>
                                     </Link>
