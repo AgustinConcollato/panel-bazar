@@ -281,7 +281,7 @@ main {
         position: fixed;
         top: 0;
         left: -100%;
-        z-index: 10000;
+        z-index: 1100;
     }
 
 }

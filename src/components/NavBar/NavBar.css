@@ -58,7 +58,9 @@ aside div:last-child a span {
         display: inline-flex;
         position: absolute;
         margin: 0;
-        top: 20px;
+        top: 18px;
+        height: 45px;
+        width: 45px;
     }
 
     .nav-bar ul li a {
