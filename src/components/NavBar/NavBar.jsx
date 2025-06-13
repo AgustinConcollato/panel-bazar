@@ -2,7 +2,7 @@ import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { CalendarIcon, ClientIcon, HomeIcon, OrderIcon, ProductIcon, ProviderIcon, WalletIcon } from '../../icons/icons'
+import { CalendarIcon, ClientIcon, HomeIcon, OrderIcon, ProductIcon, ProviderIcon, ShoppingBasketIcon, WalletIcon } from '../../icons/icons'
 import { api } from '../../services/api'
 import './NavBar.css'
 
@@ -23,6 +23,49 @@ export function NavBar() {
         }
     }
 
+    const navItems = [
+        {
+            to: '/panel',
+            icon: <HomeIcon width={18} height={18} color='#000' />,
+            label: 'Inicio'
+        },
+        {
+            to: '/pedidos',
+            icon: <OrderIcon width={18} height={18} color='#000' />,
+            label: 'Pedidos'
+        },
+        {
+            to: '/productos',
+            icon: <ProductIcon width={18} height={18} color='#000' />,
+            label: 'Productos'
+        },
+        {
+            to: '/clientes',
+            icon: <ClientIcon width={18} height={18} color='#000' />,
+            label: 'Clientes'
+        },
+        {
+            to: '/proveedores',
+            icon: <ProviderIcon width={18} height={18} color='#000' />,
+            label: 'Proveedores'
+        },
+        {
+            to: '/caja',
+            icon: <WalletIcon width={18} height={18} color='#000' />,
+            label: 'Caja'
+        },
+        {
+            to: '/eventos',
+            icon: <CalendarIcon width={18} height={18} color='#000' />,
+            label: 'Eventos'
+        },
+        {
+            to: '/compras',
+            icon: <ShoppingBasketIcon width={18} height={18} color='#000' />,
+            label: 'compras'
+        }
+    ]
+
     return (
         <aside style={hidden ? { left: '-100%' } : { left: '0' }}>
             <div
@@ -34,76 +77,14 @@ export function NavBar() {
             </div>
             <nav className='nav-bar'>
                 <ul onClick={() => !hidden && setHidden(true)}>
-                    <li>
-                        <NavLink to={'/panel'}>
-                            <HomeIcon
-                                width={18}
-                                height={18}
-                                color='#000'
-                            />
-                            Inicio
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink to={'/pedidos'}>
-                            <OrderIcon
-                                width={18}
-                                height={18}
-                                color='#000'
-                            />
-                            Pedidos
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink to={'/productos'}>
-                            <ProductIcon
-                                width={18}
-                                height={18}
-                                color='#000'
-                            />
-                            Productos
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink to={'/clientes'}>
-                            <ClientIcon
-                                width={18}
-                                height={18}
-                                color='#000'
-                            />
-                            Clientes
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink to={'/proveedores'}>
-                            <ProviderIcon
-                                width={18}
-                                height={18}
-                                color='#000'
-                            />
-                            Proveedores
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink to={'/caja'}>
-                            <WalletIcon
-                                width={18}
-                                height={18}
-                                color='#000'
-                            />
-                            Caja
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink to={'/eventos'}>
-                            <CalendarIcon
-                                width={18}
-                                height={18}
-                                color='#000'
-                            />
-                            Eventos
-                        </NavLink>
-                    </li>
+                    {navItems.map(item => (
+                        <li key={item.to}>
+                            <NavLink to={item.to}>
+                                {item.icon}
+                                {item.label}
+                            </NavLink>
+                        </li>
+                    ))}
                 </ul>
             </nav>
             <div>
