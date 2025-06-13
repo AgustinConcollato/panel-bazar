@@ -89,7 +89,7 @@ export class Clients {
         try {
             const response = await fetch(`${this.url}/search/${clientName}`, {
                 headers: {
-                    'Authtentication': `Bearer ${this.token}`
+                    'Authorization': `Bearer ${this.token}`
                 }
             })
 

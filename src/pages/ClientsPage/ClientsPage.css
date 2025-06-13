@@ -82,3 +82,14 @@
     width: 24px;
     height: 24px;
 }
+
+.client-page table {
+    margin-top: 20px;
+    width: 100%;
+}
+
+.client-page table th {
+    padding: 10px;
+    background: #eee;
+    text-align: left;
+}

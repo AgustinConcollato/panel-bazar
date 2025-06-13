@@ -3,20 +3,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
+import { Clients } from '../../services/clientsService';
 import { Order } from '../../services/ordersService';
 import { Modal } from '../Modal/Modal';
 import { NewAddress } from '../NewAddress/NewAddress';
 import './ClientList.css';
-import { Clients } from '../../services/clientsService';
 
 export function ClientList({clients}) {
     return (
         <>
-            <ul className='client-list'>
-                {clients.map(e =>
-                    <Client e={e}/>
-                )}
-            </ul>
+            {clients.map(e =>
+                <Client e={e} key={e.id}/>
+            )}
             <ToastContainer
                 position="top-right"
                 autoClose={3000}
@@ -131,19 +129,20 @@ function Client({e}) {
 
     return (
         <>
-        <li key={client.id}>
-            <div>
-                {client.name}
-                {client.payments.length != 0 &&
+        <tr key={client.id} className='client-item'>
+                <td>{client.name}</td>
+                <td>
+                    {client.payments.length != 0 ?
                     <span className='payment-pending'>
-                        {client.payments.length} pagos pendientes 
                         <FontAwesomeIcon icon={faCircleExclamation} color="#ff8800" />
-                    </span>
-                } 
-                <ul>
-                    <li>Correo: {client.email}</li>
-                    <li>Celular: {client.phone_number}</li>
-                    <li>Dirección:
+                        {client.payments.length} pagos pendientes 
+                    </span> :
+                    <span >Sin pagos pendientes</span>
+                }
+                </td>
+                    <td>{client.email ?? '-'}</td>
+                    <td>{client.phone_number ?? '-'}</td>
+                    <td>
                     {addresses.length > 0 ? (
                         <span>
                             {addresses.map((addr, idx) =>{
@@ -159,16 +158,14 @@ function Client({e}) {
                     ) : (
                         <span> Sin direcciones</span>
                     )}
-                    </li>
-                </ul>
-            </div>
+                    </td>
             <div className="container-btn">
                 <Link to={'/cliente/' + e.id} className="btn btn-regular"> Ver detalle </Link>
                 <button className="btn btn-regular" onClick={()=> setNewOrder({name: client.name, id: client.id})}> Crear pedido </button>
                 <button className="btn btn-regular" onClick={()=> setChangeAddress(e)}> Agregar dirección </button>
                 <button className="btn" onClick={()=> setEdit(true)}> Editar </button>
             </div>
-        </li>
+        </tr>
         {newOrder &&
             <Modal>
                 <div className='container-children'>
