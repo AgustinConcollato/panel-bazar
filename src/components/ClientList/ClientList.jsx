@@ -77,7 +77,9 @@ function Client({e}) {
 
         const data = {};
         formData.forEach((value, key) => {
-            if (value !== '') {
+            if (key === 'phone_number' || key === 'email') {
+                data[key] = value.trim();
+            }else if (value !== '') {
                 data[key] = value;
             }
         });
@@ -113,8 +115,9 @@ function Client({e}) {
             }
 
             if (error?.errors) {
-                const errors = Object.values(error.errors).map(err => err[0]);
-                toast.error(errors.join(', '));
+                Object.values(error.errors).map(err =>
+                    toast.error(err[0])
+                );
             }
 
         } finally {
