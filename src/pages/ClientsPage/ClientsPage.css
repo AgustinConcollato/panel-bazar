@@ -1,6 +1,5 @@
 .client-page {
     margin: 20px auto;
-    max-width: 800px;
 }
 
 .header-client-page {
@@ -10,6 +9,76 @@
     margin-bottom: 20px;
 }
 
+.header-client-page>div {
+    display: flex;
+    gap: 10px;
+}
+
 .header-client-page .input {
     width: 200px;
+}
+
+.header-client-page .input[type="search"] {
+    width: 400px;
+}
+
+.search-client {
+    position: relative;
+}
+
+.search-client .results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 1000;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.search-client .results ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.search-client .results li {
+    border-bottom: 1px solid #eee;
+}
+
+.search-client .results li:last-child {
+    border-bottom: none;
+}
+
+.search-client .results li a {
+    text-decoration: none;
+    padding: 8px 12px;
+    display: block;
+}
+
+.search-client .results li:hover {
+    background-color: #f5f5f5;
+}
+
+.search-client .results p {
+    padding: 12px;
+    margin: 0;
+    color: #666;
+    text-align: center;
+}
+
+.search-client .loading-results {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-client .loading-results .loading {
+    width: 24px;
+    height: 24px;
 }

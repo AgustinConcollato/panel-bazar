@@ -63,8 +63,8 @@ export class Clients {
         }
     }
 
-    async update({id, data}) {
-         try {
+    async update({ id, data }) {
+        try {
             const response = await fetch(`${this.url}/${id}`, {
                 method: 'PUT',
                 headers: {
@@ -80,6 +80,26 @@ export class Clients {
             }
 
             return await response.json()
+        } catch (error) {
+            throw error
+        }
+    }
+
+    async search(clientName) {
+        try {
+            const response = await fetch(`${this.url}/search/${clientName}`, {
+                headers: {
+                    'Authtentication': `Bearer ${this.token}`
+                }
+            })
+
+            if (!response.ok) {
+                const error = await response.json()
+                throw error
+            }
+
+            return await response.json()
+
         } catch (error) {
             throw error
         }
