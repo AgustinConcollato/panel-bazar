@@ -22,6 +22,7 @@ import { ProductsPage } from './pages/ProductsPage/ProductsPage'
 import { ProviderPage } from './pages/ProviderPage/ProviderPage'
 import { SearchResultsPage } from './pages/SearchResultsPage'
 import { BarcodeScanner } from './components/BarcodeScanner/BarcodeScanner'
+import { ShoppingPage } from './pages/ShoppingPage/ShoppingPage'
 
 function App() {
   const { user } = useContext(AuthContext)
@@ -59,6 +60,7 @@ function App() {
                 <Route path='/eventos/*' element={<CampaignPage />} />
                 <Route path='/agregar-evento' element={<AddCampaign />} />
                 <Route path='/caja' element={<CashRegisterPage />} />
+                <Route path='/compras' element={<ShoppingPage />} />
                 <Route path='/codigo' element={<BarcodeScanner/>} />
                 <Route path="*" element={<Navigate to="/panel" replace />} />
               </Routes>
