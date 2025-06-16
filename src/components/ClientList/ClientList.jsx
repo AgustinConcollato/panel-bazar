@@ -40,6 +40,7 @@ function Client({e}) {
     const [edit, setEdit] = useState(false);
     const [loading, setLoading] = useState(false);
     const [client, setClient] = useState(e);
+    const [isSelected, setIsSelected] = useState(false);
 
     const navigate = useNavigate();
 
@@ -132,7 +133,19 @@ function Client({e}) {
 
     return (
         <>
-        <tr key={client.id} className='client-item'>
+        <tr 
+            key={client.id} 
+            className={`client-item ${isSelected ? 'selected' : ''}`}
+            onClick={() => setIsSelected(!isSelected)}
+            onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setIsSelected(!isSelected);
+                }
+            }}
+            role="button"
+            tabIndex={0}
+        >
                 <td>{client.name}</td>
                 <td>
                     {client.payments.length != 0 ?

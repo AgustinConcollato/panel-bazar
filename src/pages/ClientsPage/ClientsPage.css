@@ -14,16 +14,17 @@
     gap: 10px;
 }
 
-.header-client-page .input {
+.header-client-page select {
     width: 200px;
 }
 
-.header-client-page .input[type="search"] {
+.search-client {
     width: 400px;
+    position: relative;
 }
 
-.search-client {
-    position: relative;
+.search-client input {
+    width: 100%;
 }
 
 .search-client .results {
@@ -33,17 +34,17 @@
     right: 0;
     background: white;
     border: 1px solid #ddd;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    z-index: 1000;
+    border-radius: 0 0 4px 4px;
     max-height: 300px;
     overflow-y: auto;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .search-client .results ul {
-    list-style: none;
-    padding: 0;
     margin: 0;
+    padding: 0;
+    list-style: none;
 }
 
 .search-client .results li {
@@ -92,4 +93,42 @@
     padding: 10px;
     background: #eee;
     text-align: left;
+}
+
+.results ul li {
+    border-bottom: 1px solid #eee;
+}
+
+.results ul li.selected {
+    background-color: #f0f0f0;
+}
+
+.results ul li.selected a {
+    color: #333;
+    font-weight: 500;
+}
+
+@media (max-width: 450px) {
+    .header-client-page {
+        flex-direction: column-reverse;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .header-client-page div {
+        flex-wrap: wrap;
+    }
+
+    .header-client-page select,
+    .search-client {
+        width: 100%;
+    }
+
+    .client-page table {
+        max-width: 100%;
+        display: block;
+        overflow-x: scroll;
+        overflow-y: hidden;
+    }
+    
 }

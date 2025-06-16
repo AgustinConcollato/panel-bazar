@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { Link } from "react-router-dom"
 import { ClientList } from "../../components/ClientList/ClientList"
 import { Loading } from "../../components/Loading/Loading"
@@ -13,6 +13,9 @@ export function ClientsPage() {
     const [results, setResults] = useState(null)
     const [isSearching, setIsSearching] = useState(false)
     const [isFocused, setIsFocused] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const [selectedIndex, setSelectedIndex] = useState(-1)
+    const resultsRef = useRef(null)
 
     async function searchClient(e) {
         const clientName = e.target.value
@@ -37,11 +40,14 @@ export function ClientsPage() {
     async function getClients() {
         const clients = new Clients()
 
+        setLoading(true)
         try {
             const response = await clients.get({ source })
             setClients(response)
         } catch (error) {
             console.log(error)
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -49,6 +55,62 @@ export function ClientsPage() {
         getClients()
         document.title = 'Clientes'
     }, [source])
+
+    const handleKeyDown = (e) => {
+        if (!results || results.length === 0) return;
+
+        switch (e.key) {
+            case 'ArrowDown':
+                e.preventDefault();
+                setSelectedIndex(prev => 
+                    prev < results.length - 1 ? prev + 1 : prev
+                );
+                break;
+            case 'ArrowUp':
+                e.preventDefault();
+                setSelectedIndex(prev => 
+                    prev > 0 ? prev - 1 : prev
+                );
+                break;
+            case 'Enter':
+                e.preventDefault();
+                if (selectedIndex >= 0 && selectedIndex < results.length) {
+                    window.location.href = `/cliente/${results[selectedIndex].id}`;
+                }
+                break;
+            case 'Escape':
+                setIsFocused(false);
+                setSelectedIndex(-1);
+                break;
+        }
+    };
+
+    // Reset selected index when results change
+    useEffect(() => {
+        setSelectedIndex(-1);
+    }, [results]);
+
+    // Scroll selected item into view
+    useEffect(() => {
+        if (selectedIndex >= 0 && resultsRef.current) {
+            const resultsContainer = resultsRef.current;
+            const selectedElement = resultsContainer.querySelector('ul')?.children[selectedIndex];
+            
+            if (selectedElement) {
+                const containerRect = resultsContainer.getBoundingClientRect();
+                const elementRect = selectedElement.getBoundingClientRect();
+                
+                // Check if element is outside the visible area
+                if (elementRect.bottom > containerRect.bottom) {
+                    // Scroll down to show the element
+                    resultsContainer.scrollTop += elementRect.bottom - containerRect.bottom;
+                } else if (elementRect.top < containerRect.top) {
+                    // Scroll up to show the element
+                    resultsContainer.scrollTop -= containerRect.top - elementRect.top;
+                }
+            }
+        }
+    }, [selectedIndex]);
 
     return (
         <section className="client-page">
@@ -69,17 +131,21 @@ export function ClientsPage() {
                             onChange={searchClient}
                             onFocus={() => setIsFocused(true)}
                             onBlur={() => setTimeout(() => setIsFocused(false), 200)}
+                            onKeyDown={handleKeyDown}
                         />
                         {isFocused && (results || isSearching) && (
-                            <div className="results">
+                            <div className="results" ref={resultsRef}>
                                 {isSearching ? (
                                     <div className="loading-results">
                                         <Loading />
                                     </div>
                                 ) : results.length > 0 ? (
                                     <ul>
-                                        {results.map(client => (
-                                            <li key={client.id}>
+                                        {results.map((client, index) => (
+                                            <li 
+                                                key={client.id}
+                                                className={index === selectedIndex ? 'selected' : ''}
+                                            >
                                                 <Link to={`/cliente/${client.id}`}>
                                                     {client.name}
                                                 </Link>
@@ -95,7 +161,7 @@ export function ClientsPage() {
                 </div>
                 <Link to={'/agregar-cliente'} className="btn btn-solid">+ Nuevo cliente</Link>
             </div>
-            {clients ?
+            {(!loading && clients) ?
                 clients.length != 0 ?
                     <>
                         <p>Cantidad de clientes: {clients.length}</p>
