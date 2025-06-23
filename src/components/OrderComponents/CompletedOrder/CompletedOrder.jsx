@@ -17,6 +17,10 @@ export function CompletedOrder({ order, getOrder }) {
     const [partialPayment, setPartialPayment] = useState(null)
     const [partialAmount, setPartialAmount] = useState('')
 
+    // Calcular descuento y total con descuento
+    const discountAmount = order.discount ? (parseFloat(order.total_amount) * (order.discount / 100)) : 0;
+    const totalWithDiscount = parseFloat(order.total_amount) - discountAmount;
+
     async function createPay(data) {
         const payments = new Payments()
 
@@ -98,12 +102,12 @@ export function CompletedOrder({ order, getOrder }) {
         getOrder(order.id)
     }, [])
 
+    // Calcula el total pagado sobre el total con descuento
     const calculateTotalPaid = () => {
         return payments.reduce((total, payment) => total + (parseFloat(payment.paid_amount) || 0), 0)
     }
-
     const isFullyPaid = () => {
-        return calculateTotalPaid() >= parseFloat(order.total_amount)
+        return calculateTotalPaid() >= totalWithDiscount;
     }
 
     // Calcula el color de la barra de progreso según el porcentaje pagado
@@ -121,13 +125,27 @@ export function CompletedOrder({ order, getOrder }) {
                 {payments.length > 0 ?
                     <>
                         <div className="payment-progress">
-                                <p>Pagado: ${calculateTotalPaid().toLocaleString('es-AR', { maximumFractionDigits: 2 })} de ${parseFloat(order.total_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })}</p>
+                            <p>
+                                Subtotal: ${parseFloat(order.total_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })}
+                            </p>
+                            <p>
+                                {order.discount
+                                    ? <>Descuento ({order.discount}%): -${discountAmount.toLocaleString('es-AR', { maximumFractionDigits: 2 })}</>
+                                    : <>Descuento: -$0</>
+                                }
+                            </p>
+                            <p>
+                                <b>Total con descuento: ${totalWithDiscount.toLocaleString('es-AR', { maximumFractionDigits: 2 })}</b>
+                            </p>
+                            <p>
+                                Pagado: ${calculateTotalPaid().toLocaleString('es-AR', { maximumFractionDigits: 2 })} de ${totalWithDiscount.toLocaleString('es-AR', { maximumFractionDigits: 2 })}
+                            </p>
                             <div className="progress-bar">
                                 <div 
                                     className="progress-fill" 
                                     style={{ 
-                                        width: `${(calculateTotalPaid() / order.total_amount) * 100}%`,
-                                        backgroundColor: getProgressColor(Math.min(1, calculateTotalPaid() / order.total_amount))
+                                        width: `${(calculateTotalPaid() / totalWithDiscount) * 100}%`,
+                                        backgroundColor: getProgressColor(Math.min(1, calculateTotalPaid() / totalWithDiscount))
                                     }}
                                 ></div>
                             </div>
