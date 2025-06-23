@@ -64,7 +64,11 @@ export class Campaign {
         }
 
         try {
-            const response = await fetch(fullUrl)
+            const response = await fetch(fullUrl, {
+                headers: {
+                    'Authorization': `Bearer ${this.token}`,
+                },
+            })
 
             if (!response.ok) {
                 const error = response.json()

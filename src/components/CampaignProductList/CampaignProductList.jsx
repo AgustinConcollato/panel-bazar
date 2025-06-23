@@ -26,14 +26,7 @@ export function CampaignProductList({ campaign }) {
         setLoading(true)
         try {
             const response = await new Products().search({ options: { name, page: 1, panel: true } })
-            const filteredResults = response.data.map(product => {
-                const isInCampaign = products.some(campaignProduct => campaignProduct.id === product.id)
-                return {
-                    ...product,
-                    in_campaign: isInCampaign
-                }
-            })
-            setResults(filteredResults)
+            setResults(response.data)
         } catch (error) {
             console.log(error)
         } finally {
@@ -94,8 +87,8 @@ export function CampaignProductList({ campaign }) {
                             return (
                                 <div
                                     key={e.id}
-                                    className={`product ${e.in_campaign ? 'product-in-campaign' : ''} ${isSelected ? 'product-select' : ''}`}
-                                    onClick={() => !isSelected && !e.in_campaign && selectProduct(e)}
+                                    className={`product ${(e.in_campaign || e.campaign_discount) ? 'product-in-campaign' : ''} ${isSelected ? 'product-select' : ''}`}
+                                    onClick={() => !isSelected && !e.in_campaign && !e.campaign_discount && selectProduct(e)}
                                 >
                                     <div className="container-img">
                                         <img src={urlStorage + '/' + JSON.parse(e.thumbnails)[0]} />
