@@ -92,7 +92,7 @@ export function CashRegisterSummary({ setMovements = () => { } }) {
             const { total_in, total_out, available } = balance
             const { total_in: monthly_in, total_out: monthly_out } = monthly
 
-            setAvailable(available.toLocaleString('es-AR', { maximumFractionDigits: 2 }))
+            setAvailable(parseFloat(available).toLocaleString('es-AR', { maximumFractionDigits: 2 }))
             setTotalIn(parseFloat(total_in).toLocaleString('es-AR', { maximumFractionDigits: 2 }))
             setTotalOut(parseFloat(total_out).toLocaleString('es-AR', { maximumFractionDigits: 2 }))
             setMonthlyIn(parseFloat(monthly_in).toLocaleString('es-AR', { maximumFractionDigits: 2 }))

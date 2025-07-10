@@ -5,7 +5,7 @@ import './MovementsList.css'
 export function MovementsList({ movements }) {
     function groupMovementsByDate(movements) {
         return movements.reduce((groups, movement) => {
-            const date = new Date(movement.updated_at).toLocaleDateString()
+            const date = new Date(movement.created_at).toLocaleDateString()
             if (!groups[date]) {
                 groups[date] = []
             }
