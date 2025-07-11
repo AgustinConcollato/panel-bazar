@@ -6,6 +6,8 @@ import { api, url } from "../../../services/api";
 import { Loading } from "../../Loading/Loading";
 import { Modal } from "../../Modal/Modal";
 import './ProductProviders.css';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 
 export function Providers({ currentProviders }) {
 
@@ -16,6 +18,7 @@ export function Providers({ currentProviders }) {
     const [providerList, setProviderList] = useState(currentProviders || null)
     const [price, setPrice] = useState(null)
     const [btnHidden, setBtnHidden] = useState(true)
+    const [loading, setLoading] = useState(false)
 
     function handleSelectProvider(providerId) {
         setSelectedProviders((prev) => {
@@ -32,11 +35,13 @@ export function Providers({ currentProviders }) {
     }
 
     function handlePriceChange(providerId, price) {
+        setPrice(null)
         setSelectedProviders((prev) => {
             // Si el precio es 0, eliminamos el proveedor
             if (price < 0) {
                 const newSelectedProviders = { ...prev };
                 delete newSelectedProviders[providerId]; // Eliminar el proveedor
+                setPrice(null)
                 return newSelectedProviders;
             }
 
@@ -59,6 +64,8 @@ export function Providers({ currentProviders }) {
         formData.append('providers', JSON.stringify(filteredProviders))
         formData.append('product_id', id)
 
+        setLoading(true)
+
         try {
             const response = await fetch(`${url}/provider/assign-product`, {
                 method: 'POST',
@@ -79,6 +86,9 @@ export function Providers({ currentProviders }) {
             setSelectedProviders({})
         } catch (error) {
             console.log(error)
+        } finally {
+            setLoading(false)
+            setPrice(null)
         }
 
     }
@@ -101,6 +111,8 @@ export function Providers({ currentProviders }) {
         } catch (error) {
             console.log(error)
         }
+
+        setPrice(null)
     }
 
     useEffect(() => {
@@ -145,8 +157,8 @@ export function Providers({ currentProviders }) {
                 </ul>
                 {providers.length !== 0 ? (
                     Object.keys(selectedProviders).length > 0 && (
-                        <Modal>
-                            <form onSubmit={addPurchasePrice} className="container-children">
+                        <Modal onClose={() => setSelectedProviders({})}>
+                            <form onSubmit={addPurchasePrice} className="provider-price-form">
                                 {Object.keys(selectedProviders).map((providerId) => {
                                     const provider = providers.find((p) => p.id == providerId);
                                     const existingProvider = providerList?.find(p => p.id === provider.id);
@@ -165,11 +177,12 @@ export function Providers({ currentProviders }) {
                                                         setPrice(e.target.value)
                                                     }}
                                                     placeholder="Ingrese el precio"
-                                                    value={price || hasPrice || ''}
+                                                    value={price}
+                                                    defaultValue={hasPrice}
                                                     required
                                                 />
                                             </div>
-                                            <button type="submit" className="btn btn-solid">Actualizar precio</button>
+                                            <button type="submit" disabled={loading} className="btn btn-solid">{loading ? <FontAwesomeIcon icon={faCircleNotch} spin /> : 'Actualizar precio'}</button>
                                             <button
                                                 type="button"
                                                 className="btn"
@@ -196,7 +209,6 @@ export function Providers({ currentProviders }) {
                                 })}
 
                             </form>
-                            <div className="background-modal" onClick={() => setSelectedProviders({})}></div>
                         </Modal>)
                 ) : (
                     <div>

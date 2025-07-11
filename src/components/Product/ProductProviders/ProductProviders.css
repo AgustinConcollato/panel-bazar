@@ -1,3 +1,9 @@
+.provider-price-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
 .delete-provider {
     cursor: pointer;
     border-radius: 5px;
