@@ -8,6 +8,7 @@ import { Modal } from "../../Modal/Modal";
 import './ProductProviders.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-toastify";
 
 export function Providers({ currentProviders }) {
 
@@ -58,37 +59,36 @@ export function Providers({ currentProviders }) {
         const formData = new FormData(e.target)
 
         const filteredProviders = Object.fromEntries(
-            Object.entries(selectedProviders).filter(([providerId, price]) => price > 0)
+            Object.entries(selectedProviders).filter(([_, price]) => price > 0)
         )
 
         formData.append('providers', JSON.stringify(filteredProviders))
         formData.append('product_id', id)
 
-        setLoading(true)
+        if (Object.keys(filteredProviders).length > 0) {
+            setLoading(true)
 
-        try {
-            const response = await fetch(`${url}/provider/assign-product`, {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-                },
-                body: formData
-            })
+            const { Providers } = api
+            const providers = new Providers()
 
-            if (!response.ok) {
-                const error = await response.json()
-                throw error
+            try {
+
+                const product = await toast.promise(providers.assignProduct(formData), {
+                    pending: 'Actualizando precio...',
+                    success: 'Se actualizó correctamente',
+                    error: 'Error, no se puedo actualizar'
+                })
+
+                setProviderList(product.product.providers)
+                setSelectedProviders({})
+            } catch (error) {
+                console.log(error)
+            } finally {
+                setLoading(false)
+                setPrice(null)
             }
-
-            const product = await response.json()
-
-            setProviderList(product.product.providers)
-            setSelectedProviders({})
-        } catch (error) {
-            console.log(error)
-        } finally {
-            setLoading(false)
-            setPrice(null)
+        } else {
+            toast.info('No hay cambios para guardar')
         }
 
     }
@@ -100,9 +100,11 @@ export function Providers({ currentProviders }) {
 
         try {
 
-            const response = await providers.deleteProduct({ providerId, productId: id })
-
-            console.log(response)
+            const response = await toast.promise(providers.deleteProduct({ providerId, productId: id }), {
+                pending: 'Eliminando relación...',
+                success: 'Se eliminó correctamente',
+                error: 'Error, no se puedo eliminar'
+            })
 
             setProviderList(response.providers)
             setSelectedProviders({})

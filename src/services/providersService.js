@@ -61,7 +61,27 @@ export class Providers {
 
     async editProduct() {
         // editar url 
+    }
 
+    async assignProduct(data) {
+        try {
+            const response = await fetch(`${url}/assign-product`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${this.token}`
+                },
+                body: data
+            })
+
+            if (!response.ok) {
+                const error = await response.json()
+                throw error
+            }
+
+            return await response.json()
+        } catch (error) {
+            throw error
+        }
     }
 
     async deleteProduct({ providerId, productId }) {
