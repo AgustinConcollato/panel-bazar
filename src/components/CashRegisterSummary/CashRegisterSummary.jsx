@@ -10,8 +10,8 @@ export function CashRegisterSummary({ setMovements = () => { } }) {
     const [totalIn, setTotalIn] = useState()
     const [totalOut, setTotalOut] = useState()
     const [available, setAvailable] = useState()
-    const [monthlyIn, setMonthlyIn] = useState()
-    const [monthlyOut, setMonthlyOut] = useState()
+    const [amountIn, setAmountIn] = useState()
+    const [amountOut, setAmountOut] = useState()
     const [showDepositModal, setShowDepositModal] = useState(false)
     const [showWithdrawModal, setShowWithdrawModal] = useState(false)
     const [amount, setAmount] = useState('')
@@ -89,14 +89,14 @@ export function CashRegisterSummary({ setMovements = () => { } }) {
             const response = await cashRegister.get()
 
             const { balance, monthly, movements } = response
-            const { total_in, total_out, available } = balance
-            const { total_in: monthly_in, total_out: monthly_out } = monthly
+            const { available } = balance
+            const { total_in, total_out, amount_in, amount_out } = monthly
 
             setAvailable(parseFloat(available).toLocaleString('es-AR', { maximumFractionDigits: 2 }))
             setTotalIn(parseFloat(total_in).toLocaleString('es-AR', { maximumFractionDigits: 2 }))
             setTotalOut(parseFloat(total_out).toLocaleString('es-AR', { maximumFractionDigits: 2 }))
-            setMonthlyIn(parseFloat(monthly_in).toLocaleString('es-AR', { maximumFractionDigits: 2 }))
-            setMonthlyOut(parseFloat(monthly_out).toLocaleString('es-AR', { maximumFractionDigits: 2 }))
+            setAmountIn(parseFloat(amount_in).toLocaleString('es-AR', { maximumFractionDigits: 2 }))
+            setAmountOut(parseFloat(amount_out).toLocaleString('es-AR', { maximumFractionDigits: 2 }))
             setMovements(movements)
 
         } catch (error) {
@@ -118,43 +118,29 @@ export function CashRegisterSummary({ setMovements = () => { } }) {
                 </div>
             </div>
             <div className="cash-register-summary-container">
-                {totals ?
-                    <div className="cash-register-summary-section">
-                        <h3>Totales Generales</h3>
-                        <div className="cash-register-summary">
-                            <div>
-                                <span>Total ingresos</span>
-                                <h3>${totalIn}</h3>
-                            </div>
-                            <div>
-                                <span>Total egresos</span>
-                                <h3>${totalOut}</h3>
-                            </div>
+                <div className="cash-register-summary-section">
+                    <h3>Totales del Mes</h3>
+                    <div className="cash-register-summary">
+                        <div>
+                            <span>Ingresos del mes</span>
+                            <h3><span>Total:</span> ${totalIn}</h3>
+                            <h3><span>Saldo:</span> ${amountIn}</h3>
                         </div>
-                    </div> :
-                    <div className="cash-register-summary-section">
-                        <h3>Totales del Mes</h3>
-                        <div className="cash-register-summary">
-                            <div>
-                                <span>Ingresos del mes</span>
-                                <h3>${monthlyIn}</h3>
-                            </div>
-                            <div>
-                                <span>Egresos del mes</span>
-                                <h3>${monthlyOut}</h3>
-                            </div>
+                        <div>
+                            <span>Egresos del mes</span>
+                            <h3>${amountOut}</h3>
                         </div>
                     </div>
-                }
-                <div className="change-cash-register-summary-section" onClick={() => setTotals(!totals)}>
-                    <p>{totals ? 'Ver totales del mes' : 'Ver totales generales'}</p>
                 </div>
+                {/* <div className="change-cash-register-summary-section" onClick={() => setTotals(!totals)}>
+                    <p>{totals ? 'Ver totales del mes' : 'Ver totales generales'}</p>
+                </div> */}
             </div>
             {showDepositModal && (
-                <Modal>
-                    <div className="container-children section-form">
-                        <h2>Realizar depósito</h2>
+                <Modal onClose={() => setShowDepositModal(false)}>
+                    <div className="section-form">
                         <form onSubmit={handleDeposit}>
+                            <h2>Realizar depósito</h2>
                             <div>
                                 <div>
                                     <p>Monto</p>
@@ -196,15 +182,14 @@ export function CashRegisterSummary({ setMovements = () => { } }) {
                             </div>
                         </form>
                     </div>
-                    <div className="background-modal" onClick={() => setShowDepositModal(false)}></div>
                 </Modal>
             )}
 
             {showWithdrawModal && (
-                <Modal>
-                    <div className="container-children section-form">
-                        <h2>Realizar retiro</h2>
+                <Modal onClose={() => setShowWithdrawModal(false)}>
+                    <div className="section-form">
                         <form onSubmit={handleWithdraw}>
+                            <h2>Realizar retiro</h2>
                             <div>
                                 <div>
                                     <p>Monto</p>
@@ -246,7 +231,6 @@ export function CashRegisterSummary({ setMovements = () => { } }) {
                             </div>
                         </form>
                     </div>
-                    <div className="background-modal" onClick={() => setShowWithdrawModal(false)}></div>
                 </Modal>
             )}
         </>

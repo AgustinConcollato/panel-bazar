@@ -38,10 +38,23 @@
     flex: 1;
 }
 
-.cash-register-summary span {
+.cash-register-summary>div>span {
     display: block;
     color: #666;
+    margin-bottom: 10px;
+}
+
+.cash-register-summary h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     margin-bottom: 5px;
+    font-size: 18px;
+}
+
+.cash-register-summary h3 span {
+    font-weight: 400;
+    color: #000;
 }
 
 .change-cash-register-summary-section {
