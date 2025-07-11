@@ -141,9 +141,9 @@ export function CompletedOrder({ order, getOrder }) {
                                 Pagado: ${calculateTotalPaid().toLocaleString('es-AR', { maximumFractionDigits: 2 })} de ${totalWithDiscount.toLocaleString('es-AR', { maximumFractionDigits: 2 })}
                             </p>
                             <div className="progress-bar">
-                                <div 
-                                    className="progress-fill" 
-                                    style={{ 
+                                <div
+                                    className="progress-fill"
+                                    style={{
                                         width: `${(calculateTotalPaid() / totalWithDiscount) * 100}%`,
                                         backgroundColor: getProgressColor(Math.min(1, calculateTotalPaid() / totalWithDiscount))
                                     }}
@@ -155,24 +155,24 @@ export function CompletedOrder({ order, getOrder }) {
                                 <li key={payment.id}>
                                     <p>
                                         Método: {payment.method == 'transfer' ? 'Transferencia' : payment.method == 'cash' ? 'Efectivo' : 'Cheque'}
-                                    </p>                                        
-                                    <p> 
+                                    </p>
+                                    <p>
                                         Estado:
-                                        {!isFullyPaid() ? 
+                                        {!isFullyPaid() ?
                                             <span> Pendiente <FontAwesomeIcon icon={faCircleExclamation} color="#ff8800" /></span> :
-                                            <span> Completado <FontAwesomeIcon icon={faCheckCircle} color="#66b819" /></span> 
+                                            <span> Completado <FontAwesomeIcon icon={faCheckCircle} color="#66b819" /></span>
                                         }
                                     </p>
                                     {parseFloat(payment.paid_amount) < parseFloat(payment.expected_amount) && (
                                         <div className='container-btn'>
-                                            <button 
-                                                className="btn"
+                                            <button
+                                                className="btn btn-solid"
                                                 onClick={() => setCompletePayment(payment)}
                                             >
                                                 Completar pago
                                             </button>
                                             <button
-                                                className="btn"
+                                                className="btn btn-solid"
                                                 onClick={() => {
                                                     setPartialPayment(payment)
                                                     setPartialAmount('')
@@ -184,7 +184,7 @@ export function CompletedOrder({ order, getOrder }) {
                                     )}
                                 </li>
                             ))}
-                        </ul> 
+                        </ul>
                     </>
                     :
                     <div className='order-payments-empty'>
@@ -195,14 +195,14 @@ export function CompletedOrder({ order, getOrder }) {
                                 createPay={createPay}
                                 order={order}
                                 loading={createLoading}
-                                />
+                            />
                         </div>
                     </div>
                 }
             </div>
             {confirmPayment &&
-                <Modal>
-                    <div className="container-children">
+                <Modal onClose={() => setConfirmPayment(false)}>
+                    <div className='container-payment-modal'>
                         <h2>Confirmar pago</h2>
                         <p>¿Estás seguro de que quieres marcar este pago como pagado?</p>
                         {error && <p className='error'>{error}</p>}
@@ -211,12 +211,11 @@ export function CompletedOrder({ order, getOrder }) {
                         </button>
                         <button className="btn" onClick={() => setConfirmPayment(false)}>Cancelar</button>
                     </div>
-                    <div className="background-modal" onClick={() => setConfirmPayment(false)}></div>
                 </Modal>
             }
             {completePayment &&
-                <Modal>
-                    <div className="container-children">
+                <Modal onClose={() => setCompletePayment(false)}>
+                    <div className='container-payment-modal'>
                         <h2>Completar pago</h2>
                         <p>¿Estás seguro de que quieres marcar el pago restante como pagado?</p>
                         <p>Monto restante: ${(completePayment.expected_amount - (completePayment.paid_amount || 0)).toLocaleString('es-AR', { maximumFractionDigits: 2 })}</p>
@@ -225,15 +224,16 @@ export function CompletedOrder({ order, getOrder }) {
                         </button>
                         <button className="btn" onClick={() => setCompletePayment(false)}>Cancelar</button>
                     </div>
-                    <div className="background-modal" onClick={() => setCompletePayment(false)}></div>
                 </Modal>
             }
             {partialPayment &&
-                <Modal>
-                    <div className="container-children">
+                <Modal onClose={() => setPartialPayment(null)}>
+                    <div className='container-payment-modal'>
                         <h2>Agregar pago parcial</h2>
-                        <p>Pagado actual: ${parseFloat(partialPayment.paid_amount || 0).toLocaleString('es-AR', { maximumFractionDigits: 2 })}</p>
-                        <p>Monto restante: ${(partialPayment.expected_amount - (partialPayment.paid_amount || 0)).toLocaleString('es-AR', { maximumFractionDigits: 2 })}</p>
+                        <div>
+                            <p>Pagado actual: ${parseFloat(partialPayment.paid_amount || 0).toLocaleString('es-AR', { maximumFractionDigits: 2 })}</p>
+                            <p>Monto restante: ${(partialPayment.expected_amount - (partialPayment.paid_amount || 0)).toLocaleString('es-AR', { maximumFractionDigits: 2 })}</p>
+                        </div>
                         <input
                             className='input'
                             type="number"
@@ -244,7 +244,7 @@ export function CompletedOrder({ order, getOrder }) {
                             onChange={e => setPartialAmount(e.target.value)}
                             placeholder="Monto a agregar"
                             onKeyUp={(e) => {
-                                if (e.key === 'Enter') { addPartialPayment(partialPayment, partialAmount)}
+                                if (e.key === 'Enter') { addPartialPayment(partialPayment, partialAmount) }
                             }}
                         />
                         <button
@@ -256,7 +256,6 @@ export function CompletedOrder({ order, getOrder }) {
                         </button>
                         <button className="btn" onClick={() => setPartialPayment(null)}>Cancelar</button>
                     </div>
-                    <div className="background-modal" onClick={() => setPartialPayment(null)}></div>
                 </Modal>
             }
             <ToastContainer />

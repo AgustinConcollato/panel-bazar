@@ -2,7 +2,7 @@ import { createPortal } from 'react-dom'
 import { useEffect, useRef } from 'react'
 import './Modal.css'
 
-export function Modal({ children }) {
+export function Modal({ children, onClose }) {
     const modalRef = useRef(null)
 
     useEffect(() => {
@@ -16,7 +16,12 @@ export function Modal({ children }) {
     }, [])
 
     return createPortal(
-        <div className='modal' ref={modalRef}>{children}</div>,
+        <div className='modal' ref={modalRef}>
+            <div className="container-children">
+                {children}
+            </div>
+            <div className="background-modal" onClick={onClose}></div>
+        </div>,
         document.getElementById("root")
     )
 }

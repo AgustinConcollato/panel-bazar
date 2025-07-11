@@ -14,6 +14,7 @@ export function CampaignProductList({ campaign }) {
     const [products, setProducts] = useState(campaign.products)
     const [results, setResults] = useState(null)
     const [loading, setLoading] = useState(false)
+    const [loadingDeleting, setLoadingDeleting] = useState(false)
 
     async function search(e) {
         const name = e.target.value.trim()
@@ -25,7 +26,7 @@ export function CampaignProductList({ campaign }) {
 
         setLoading(true)
         try {
-            const response = await new Products().search({ options: { name, page: 1, panel: true } })
+            const response = await new Products().search({ options: { name, page: 1} })
             setResults(response.data)
         } catch (error) {
             console.log(error)
@@ -46,11 +47,14 @@ export function CampaignProductList({ campaign }) {
     }
 
     async function deleteProductsToCampaign(productId) {
+        setLoadingDeleting(true)
         try {
             const response = await new Campaign().deleteProduct({ productId, campaignId: campaign.id })
             setProducts(currentProducts => currentProducts.filter(product => product.id !== response.product_id))
         } catch (error) {
             console.log(error)
+        } finally {
+            setLoadingDeleting(false)
         }
     }
 
@@ -120,7 +124,13 @@ export function CampaignProductList({ campaign }) {
                 <h3>Productos que ya estan en "{campaign.name}"</h3>
                 {products.length > 0 ?
                     <div className="results">
-                        {products.map(e => <CampaignProduct e={e} campaignId={campaign.id} onDelete={deleteProductsToCampaign} />)}
+                        {products.map(e =>
+                            <CampaignProduct
+                                e={e} campaignId={campaign.id}
+                                onDelete={deleteProductsToCampaign}
+                                loadingDeleting={loadingDeleting}
+                            />
+                        )}
                     </div> :
                     <div className="results">
                         <p>No hay productos</p>

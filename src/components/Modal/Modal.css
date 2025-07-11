@@ -29,7 +29,14 @@
     max-width: 500px;
     max-height: 90%;
     overflow-y: auto;
+}
+
+.container-children form {
     display: flex;
     flex-direction: column;
     gap: 20px;
+}
+
+.container-children .section-form {
+    margin: 0;
 }

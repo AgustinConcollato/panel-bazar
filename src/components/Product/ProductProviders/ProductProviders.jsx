@@ -20,6 +20,7 @@ export function Providers({ currentProviders }) {
     const [price, setPrice] = useState(null)
     const [btnHidden, setBtnHidden] = useState(true)
     const [loading, setLoading] = useState(false)
+    const [deleteLoading, setDeleteLoading] = useState(false)
 
     function handleSelectProvider(providerId) {
         setSelectedProviders((prev) => {
@@ -94,12 +95,12 @@ export function Providers({ currentProviders }) {
     }
 
     async function deleteProvider(providerId) {
-        const { Providers } = api
+        setDeleteLoading(true)
 
+        const { Providers } = api
         const providers = new Providers()
 
         try {
-
             const response = await toast.promise(providers.deleteProduct({ providerId, productId: id }), {
                 pending: 'Eliminando relación...',
                 success: 'Se eliminó correctamente',
@@ -112,6 +113,8 @@ export function Providers({ currentProviders }) {
 
         } catch (error) {
             console.log(error)
+        } finally {
+            setDeleteLoading(false)
         }
 
         setPrice(null)
@@ -160,7 +163,7 @@ export function Providers({ currentProviders }) {
                 {providers.length !== 0 ? (
                     Object.keys(selectedProviders).length > 0 && (
                         <Modal onClose={() => setSelectedProviders({})}>
-                            <form onSubmit={addPurchasePrice} className="provider-price-form">
+                            <form onSubmit={addPurchasePrice}>
                                 {Object.keys(selectedProviders).map((providerId) => {
                                     const provider = providers.find((p) => p.id == providerId);
                                     const existingProvider = providerList?.find(p => p.id === provider.id);
@@ -200,8 +203,12 @@ export function Providers({ currentProviders }) {
                                                             type="button"
                                                             className="btn btn-error-regular"
                                                             onClick={() => deleteProvider(provider.id)}
+                                                            disabled={deleteLoading}
                                                         >
-                                                            Eliminar
+                                                            {deleteLoading ?
+                                                                <FontAwesomeIcon icon={faCircleNotch} spin /> :
+                                                                'Eliminar'
+                                                            }
                                                         </button>
                                                     }
                                                 </div>

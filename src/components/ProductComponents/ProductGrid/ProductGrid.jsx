@@ -157,8 +157,8 @@ export function ProductGrid({ data, updateProduct }) {
                 </Link>
             </div>
             {editField &&
-                <Modal>
-                    <form onSubmit={saveChange} className="container-children">
+                <Modal onClose={() => setEditField(null)}>
+                    <form onSubmit={saveChange}>
                         <h2>Editando {product.name}</h2>
                         <EditField
                             field={editField}
@@ -172,7 +172,6 @@ export function ProductGrid({ data, updateProduct }) {
                             <button type="submit" className="btn btn-solid" onClick={saveChange} >Guardar</button>
                         </div>
                     </form>
-                    <div className="background-modal" onClick={() => setEditField(null)}></div>
                 </Modal>
             }
         </>

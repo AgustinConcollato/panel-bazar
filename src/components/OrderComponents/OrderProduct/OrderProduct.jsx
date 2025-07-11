@@ -72,8 +72,8 @@ export function OrderProduct({
             </div>
 
             {edit &&
-                <Modal>
-                    <section className="section-form container-children">
+                <Modal onClose={() => setEdit(null)}>
+                    <section className="section-form">
                         <form className='edit-order-product'>
                             <h2>Editar {product.name}</h2>
                             <div>
@@ -122,7 +122,6 @@ export function OrderProduct({
                             </div>
                         </form>
                     </section>
-                    <div className="background-modal" onClick={() => setEdit(null)}></div>
                 </Modal>
             }
         </>

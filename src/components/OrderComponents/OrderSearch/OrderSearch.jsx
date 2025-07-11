@@ -180,8 +180,8 @@ export function OrderSearch({ orderId, setOrderProducts, setOrderData }) {
             }
 
             {selected &&
-                <Modal>
-                    <section className="section-form container-children">
+                <Modal onClose={() => setSelected(false)}>
+                    <section className="section-form">
                         <form onSubmit={addProduct}>
                             <div className="header-form">
                                 <h1>Agregar: {selected.name}</h1>
@@ -215,7 +215,6 @@ export function OrderSearch({ orderId, setOrderProducts, setOrderData }) {
                             </div>
                         </form>
                     </section>
-                    <div className="background-modal" onClick={() => setSelected(false)}></div>
                 </Modal>
             }
         </div>

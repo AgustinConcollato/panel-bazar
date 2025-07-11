@@ -65,9 +65,9 @@ export function AddExternalProduct({ orderId, setOrderProducts }) {
         <>
             <button className='btn btn-add-external-product' onClick={() => setIsOpen(true)}>Cargar producto externo</button>
             {isOpen &&
-                <Modal>
-                    <div className="section-form container-children">
-                        <h2>Cargar producto externo</h2>
+                <Modal onClose={() => setIsOpen(false)}>
+                    <div className="section-form">
+                        <h2 className="title-modal-enternal">Cargar producto externo</h2>
                         <div>
                             <form onSubmit={addExternalProduct}>
                                 <div>
@@ -106,7 +106,6 @@ export function AddExternalProduct({ orderId, setOrderProducts }) {
                             </form>
                         </div>
                     </div>
-                    <div className="background-modal" onClick={() => setIsOpen(false)}></div>
                 </Modal>
             }
         </>

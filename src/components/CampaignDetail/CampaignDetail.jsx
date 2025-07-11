@@ -73,7 +73,7 @@ export function CampaignDetail() {
 
     function processFormData(formData, data, errors) {
         for (let [key, value] of formData.entries()) {
-            if (value && key !== 'image') { 
+            if (value && key !== 'image') {
                 data[key] = value
             }
         }
@@ -191,8 +191,8 @@ export function CampaignDetail() {
                 <CampaignProductList campaign={campaign} />
             </section>
             {edit &&
-                <Modal>
-                    <section className="container-children section-form">
+                <Modal onClose={() => setEdit(null)}>
+                    <section className="section-form">
                         <form onSubmit={changeCampaignData}>
                             <h2>Editar {campaign.name}</h2>
                             <div>
@@ -279,7 +279,6 @@ export function CampaignDetail() {
                             </div>
                         </form>
                     </section>
-                    <div className="background-modal" onClick={() => setEdit(null)}></div>
                 </Modal>
             }
             <ToastContainer

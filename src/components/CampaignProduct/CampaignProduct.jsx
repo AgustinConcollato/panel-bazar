@@ -8,7 +8,7 @@ import { Loading } from "../Loading/Loading";
 import './CampaignProduct.css'
 import { toast } from "react-toastify";
 
-export function CampaignProduct({ e, campaignId, onDelete }) {
+export function CampaignProduct({ e, campaignId, onDelete, loadingDeleting }) {
 
     const [edit, setEdit] = useState()
     const [product, setProduct] = useState(null)
@@ -20,22 +20,34 @@ export function CampaignProduct({ e, campaignId, onDelete }) {
     }, [e])
 
     async function changeProduct(e) {
-        e.preventDefault()
+        e.preventDefault();
 
-        const formData = new FormData(e.target)
-
-        const data = {}
+        const formData = new FormData(e.target);
+        const data = {};
 
         for (let [key, value] of formData.entries()) {
             if (value) {
-                data[key] = value
+                data[key] = value;
             }
         }
 
-        const campaign = new Campaign()
+        // Obtén los valores originales
+        const originalType = product.pivot.custom_discount_type || '';
+        const originalValue = product.pivot.custom_discount_value || '';
+
+        // Compara con los valores nuevos
+        const newType = data.custom_discount_type || '';
+        const newValue = data.custom_discount_value || '';
+
+        if (originalType === newType && String(originalValue) === String(newValue)) {
+            toast.info('No hay cambios para guardar');
+            return;
+        }
+
+        const campaign = new Campaign();
 
         try {
-            setLoading(true)
+            setLoading(true);
 
             if (!data.custom_discount_type && !data.custom_discount_value) {
                 throw { error: 'Completa los campos' }
@@ -50,7 +62,6 @@ export function CampaignProduct({ e, campaignId, onDelete }) {
                     pending: 'Editando...',
                     success: 'Editado correctamente'
                 })
-
 
             setProduct(current => {
                 current.pivot = response
@@ -83,15 +94,15 @@ export function CampaignProduct({ e, campaignId, onDelete }) {
                 </span>
                 <span>Valor:
                     {product.pivot.custom_discount_value ? (
-                        product.pivot.custom_discount_type === "fixed" 
+                        product.pivot.custom_discount_type === "fixed"
                             ? ` $${parseFloat(product.pivot.custom_discount_value).toLocaleString('es-AR', { maximumFractionDigits: 2 })}`
                             : ` ${parseFloat(product.pivot.custom_discount_value).toLocaleString('es-AR', { maximumFractionDigits: 2 })}%`
                     ) : ' -'}
                 </span>
             </div >
             {edit &&
-                <Modal>
-                    <div className="container-children section-form">
+                <Modal onClose={() => setEdit(false)}>
+                    <div className="section-form">
                         <form onSubmit={changeProduct}>
                             <div className="header-form">
                                 <h1>Editar {product.name}</h1>
@@ -121,11 +132,10 @@ export function CampaignProduct({ e, campaignId, onDelete }) {
                             <div>
                                 <button type="submit" className="btn btn-solid" disabled={loading} >{loading ? <FontAwesomeIcon icon={faCircleNotch} spin /> : 'Guardar'}</button>
                                 <button type="button" className="btn" onClick={() => setEdit(false)}>Cancelar</button>
-                                <button type="button" className="btn btn-error-regular" onClick={() => onDelete(product.id)}>Eliminar del evento</button>
+                                <button type="button" className="btn btn-error-regular" disabled={loadingDeleting} onClick={() => onDelete(product.id)}>{loadingDeleting ? <FontAwesomeIcon icon={faCircleNotch} spin /> : 'Eliminar del evento'}</button>
                             </div>
                         </form>
                     </div>
-                    <div className="background-modal" onClick={() => setEdit(false)}></div>
                 </Modal>
             }
         </>

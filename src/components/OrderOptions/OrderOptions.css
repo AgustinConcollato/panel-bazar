@@ -7,3 +7,13 @@
     display: flex;
     gap: 10px;
 }
+
+.order-options.container-btn:hover {
+    border-color: #ddd;
+}
+
+.cancel-order {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}

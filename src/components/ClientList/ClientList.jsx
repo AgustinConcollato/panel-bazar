@@ -9,11 +9,11 @@ import { Modal } from '../Modal/Modal';
 import { NewAddress } from '../NewAddress/NewAddress';
 import './ClientList.css';
 
-export function ClientList({clients}) {
+export function ClientList({ clients }) {
     return (
         <>
             {clients.map(e =>
-                <Client e={e} key={e.id}/>
+                <Client e={e} key={e.id} />
             )}
             <ToastContainer
                 position="top-right"
@@ -27,13 +27,13 @@ export function ClientList({clients}) {
                 pauseOnHover
                 theme="light"
                 transition:Bounce
-                stacked 
+                stacked
             />
         </>
     )
 }
 
-function Client({e}) {
+function Client({ e }) {
     const [newOrder, setNewOrder] = useState(false);
     const [changeAddress, setChangeAddress] = useState(false);
     const [addresses, setAddresses] = useState(e.address || []);
@@ -44,7 +44,7 @@ function Client({e}) {
 
     const navigate = useNavigate();
 
-    async function crateOrder({name, id}){
+    async function crateOrder({ name, id }) {
         const order = new Order()
 
         const formData = new FormData()
@@ -69,9 +69,9 @@ function Client({e}) {
         }
     }
 
-    async function updateClient(e) {   
+    async function updateClient(e) {
         e.preventDefault();
-        
+
         const clients = new Clients();
 
         const formData = new FormData(e.target);
@@ -80,7 +80,7 @@ function Client({e}) {
         formData.forEach((value, key) => {
             if (key === 'phone_number' || key === 'email') {
                 data[key] = value.trim();
-            }else if (value !== '') {
+            } else if (value !== '') {
                 data[key] = value;
             }
         });
@@ -100,7 +100,7 @@ function Client({e}) {
 
         setLoading(true);
         try {
-            const response = await toast.promise(clients.update({id: client.id, data}), {
+            const response = await toast.promise(clients.update({ id: client.id, data }), {
                 pending: 'Actualizando cliente...',
                 success: 'Cliente actualizado correctamente'
             });
@@ -127,136 +127,133 @@ function Client({e}) {
 
     }
 
-    useEffect(() => {   
+    useEffect(() => {
         setClient(e)
     }, [e]);
 
     return (
         <>
-        <tr 
-            key={client.id} 
-            className={`client-item ${isSelected ? 'selected' : ''}`}
-            onClick={() => setIsSelected(!isSelected)}
-            onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    setIsSelected(!isSelected);
-                }
-            }}
-            role="button"
-            tabIndex={0}
-        >
+            <tr
+                key={client.id}
+                className={`client-item ${isSelected ? 'selected' : ''}`}
+                onClick={() => setIsSelected(!isSelected)}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        setIsSelected(!isSelected);
+                    }
+                }}
+                role="button"
+                tabIndex={0}
+            >
                 <td>{client.name}</td>
                 <td>
                     {client.payments.length != 0 ?
-                    <span className='payment-pending'>
-                        <FontAwesomeIcon icon={faCircleExclamation} color="#ff8800" />
-                        {client.payments.length} pagos pendientes 
-                    </span> :
-                    <span >Sin pagos pendientes</span>
-                }
+                        <span className='payment-pending'>
+                            <FontAwesomeIcon icon={faCircleExclamation} color="#ff8800" />
+                            {client.payments.length} pagos pendientes
+                        </span> :
+                        <span >Sin pagos pendientes</span>
+                    }
                 </td>
-                    <td>{client.email ?? '-'}</td>
-                    <td>{client.phone_number ?? '-'}</td>
-                    <td>
+                <td>{client.email ?? '-'}</td>
+                <td>{client.phone_number ?? '-'}</td>
+                <td>
                     {addresses.length > 0 ? (
                         <span>
-                            {addresses.map((addr, idx) =>{
+                            {addresses.map((addr, idx) => {
                                 if (addr.status == 'selected') return (
-                                <>
-                                    {addr.address ? ` ${addr.address}` : ''}
-                                    {addr.address_number ? ` ${addr.address_number},` : ''}
-                                    {addr.city ? ` ${addr.city}, ` : ''}
-                                    {addr.province ? ` ${addr.province} ` : ''}
-                                </>
-                            )})}
+                                    <>
+                                        {addr.address ? ` ${addr.address}` : ''}
+                                        {addr.address_number ? ` ${addr.address_number},` : ''}
+                                        {addr.city ? ` ${addr.city}, ` : ''}
+                                        {addr.province ? ` ${addr.province} ` : ''}
+                                    </>
+                                )
+                            })}
                         </span>
                     ) : (
                         <span> Sin direcciones</span>
                     )}
-                    </td>
-            <div className="container-btn">
-                <Link to={'/cliente/' + e.id} className="btn btn-regular"> Ver detalle </Link>
-                <button className="btn btn-regular" onClick={()=> setNewOrder({name: client.name, id: client.id})}> Crear pedido </button>
-                <button className="btn btn-regular" onClick={()=> setChangeAddress(e)}> Agregar dirección </button>
-                <button className="btn" onClick={()=> setEdit(true)}> Editar </button>
-            </div>
-        </tr>
-        {newOrder &&
-            <Modal>
-                <div className='container-children'>
-                    <h2>Nuevo pedido</h2>
-                    <p>Crear nuevo pedido para {newOrder.name}</p>
-                    <div className="container-btn">
-                    <button className='btn' onClick={() => setNewOrder(false)}>Cancelar</button>
+                </td>
+                <div className="container-btn">
+                    <Link to={'/cliente/' + e.id} className="btn btn-regular"> Ver detalle </Link>
+                    <button className="btn btn-regular" onClick={() => setNewOrder({ name: client.name, id: client.id })}> Crear pedido </button>
+                    <button className="btn btn-regular" onClick={() => setChangeAddress(e)}> Agregar dirección </button>
+                    <button className="btn" onClick={() => setEdit(true)}> Editar </button>
+                </div>
+            </tr>
+            {newOrder &&
+                <Modal onClose={() => setNewOrder(false)}>
+                    <div className='new-order-modal'>
+                        <h2>Crear nuevo pedido para {newOrder.name}</h2>
                         <button className='btn btn-solid' onClick={() => crateOrder(newOrder)}>Crear pedido</button>
+                        <button className='btn' onClick={() => setNewOrder(false)}>Cancelar</button>
                     </div>
-                </div>
-                <div className="background-modal" onClick={()=> setNewOrder(false)}></div>
-            </Modal>
-        }
-        {changeAddress &&
-            <Modal>
-                <div className="container-children">
-                <NewAddress
-                    setAddresses={setAddresses}
-                    onClose={setChangeAddress}
-                    total={addresses.length == 0 ? 0 : addresses.length}
-                    client={changeAddress}
-                />
-                </div>
-                <div className="background-modal" onClick={()=> setChangeAddress(false)}></div>
-            </Modal>
-        }
-        {edit &&
-            <Modal>
-                <div className='container-children section-form'>
-                    <h2>Editar cliente</h2>
-                    <form onSubmit={updateClient}>
-                        <div>
-                            <div>
-                                <p>Nombre</p>
-                                <input
-                                    type="text"
-                                    name="name"
-                                    className='input'
-                                    defaultValue={client.name}
-                                />
+                </Modal>
+            }
+            {changeAddress &&
+                <Modal onClose={() => setChangeAddress(false)}>
+                    <div>
+                        <NewAddress
+                            setAddresses={setAddresses}
+                            onClose={setChangeAddress}
+                            total={addresses.length == 0 ? 0 : addresses.length}
+                            client={changeAddress}
+                        />
+                    </div>
+                </Modal>
+            }
+            {edit &&
+                <Modal onClose={() => setEdit(false)}>
+                    <div className='section-form'>
+                        <form onSubmit={updateClient}>
+                            <div className="header-form">
+                                <h2>Editar cliente</h2>
                             </div>
-                        </div>
-                        <div>
                             <div>
-                                <p>Correo</p>
-                                <input
-                                    type="email"
-                                    name="email"
-                                    placeholder='Correo electrónico'
-                                    className='input'
-                                    defaultValue={client.email}
-                                />
+                                <div>
+                                    <p>Nombre</p>
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        className='input'
+                                        defaultValue={client.name}
+                                    />
+                                </div>
                             </div>
-                        </div>
-                        <div>
                             <div>
-                                <p>Celular</p>
-                                <input
-                                    type="text"
-                                    name="phone_number"
-                                    placeholder='Ej: 1234567890'
-                                    className='input'
-                                    defaultValue={client.phone_number}
-                                />
+                                <div>
+                                    <p>Correo</p>
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        placeholder='Correo electrónico'
+                                        className='input'
+                                        defaultValue={client.email}
+                                    />
+                                </div>
                             </div>
-                        </div>
-                        <div className="container-btn">
-                            <button type='submit' className='btn btn-solid'>Actualizar</button>
-                            <button className='btn' onClick={() => setEdit(false)}>Cancelar</button>
-                        </div>
-                    </form>
-                </div>
-                <div className="background-modal" onClick={()=> setEdit(false)}></div>
-            </Modal>
-        }
+                            <div>
+                                <div>
+                                    <p>Celular</p>
+                                    <input
+                                        type="text"
+                                        name="phone_number"
+                                        placeholder='Ej: 1234567890'
+                                        className='input'
+                                        defaultValue={client.phone_number}
+                                    />
+                                </div>
+                            </div>
+                            <div className="container-btn">
+                                <button type='submit' className='btn btn-solid'>Actualizar</button>
+                                <button className='btn' onClick={() => setEdit(false)}>Cancelar</button>
+                            </div>
+                        </form>
+                    </div>
+                </Modal>
+            }
         </>
     )
 }

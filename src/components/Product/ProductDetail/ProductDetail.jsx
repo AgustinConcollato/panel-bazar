@@ -6,14 +6,14 @@ import { Link, useParams } from "react-router-dom"
 import { toast, ToastContainer } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'
 import { AppDataContext } from "../../../context/AppDataContext"
-import { api, url } from "../../../services/api"
+import { api } from "../../../services/api"
 import { formatDate } from "../../../utils/formatDate"
 import { EditField } from "../../EditField/EditField"
 import { Loading } from "../../Loading/Loading"
 import { Modal } from "../../Modal/Modal"
-import './ProductDetail.css'
 import { ProductImages } from "../ProductImages/ProductImages"
 import { Providers } from "../ProductProviders/ProductProviders"
+import './ProductDetail.css'
 
 export function ProductDetail() {
     const { id } = useParams()
@@ -184,7 +184,7 @@ export function ProductDetail() {
                                 </span>
                             </p>
                         </header>
-                        <div>
+                        {/* <div>
                             <h3>Últimas ventas</h3>
                             <ul>
                                 <li>
@@ -232,7 +232,7 @@ export function ProductDetail() {
                                     </div>
                                 </li>
                             </ul>
-                        </div>
+                        </div> */}
                     </div>
                     <ProductImages
                         images={images}
@@ -250,7 +250,7 @@ export function ProductDetail() {
                     <div className="info-product">
                         <ul>
                             <li onClick={() => handleEdit('available_quantity')}><span>Stock <FontAwesomeIcon icon={faPenToSquare} /></span><b>{product.available_quantity}</b></li>
-                            <li onClick={() => handleEdit('price')}><span>Precio venta <FontAwesomeIcon icon={faPenToSquare} /></span><b>${parseFloat(product.price).toLocaleString('es-AR', { maximumFractionDigits: 2})}</b></li>
+                            <li onClick={() => handleEdit('price')}><span>Precio venta <FontAwesomeIcon icon={faPenToSquare} /></span><b>${parseFloat(product.price).toLocaleString('es-AR', { maximumFractionDigits: 2 })}</b></li>
                             <li onClick={() => handleEdit('discount')}><span>Descuento <FontAwesomeIcon icon={faPenToSquare} /></span><b>{product.discount || 0}%</b></li>
                             <li onClick={() => handleEdit('category_code')}><span>Categoría <FontAwesomeIcon icon={faPenToSquare} /></span><b>{categories && categories.find(e => e.code === product.category_code)?.name}</b></li>
                             <li onClick={() => handleEdit('subcategory_code')}><span>Subcategorías <FontAwesomeIcon icon={faPenToSquare} /></span><b>{subcategories.join(' - ')}</b></li>
@@ -260,8 +260,8 @@ export function ProductDetail() {
                         currentProviders={currentProviders}
                     />
                     {editField && (
-                        <Modal>
-                            <form onSubmit={saveChange} className="container-children">
+                        <Modal onClose={() => setEditField(null)}>
+                            <form onSubmit={saveChange} className="edit-product-form">
                                 <h2>Editando {product.name}</h2>
                                 <EditField
                                     field={editField}
@@ -296,7 +296,6 @@ export function ProductDetail() {
                                     <button type="submit" className="btn btn-solid" onClick={saveChange} >Guardar</button>
                                 </div>
                             </form>
-                            <div className="background-modal" onClick={() => setEditField(null)}></div>
                         </Modal>
                     )}
                 </section >

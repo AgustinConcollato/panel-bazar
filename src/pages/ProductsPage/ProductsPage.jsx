@@ -40,7 +40,7 @@ export function ProductsPage() {
 
     return (
         <section className="products-page">
-            <ProductPriorityAnalytics />
+            {/* <ProductPriorityAnalytics /> */}
             <div className="header-products-page">
                 <ProductFilters />
                 <Link to={'/agregar-producto'} className="btn btn-solid">+ Nuevo producto </Link>

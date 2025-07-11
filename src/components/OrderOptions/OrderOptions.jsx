@@ -148,8 +148,8 @@ export function OrderOptions({ order: orderData, onAction }) {
                     </button>
                 </div>
                 {modal &&
-                    <Modal>
-                        <div className="container-children">
+                    <Modal onClose={() => setModal(false)}>
+                        <div>
                             <h2>¿Estás seguro que deseas rechazar el pedido?</h2>
                             <p>Una vez rechazado no podrás volver a aceptarlo</p>
                             <div className="container-btn">
@@ -167,7 +167,6 @@ export function OrderOptions({ order: orderData, onAction }) {
                                 </button>
                             </div>
                         </div>
-                        <div className="background-modal" onClick={() => setModal(false)}></div>
                     </Modal>
                 }
             </>
@@ -198,9 +197,12 @@ export function OrderOptions({ order: orderData, onAction }) {
                 <button className="btn btn-solid" onClick={() => setConfirm(true)}>Confirmar pedido</button>
                 <button className="btn" onClick={() => setCancel(true)}>Cancelar pedido</button>
                 {(cancel || confirm) &&
-                    <Modal>
+                    <Modal onClose={() => {
+                        setCancel(false)
+                        setConfirm(false)
+                    }}>
                         {cancel &&
-                            <div className="container-children cancel-order">
+                            <div className="cancel-order">
                                 <h2>¿Cancelar el pedido?</h2>
                                 <p>Al cancelar el pedido no se podrá recuperar la información</p>
                                 <div className="container-btn">
@@ -210,7 +212,7 @@ export function OrderOptions({ order: orderData, onAction }) {
                             </div>
                         }
                         {confirm &&
-                            <div className="container-children cancel-order">
+                            <div className="cancel-order">
                                 <h2>Confirmar pedido</h2>
                                 <p>Al confirmar el pedido no se podrán agregar nuevos productos. Solo se podrá generar el detalle</p>
                                 <div className="container-btn">
@@ -219,13 +221,6 @@ export function OrderOptions({ order: orderData, onAction }) {
                                 </div>
                             </div>
                         }
-                        <div className="background-modal"
-                            onClick={() => {
-                                setCancel(false)
-                                setConfirm(false)
-                            }
-                            }>
-                        </div>
                     </Modal >
                 }
             </div>

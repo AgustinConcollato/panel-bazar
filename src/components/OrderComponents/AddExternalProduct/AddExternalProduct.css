@@ -4,6 +4,10 @@
     max-width: 200px;
 }
 
+.title-modal-enternal {
+    margin-bottom: 20px;
+}
+
 @media (max-width: 450px) {
     .btn-add-external-product {
         max-width: 100%;
