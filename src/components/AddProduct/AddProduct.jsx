@@ -31,10 +31,12 @@ export function AddProduct() {
 
         const formData = new FormData(e.target)
 
+        // Filtrar solo proveedores con purchase_price > 0
         const filteredProviders = Object.fromEntries(
-            Object.entries(selectedProviders).filter(([providerId, price]) => price > 0)
+            Object.entries(selectedProviders).filter(
+                ([_, data]) => data && parseFloat(data.purchase_price) > 0
+            )
         );
-
 
         const formObject = {
             subcategory_code: selectedSubcategories.join('|'),
@@ -211,36 +213,35 @@ function Form1({ selectedProviders, setSelectedProviders, description, setDescri
 }
 
 function Providers({ selectedProviders, setSelectedProviders }) {
-
     const { providers } = useContext(AppDataContext)
 
     function handleSelectProvider(providerId) {
         setSelectedProviders((prev) => {
             const updated = { ...prev };
-
             if (updated[providerId]) {
-                delete updated[providerId]; // Si ya está seleccionado, lo eliminamos
+                delete updated[providerId];
             } else {
-                updated[providerId] = ''; // Agregamos un campo vacío para el precio
+                updated[providerId] = { purchase_price: '', provider_url: '' };
             }
-
             return updated;
         });
     }
-    function handlePriceChange(providerId, price) {
-        setSelectedProviders((prev) => {
-            // Si el precio es 0, eliminamos el proveedor
-            if (price < 0) {
-                const newSelectedProviders = { ...prev };
-                delete newSelectedProviders[providerId]; // Eliminar el proveedor
-                return newSelectedProviders;
-            }
 
-            // Si el precio no es 0, actualizamos el proveedor
-            return {
-                ...prev,
-                [providerId]: price,
-            };
+    function handleProviderFieldChange(providerId, field, value) {
+        setSelectedProviders((prev) => ({
+            ...prev,
+            [providerId]: {
+                ...prev[providerId],
+                [field]: value,
+            },
+        }));
+    }
+
+    function handleRemoveProvider(providerId) {
+        setSelectedProviders((prev) => {
+            const updated = { ...prev };
+            delete updated[providerId];
+            return updated;
         });
     }
 
@@ -265,31 +266,41 @@ function Providers({ selectedProviders, setSelectedProviders }) {
                         </div>
                         {Object.keys(selectedProviders).length > 0 && (
                             <div>
-                                <h3>Precios de compra</h3>
+                                <h3>Datos de proveedor</h3>
                                 {Object.keys(selectedProviders).map((providerId) => {
                                     const provider = providers.find((p) => p.id == providerId);
+                                    const values = selectedProviders[providerId];
                                     return (
-                                        <div className="purchase-price">
-                                            <p>{provider.name} </p>
+                                        <div className="purchase-price" key={providerId}>
+                                            <p>{provider.name}</p>
                                             <input
                                                 className="input"
                                                 type="number"
-                                                step={.01}
-                                                value={selectedProviders[providerId]}
-                                                onChange={(e) => handlePriceChange(providerId, e.target.value)}
-                                                placeholder="Ingrese el precio"
+                                                step={0.01}
+                                                min={0}
+                                                value={values.purchase_price}
+                                                onChange={e => handleProviderFieldChange(providerId, 'purchase_price', e.target.value)}
+                                                placeholder="Precio de compra"
+                                                required
+                                            />
+                                            <input
+                                                className="input"
+                                                type="url"
+                                                value={values.provider_url}
+                                                onChange={e => handleProviderFieldChange(providerId, 'provider_url', e.target.value)}
+                                                placeholder="URL del proveedor (opcional)"
+                                                style={{ marginLeft: 8, width: '60%' }}
                                             />
                                             <button
                                                 type="button"
                                                 className="btn"
-                                                onClick={() => handlePriceChange(providerId, -1)}
+                                                onClick={() => handleRemoveProvider(providerId)}
                                             >
                                                 <FontAwesomeIcon icon={faXmark} size="xs" />
                                             </button>
                                         </div>
                                     );
                                 })}
-
                             </div>
                         )}
                     </>
