@@ -272,7 +272,16 @@ function Providers({ selectedProviders, setSelectedProviders }) {
                                     const values = selectedProviders[providerId];
                                     return (
                                         <div className="purchase-price" key={providerId}>
-                                            <p>{provider.name}</p>
+                                            <p>
+                                                {provider.name}
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-error-regular"
+                                                    onClick={() => handleRemoveProvider(providerId)}
+                                                >
+                                                    Eliminar
+                                                </button>
+                                            </p>
                                             <input
                                                 className="input"
                                                 type="number"
@@ -289,15 +298,8 @@ function Providers({ selectedProviders, setSelectedProviders }) {
                                                 value={values.provider_url}
                                                 onChange={e => handleProviderFieldChange(providerId, 'provider_url', e.target.value)}
                                                 placeholder="URL del proveedor (opcional)"
-                                                style={{ marginLeft: 8, width: '60%' }}
+                                                style={{ marginTop: 10 }}
                                             />
-                                            <button
-                                                type="button"
-                                                className="btn"
-                                                onClick={() => handleRemoveProvider(providerId)}
-                                            >
-                                                <FontAwesomeIcon icon={faXmark} size="xs" />
-                                            </button>
                                         </div>
                                     );
                                 })}

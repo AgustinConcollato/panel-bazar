@@ -79,11 +79,12 @@ li.error {
     position: relative;
 }
 
-.purchase-price .btn {
-    position: absolute;
-    right: 5px;
-    top: calc(50% + 10px);
-    transform: translateY(-50%);
+.purchase-price button.btn{
+    margin-left: 15px;
+    padding: 5px 10px;
+    position: relative;
+    top: -3px;
+    font-size: 14px;
 }
 
 /* ///////////// agregar imagenes ///////////// */
