@@ -8,6 +8,7 @@ import { Modal } from "../Modal/Modal";
 import { OrderOptions } from "../OrderOptions/OrderOptions";
 import { PaymentOption } from "../PaymentOption/PaymentOption";
 import './PreViewOrder.css';
+import { ToastContainer } from "react-toastify";
 
 export function PreViewOrder({ order, setOrders }) {
 
@@ -89,25 +90,25 @@ export function PreViewOrder({ order, setOrders }) {
                                                     {parseFloat(e.paid_amount) >= parseFloat(e.expected_amount)
                                                         ? <FontAwesomeIcon icon={faCircleCheck} color="#66b819" />
                                                         : <>
-                                                        {' '} / ${parseFloat(e.expected_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })} 
-                                                        <FontAwesomeIcon icon={faCircleExclamation} color="#ff8800" />
-                                                        </> 
+                                                            {' '} / ${parseFloat(e.expected_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })}
+                                                            <FontAwesomeIcon icon={faCircleExclamation} color="#ff8800" />
+                                                        </>
                                                     }
                                                 </span>
                                             </p>
-                                         }
-                                        {e.method === 'cash' && 
+                                        }
+                                        {e.method === 'cash' &&
                                             <p>
                                                 Efectivo
                                                 <span>
-                                                     ${parseFloat(e.paid_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })}
-                                                     {parseFloat(e.paid_amount) >= parseFloat(e.expected_amount)
+                                                    ${parseFloat(e.paid_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })}
+                                                    {parseFloat(e.paid_amount) >= parseFloat(e.expected_amount)
                                                         ? <FontAwesomeIcon icon={faCircleCheck} color="#66b819" />
                                                         : <>
-                                                        {' '} / ${parseFloat(e.expected_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })} 
-                                                        <FontAwesomeIcon icon={faCircleExclamation} color="#ff8800" />
-                                                        </> 
-                                                     }
+                                                            {' '} / ${parseFloat(e.expected_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })}
+                                                            <FontAwesomeIcon icon={faCircleExclamation} color="#ff8800" />
+                                                        </>
+                                                    }
                                                 </span>
                                             </p>
                                         }
@@ -115,17 +116,17 @@ export function PreViewOrder({ order, setOrders }) {
                                             <p>
                                                 Cheque
                                                 <span>
-                                                     ${parseFloat(e.paid_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })} 
-                                                     {parseFloat(e.paid_amount) >= parseFloat(e.expected_amount)
+                                                    ${parseFloat(e.paid_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })}
+                                                    {parseFloat(e.paid_amount) >= parseFloat(e.expected_amount)
                                                         ? <FontAwesomeIcon icon={faCircleCheck} color="#66b819" />
                                                         : <>
-                                                        {' '} / ${parseFloat(e.expected_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })} 
-                                                        <FontAwesomeIcon icon={faCircleExclamation} color="#ff8800" />
-                                                        </> 
-                                                     }
+                                                            {' '} / ${parseFloat(e.expected_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })}
+                                                            <FontAwesomeIcon icon={faCircleExclamation} color="#ff8800" />
+                                                        </>
+                                                    }
                                                 </span>
                                             </p>
-                                         }
+                                        }
 
                                     </p>
                                 ) :
@@ -140,7 +141,7 @@ export function PreViewOrder({ order, setOrders }) {
                                     </button>
                                 </p>
                             }
-                        </div> 
+                        </div>
                     }
                     <div className="pre-view-order-comment">
                         {order.comment &&
@@ -154,14 +155,24 @@ export function PreViewOrder({ order, setOrders }) {
                 <OrderOptions order={order} onAction={setOrders} />
             </div>
             {addPayment &&
-                <Modal>
-                    <div className="container-children">
-                        <h2>Agregar método de pago</h2>
-                        <PaymentOption createPay={createPay} order={order} loading={createLoading} />
-                    </div>
-                    <div className="background-modal" onClick={() => setAddPayment(false)}></div>
+                <Modal onClose={() => setAddPayment(false)}>
+                    <h2>Agregar método de pago</h2>
+                    <PaymentOption createPay={createPay} order={order} loading={createLoading} />
                 </Modal>
             }
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+                transition:Bounce
+                stacked />
         </>
     )
 }

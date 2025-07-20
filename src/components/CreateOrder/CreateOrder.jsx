@@ -85,7 +85,7 @@ export function CreateOrder() {
                 <div>
                     <h3 className='title'>Crear un nuevo pedido</h3>
                     {clients ?
-                        < Select
+                        <Select
                             styles={customStyles}
                             options={clients.map(e => ({ value: e.id, label: e.name }))}
                             placeholder="Clientes"
