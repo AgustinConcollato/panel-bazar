@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import './PaymentOption.css';
+import { toast } from 'react-toastify';
 
 export function PaymentOption({ createPay, order, loading }) {
     const [selectedMethod, setSelectedMethod] = useState(null);
@@ -24,6 +25,11 @@ export function PaymentOption({ createPay, order, loading }) {
     function addMethodAndConfirmPay() {
         const now = new Date();
         const formattedDate = now.toISOString().slice(0, 19).replace('T', ' ');
+
+        if (parseFloat(paidAmount) > order.total_amount) {
+            toast.error('Monto a pagar es mayor al total del pedido')
+            return
+        }
 
         const data = {
             order_id: order.id,
@@ -70,8 +76,8 @@ export function PaymentOption({ createPay, order, loading }) {
                                 step="0.01"
                             />
                             <div className="container-btn">
-                                <button onClick={()=> setPaidAmount(order.total_amount / 2)}>Mitad del monto total</button>
-                                <button onClick={()=> setPaidAmount(order.total_amount)}>Monto total</button>
+                                <button onClick={() => setPaidAmount(order.total_amount / 2)}>Mitad del monto total</button>
+                                <button onClick={() => setPaidAmount(order.total_amount)}>Monto total</button>
                             </div>
                         </div>
                     </div>
