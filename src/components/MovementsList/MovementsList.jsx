@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
-import { MoneyReceiveIcon, MoneySendIcon } from "../../icons/icons"
+import { MoneyReceiveIcon, MoneySendIcon, TransferMoneyIcon } from "../../icons/icons"
 import { Modal } from "../Modal/Modal"
 import './MovementsList.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -35,12 +35,14 @@ export function MovementsList({ movements }) {
                                         <div className="movement-info-icon">
                                             {e.type === "in" ?
                                                 <MoneyReceiveIcon color={'#000'} height={'30px'} width={'30px'} /> :
-                                                <MoneySendIcon color={'#000'} height={'30px'} width={'30px'} />
+                                                e.type === "out" ?
+                                                    <MoneySendIcon color={'#000'} height={'30px'} width={'30px'} /> :
+                                                    <TransferMoneyIcon color={'#000'} height={'30px'} width={'30px'} />
                                             }
                                         </div>
                                         <div>
                                             <span className="movement-type">
-                                                {e.type === "in" ? "Ingreso " : "Egreso "}
+                                                {e.type === "in" ? "Ingreso " : e.type === "out" ? "Egreso" : 'Movimiento'}
                                                 <span className="movement-time">
                                                     {new Date(e.created_at).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false })} hs
                                                 </span>
@@ -70,7 +72,7 @@ export function MovementsList({ movements }) {
                                 <MoneyReceiveIcon color={'#000'} height={'30px'} width={'30px'} /> :
                                 <MoneySendIcon color={'#000'} height={'30px'} width={'30px'} />
                             }
-                            {details.type == "in" ? 'Ingreso de dinero' : 'Egreso de dinero'}
+                            {details.type === "in" ? "Ingreso " : details.type === "out" ? "Egreso" : 'Movimineto'}
                         </h2>
                         {(details.payment || details.description) &&
                             < div >
@@ -89,8 +91,8 @@ export function MovementsList({ movements }) {
                                     {new Date(details.created_at).toLocaleTimeString('es-AR', { day: 'numeric', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false })}
                                 </b>
                             </li>
-                            <li><span>Ingreso total</span> <b> ${parseFloat(details.total_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })}</b></li>
-                            <li><span>Ingreso saldo</span> <b> ${parseFloat(details.amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })}</b></li>
+                            <li><span> {details.type === "in" ? "Ingreso " : details.type === "out" ? "Egreso" : 'Movimineto'} total</span> <b> ${parseFloat(details.total_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })}</b></li>
+                            <li><span> {details.type === "in" ? "Ingreso " : details.type === "out" ? "Egreso" : 'Movimineto'} saldo</span> <b> ${parseFloat(details.amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })}</b></li>
                             <li>
                                 <span>Método</span>
                                 <b>
@@ -105,12 +107,12 @@ export function MovementsList({ movements }) {
                             <div>
                                 <div>
                                     <span>Antes</span>
-                                    <h3>${details.previous_balance}</h3>
+                                    <h3>${parseFloat(details.previous_balance).toLocaleString('es-AR', { maximumFractionDigits: 2 })}</h3>
                                 </div>
                                 <FontAwesomeIcon icon={faArrowRight} />
                                 <div>
                                     <span>Después</span>
-                                    <h3>${details.current_balance}</h3>
+                                    <h3>${parseFloat(details.current_balance).toLocaleString('es-AR', { maximumFractionDigits: 2 })}</h3>
                                 </div>
                             </div>
                         </div>
