@@ -135,21 +135,6 @@ export function ProductDetail() {
     }
 
     useEffect(() => {
-        const handleKeyUp = (e) => {
-            if (e.keyCode === 27) {
-                setEditField(null);
-                setFormData(product);
-            }
-        };
-
-        document.addEventListener("keyup", handleKeyUp);
-
-        return () => {
-            document.removeEventListener("keyup", handleKeyUp);
-        };
-    }, [product]);
-
-    useEffect(() => {
         setProduct(null)
         getDetails(id)
     }, [id])
@@ -260,7 +245,7 @@ export function ProductDetail() {
                         currentProviders={currentProviders}
                     />
                     {editField && (
-                        <Modal onClose={() => setEditField(null)}>
+                        <Modal onClose={() => { setEditField(null); setFormData(product) }}>
                             <form onSubmit={saveChange} className="edit-product-form">
                                 <h2>Editando {product.name}</h2>
                                 <EditField
