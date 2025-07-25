@@ -59,9 +59,9 @@ function App() {
                 <Route path='/buscador/:productName' element={<SearchResultsPage />} />
                 <Route path='/eventos/*' element={<CampaignPage />} />
                 <Route path='/agregar-evento' element={<AddCampaign />} />
-                <Route path='/caja' element={<CashRegisterPage />} />
+                <Route path='/caja/*' element={<CashRegisterPage />} />
                 <Route path='/compras' element={<ShoppingPage />} />
-                <Route path='/codigo' element={<BarcodeScanner/>} />
+                <Route path='/codigo' element={<BarcodeScanner />} />
                 <Route path="*" element={<Navigate to="/panel" replace />} />
               </Routes>
             </main>
