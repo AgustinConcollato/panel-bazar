@@ -6,14 +6,29 @@ export function Modal({ children, onClose }) {
     const modalRef = useRef(null)
 
     useEffect(() => {
+        // Foco en el primer input
         if (modalRef.current) {
-            // Busca el primer input dentro del modal y le da focus
-            const firstInput = modalRef.current.querySelector('input, textarea, select, [tabindex]:not([tabindex="-1"])');
+            const firstInput = modalRef.current.querySelector(
+                'input, textarea, select, [tabindex]:not([tabindex="-1"])'
+            );
             if (firstInput) {
                 firstInput.focus();
             }
         }
-    }, [])
+
+        // Manejar la tecla Escape
+        const handleKeyDown = (e) => {
+            if (e.key === "Escape") {
+                onClose();
+            }
+        };
+
+        document.addEventListener("keydown", handleKeyDown);
+
+        return () => {
+            document.removeEventListener("keydown", handleKeyDown);
+        };
+    }, []);
 
     return createPortal(
         <div className='modal' ref={modalRef}>
