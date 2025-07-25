@@ -10,7 +10,7 @@ export function OrderDetail({ order }) {
 
     return (
         <div className="order-details">
-            <h2>Resumen del pedido</h2>
+            <h2>Resumen del pedido de <b>{order.client_name}</b></h2>
             <ul>
                 <li>Código<b>{order.id}</b></li>
                 <li>Fecha<b>{formatDate(order.created_at)}</b></li>
@@ -84,6 +84,6 @@ export function OrderDetail({ order }) {
                 }
             </ul>
             {order && <OrderOptions order={order} onAction={() => { navigate('/pedidos') }} />}
-        </div >
+        </div>
     )
 }
