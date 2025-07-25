@@ -60,17 +60,18 @@ export function AddProduct() {
             const response = await toast.promise(products.add({ data: formData }), {
                 pending: 'Agregando producto...',
                 success: 'Se agregó correctamente',
-                error: 'Error, no se pudo agregar'
             })
 
             if (response.product) return discard()
 
         } catch (error) {
-            const errorData = JSON.parse(error.message)
-            if (errorData.errors) {
-                setErrors(errorData.errors)
-            } else {
-                const message = errorData.message
+            const errorData = error.errors
+            if (errorData) {
+                errorData.category_code && toast.error('Falta seleccionar una categoría')
+                errorData.price && toast.error('Falta completar con el precio')
+                errorData.available_quantity && toast.error('Falta completar con la cantidad')
+                errorData.name && toast.error('Falta completar con el nombre')
+                errorData.images && toast.error('Falta seleccionar las imagenes (min. 1)')
             }
         }
     }
@@ -82,6 +83,11 @@ export function AddProduct() {
         setSelectedProviders({})
         setSelectedSubcategories([])
         setDescription('')
+
+        scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        })
     }
 
     useEffect(() => {
@@ -113,16 +119,7 @@ export function AddProduct() {
                 />
                 <div>
                     <button type="submit" className="btn btn-solid">Agregar producto</button>
-                    <button type="reset" className="btn btn-regular">Descartar</button>
-                </div>
-                <div>
-                    <ul>
-                        {errors.name && <li className="error">Falta completar con el nombre</li>}
-                        {errors.price && <li className="error">Falta completar con el precio</li>}
-                        {errors.available_quantity && <li className="error">Falta completar con la cantidad</li>}
-                        {errors.category_code && <li className="error">Falta seleccionar una categoría</li>}
-                        {errors.images && <li className="error">Falta seleccionar las imagenes (min. 1)</li>}
-                    </ul>
+                    <button type="reset" className="btn">Descartar</button>
                 </div>
             </form>
             <ToastContainer

@@ -45,14 +45,13 @@ export class Products {
             });
 
             if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(JSON.stringify(errorData));
+                const error = await response.json();
+                throw error;
             }
 
             return await response.json();
 
         } catch (error) {
-            console.error('Error en la solicitud:', JSON.parse(error.message));
             throw error;
         }
     }
