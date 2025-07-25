@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { toast, ToastContainer } from 'react-toastify'
 import { Payments } from '../../../services/paymentsServices'
 import { Modal } from '../../Modal/Modal'
+import { OrderProductTable } from '../../OrderProductTable/OrderProductTable'
 import { PaymentOption } from '../../PaymentOption/PaymentOption'
 import { OrderDetail } from '../OrderDetail/OrderDetail'
 import './CompletedOrder.css'
@@ -118,87 +119,92 @@ export function CompletedOrder({ order, getOrder }) {
     }
 
     return (
-        <div className='order-confirmed'>
-            <OrderDetail order={order} />
-            <div className='order-payments'>
-                <h2>Pagos</h2>
-                {payments.length > 0 ?
-                    <>
-                        <div className="payment-progress">
-                            <p>
-                                Subtotal: ${parseFloat(order.total_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })}
-                            </p>
-                            <p>
-                                {order.discount
-                                    ? <>Descuento ({order.discount}%): -${discountAmount.toLocaleString('es-AR', { maximumFractionDigits: 2 })}</>
-                                    : <>Descuento: -$0</>
-                                }
-                            </p>
-                            <p>
-                                <b>Total con descuento: ${totalWithDiscount.toLocaleString('es-AR', { maximumFractionDigits: 2 })}</b>
-                            </p>
-                            <p>
-                                Pagado: ${calculateTotalPaid().toLocaleString('es-AR', { maximumFractionDigits: 2 })} de ${totalWithDiscount.toLocaleString('es-AR', { maximumFractionDigits: 2 })}
-                            </p>
-                            <div className="progress-bar">
-                                <div
-                                    className="progress-fill"
-                                    style={{
-                                        width: `${(calculateTotalPaid() / totalWithDiscount) * 100}%`,
-                                        backgroundColor: getProgressColor(Math.min(1, calculateTotalPaid() / totalWithDiscount))
-                                    }}
-                                ></div>
+        <div className='order-completed'>
+            <div className='info-order'>
+                <OrderDetail order={order} />
+                <div className='order-payments'>
+                    <h2>Pagos</h2>
+                    {payments.length > 0 ?
+                        <>
+                            <div className="payment-progress">
+                                <p>
+                                    Subtotal: ${parseFloat(order.total_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })}
+                                </p>
+                                <p>
+                                    {order.discount
+                                        ? <>Descuento ({order.discount}%): -${discountAmount.toLocaleString('es-AR', { maximumFractionDigits: 2 })}</>
+                                        : <>Descuento: -$0</>
+                                    }
+                                </p>
+                                <p>
+                                    <b>Total con descuento: ${totalWithDiscount.toLocaleString('es-AR', { maximumFractionDigits: 2 })}</b>
+                                </p>
+                                <p>
+                                    Pagado: ${calculateTotalPaid().toLocaleString('es-AR', { maximumFractionDigits: 2 })} de ${totalWithDiscount.toLocaleString('es-AR', { maximumFractionDigits: 2 })}
+                                </p>
+                                <div className="progress-bar">
+                                    <div
+                                        className="progress-fill"
+                                        style={{
+                                            width: `${(calculateTotalPaid() / totalWithDiscount) * 100}%`,
+                                            backgroundColor: getProgressColor(Math.min(1, calculateTotalPaid() / totalWithDiscount))
+                                        }}
+                                    ></div>
+                                </div>
+                            </div>
+                            <ul>
+                                {payments.map(payment => (
+                                    <li key={payment.id}>
+                                        <p>
+                                            Método: {payment.method == 'transfer' ? 'Transferencia' : payment.method == 'cash' ? 'Efectivo' : 'Cheque'}
+                                        </p>
+                                        <p>
+                                            Estado:
+                                            {!isFullyPaid() ?
+                                                <span> Pendiente <FontAwesomeIcon icon={faCircleExclamation} color="#ff8800" /></span> :
+                                                <span> Completado <FontAwesomeIcon icon={faCheckCircle} color="#66b819" /></span>
+                                            }
+                                        </p>
+                                        {parseFloat(payment.paid_amount) < parseFloat(payment.expected_amount) && (
+                                            <div className='container-btn'>
+                                                <button
+                                                    className="btn btn-solid"
+                                                    onClick={() => setCompletePayment(payment)}
+                                                >
+                                                    Completar pago
+                                                </button>
+                                                <button
+                                                    className="btn btn-solid"
+                                                    onClick={() => {
+                                                        setPartialPayment(payment)
+                                                        setPartialAmount('')
+                                                    }}
+                                                >
+                                                    Agregar pago parcial
+                                                </button>
+                                            </div>
+                                        )}
+                                    </li>
+                                ))}
+                            </ul>
+                        </>
+                        :
+                        <div className='order-payments-empty'>
+                            <p>No hay pagos</p>
+                            <div className="payment-methods">
+                                <p>Agregar un método de pago</p>
+                                <PaymentOption
+                                    createPay={createPay}
+                                    order={order}
+                                    loading={createLoading}
+                                />
                             </div>
                         </div>
-                        <ul>
-                            {payments.map(payment => (
-                                <li key={payment.id}>
-                                    <p>
-                                        Método: {payment.method == 'transfer' ? 'Transferencia' : payment.method == 'cash' ? 'Efectivo' : 'Cheque'}
-                                    </p>
-                                    <p>
-                                        Estado:
-                                        {!isFullyPaid() ?
-                                            <span> Pendiente <FontAwesomeIcon icon={faCircleExclamation} color="#ff8800" /></span> :
-                                            <span> Completado <FontAwesomeIcon icon={faCheckCircle} color="#66b819" /></span>
-                                        }
-                                    </p>
-                                    {parseFloat(payment.paid_amount) < parseFloat(payment.expected_amount) && (
-                                        <div className='container-btn'>
-                                            <button
-                                                className="btn btn-solid"
-                                                onClick={() => setCompletePayment(payment)}
-                                            >
-                                                Completar pago
-                                            </button>
-                                            <button
-                                                className="btn btn-solid"
-                                                onClick={() => {
-                                                    setPartialPayment(payment)
-                                                    setPartialAmount('')
-                                                }}
-                                            >
-                                                Agregar pago parcial
-                                            </button>
-                                        </div>
-                                    )}
-                                </li>
-                            ))}
-                        </ul>
-                    </>
-                    :
-                    <div className='order-payments-empty'>
-                        <p>No hay pagos</p>
-                        <div className="payment-methods">
-                            <p>Agregar un método de pago</p>
-                            <PaymentOption
-                                createPay={createPay}
-                                order={order}
-                                loading={createLoading}
-                            />
-                        </div>
-                    </div>
-                }
+                    }
+                </div>
+            </div>
+            <div className="info-order">
+                <OrderProductTable order={order} />
             </div>
             {confirmPayment &&
                 <Modal onClose={() => setConfirmPayment(false)}>

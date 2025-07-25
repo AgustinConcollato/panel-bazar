@@ -1,3 +1,16 @@
+.info-order {
+    display: flex;
+    max-width: 1200px;
+    margin: 60px auto;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.order-completed .container-order-product-table {
+    border: none;
+    padding: 0;
+}
+
 .order-payments {
     width: 100%;
 }
@@ -70,16 +83,20 @@
 
 @media (max-width: 450px) {
 
+    .info-order {
+        flex-direction: column;
+    }
+
     .order-payments ul li {
         flex-wrap: wrap;
     }
 
     .order-payments ul li p {
-        width: 100%;    
+        width: 100%;
         justify-content: end;
         margin-top: 5px;
     }
-    
+
     .order-payments ul li p:first-child {
         margin-top: 0px;
         justify-content: space-between;
