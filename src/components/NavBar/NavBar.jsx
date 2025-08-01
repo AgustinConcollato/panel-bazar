@@ -59,11 +59,11 @@ export function NavBar() {
             icon: <CalendarIcon width={18} height={18} color='#000' />,
             label: 'Eventos'
         },
-        {
-            to: '/compras',
-            icon: <ShoppingBasketIcon width={18} height={18} color='#000' />,
-            label: 'compras'
-        }
+        // {
+        //     to: '/compras',
+        //     icon: <ShoppingBasketIcon width={18} height={18} color='#000' />,
+        //     label: 'compras'
+        // }
     ]
 
     return (
