@@ -3,7 +3,6 @@
     max-width: 1200px;
     margin: 60px auto;
     gap: 30px;
-    flex-wrap: wrap;
 }
 
 .order-completed .container-order-product-table {
