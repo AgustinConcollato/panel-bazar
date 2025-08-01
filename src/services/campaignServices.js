@@ -51,7 +51,7 @@ export class Campaign {
         }
     }
 
-    async get({ slug = null, status = null } = {}) {
+    async get({ slug = null, status = null, page = 1 } = {}) {
 
         let fullUrl = url
 
@@ -62,6 +62,8 @@ export class Campaign {
         if (status) {
             fullUrl += `?stauts=true`
         }
+
+        fullUrl += `?page=${page}`
 
         try {
             const response = await fetch(fullUrl, {
