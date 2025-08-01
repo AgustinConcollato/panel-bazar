@@ -10,12 +10,14 @@ export function AddCampaign() {
 
     const [loading, setLoading] = useState(false)
     const [image, setImage] = useState([])
+    const [forceActive, setForceActive] = useState(false)
 
     async function addCampaign(e) {
         e.preventDefault()
 
         const formData = new FormData(e.target)
         formData.append('image', image[0])
+        formData.set('force_active', forceActive ? '1' : '0')
 
         const campaign = new Campaign()
 
@@ -29,17 +31,22 @@ export function AddCampaign() {
             if (response) {
                 e.target.reset()
                 setImage([])
+                setForceActive(false)
             }
 
         } catch (error) {
 
             if (error.errors) {
                 if (error.errors.end_date) {
-                    if (error.errors.end_date[0] == 'The end date field must be a date after start date.') {
-                        toast.error('Error, la fecha de finalización debe ser posterior a la fecha de inicio')
-                    } else {
-                        toast.error('Error, falta agregar fecha de finalización')
-                    }
+                    toast.error(error.errors.end_date[0])
+                }
+
+                if (error.errors.start_date) {
+                    toast.error(error.errors.start_date[0])
+                }
+
+                if (error.errors.name) {
+                    toast.error('Error, falta agregar el nombre del evento')
                 }
 
                 if (error.errors.image) {
@@ -48,13 +55,6 @@ export function AddCampaign() {
                     } else {
                         toast.error('Error, falta agregar la imagen')
                     }
-                }
-
-                if (error.errors.start_date) {
-                    toast.error('Error, falta agregar fecha de inicio')
-                }
-                if (error.errors.name) {
-                    toast.error('Error, falta agregar el nombre del producto')
                 }
             }
 
@@ -129,31 +129,44 @@ export function AddCampaign() {
                         />
                     </div>
                 </div>
-                <div>
-                    <h3>Fechas <span>*</span></h3>
-                    <div>
-                        <div>
-                            <p>Fecha de inicio</p>
-                            <input
-                                type="date"
-                                className="input"
-                                name="start_date"
-                                placeholder="Fecha de inicio"
-                            />
-                        </div>
-                    </div>
-                    <div>
-                        <div>
-                            <p>Fecha de finalización</p>
-                            <input
-                                type="date"
-                                className="input"
-                                name="end_date"
-                                placeholder="Fecha de finalización"
-                            />
-                        </div>
-                    </div>
+                <div className="checkbox-field">
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="force_active"
+                            checked={forceActive}
+                            onChange={(e) => setForceActive(e.target.checked)}
+                        />
+                        Activar evento sin fechas de inicio y finalización
+                    </label>
                 </div>
+                {!forceActive &&
+                    <div>
+                        <h3>Fechas <span>*</span></h3>
+                        <div>
+                            <div>
+                                <p>Fecha de inicio</p>
+                                <input
+                                    type="date"
+                                    className="input"
+                                    name="start_date"
+                                    placeholder="Fecha de inicio"
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <p>Fecha de finalización</p>
+                                <input
+                                    type="date"
+                                    className="input"
+                                    name="end_date"
+                                    placeholder="Fecha de finalización"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                }
                 <button
                     disabled={loading}
                     className='btn btn-solid'
