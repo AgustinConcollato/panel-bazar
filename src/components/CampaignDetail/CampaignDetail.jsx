@@ -19,6 +19,7 @@ export function CampaignDetail() {
 
     const [campaign, setCampaing] = useState(null)
     const [edit, setEdit] = useState(null)
+    const [page, setPage] = useState(1)
 
     async function updateCampign(data) {
         try {
@@ -37,17 +38,26 @@ export function CampaignDetail() {
                 response.end_date = endDate.toISOString().split('T')[0];
             }
 
+            response.products.data = []
             setCampaing(response)
             setEdit(null)
         } catch (error) {
             if (error.errors.end_date) {
                 toast.error(error.errors.end_date[0])
             }
+            if (error.errors.start_date) {
+                toast.error(error.errors.start_date[0])
+            }
         }
     }
 
     function changeStatus(status) {
         updateCampign({ is_active: status ? '1' : '0' })
+    }
+
+
+    function forceActiveState(status) {
+        updateCampign({ force_active: status ? '1' : '0' })
     }
 
     function changeCampaignData(e) {
@@ -123,7 +133,7 @@ export function CampaignDetail() {
     async function getDetails() {
 
         try {
-            const response = await campaigns.get({ slug })
+            const response = await campaigns.get({ slug, page })
 
             setCampaing(response)
         } catch (error) {
@@ -133,10 +143,10 @@ export function CampaignDetail() {
 
     useEffect(() => {
         if (slug) {
-            setCampaing(null)
+            // setCampaing(null)
             getDetails()
         }
-    }, [slug])
+    }, [slug, page])
 
     if (!campaign) return <Loading />
 
@@ -147,7 +157,10 @@ export function CampaignDetail() {
                     <Link to={'/eventos'}><FontAwesomeIcon icon={faArrowLeft} /> Volver</Link>
                     <h2>
                         {campaign.name}
-                        <p className={campaign.is_active ? 'active' : 'inactive'}><span></span>{campaign.is_active ? 'Activo' : 'Inactivo'}</p>
+                        <p className={(campaign.is_active || campaign.force_active) ? 'active' : 'inactive'}>
+                            <span />
+                            {(campaign.is_active || campaign.force_active) ? 'Activo' : 'Inactivo'}
+                        </p>
                     </h2>
                     <div>
                         <h4>Fechas</h4>
@@ -186,9 +199,13 @@ export function CampaignDetail() {
                             <button className="btn btn-regular" onClick={() => changeStatus(false)}>Desactivar evento</button> :
                             <button className="btn btn-solid" onClick={() => changeStatus(true)}>Activar evento</button>
                         }
+                        {campaign.force_active ?
+                            <button className="btn btn-regular" onClick={() => forceActiveState(false)}>Desactivar evento sin fechas</button> :
+                            <button className="btn btn-solid" onClick={() => forceActiveState(true)}>Activar evento sin fechas</button>
+                        }
                     </div>
                 </div>
-                <CampaignProductList campaign={campaign} />
+                <CampaignProductList campaign={campaign} setPage={setPage} />
             </section>
             {edit &&
                 <Modal onClose={() => setEdit(null)}>

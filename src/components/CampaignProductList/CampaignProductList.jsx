@@ -1,6 +1,6 @@
 import { faXmark } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { urlStorage } from "../../services/api"
 import { Campaign } from "../../services/campaignServices"
 import { Products } from "../../services/productsService"
@@ -8,10 +8,10 @@ import { CampaignProduct } from "../CampaignProduct/CampaignProduct"
 import { Loading } from "../Loading/Loading"
 import './CampaignProductList.css'
 
-export function CampaignProductList({ campaign }) {
+export function CampaignProductList({ campaign, setPage }) {
 
     const [selectedProducts, setSelectedProducts] = useState([])
-    const [products, setProducts] = useState(campaign.products)
+    const [products, setProducts] = useState([])
     const [results, setResults] = useState(null)
     const [loading, setLoading] = useState(false)
     const [loadingDeleting, setLoadingDeleting] = useState(false)
@@ -26,7 +26,7 @@ export function CampaignProductList({ campaign }) {
 
         setLoading(true)
         try {
-            const response = await new Products().search({ options: { name, page: 1} })
+            const response = await new Products().search({ options: { name, page: 1 } })
             setResults(response.data)
         } catch (error) {
             console.log(error)
@@ -73,6 +73,10 @@ export function CampaignProductList({ campaign }) {
         setSelectedProducts(current => [...current, product])
     }
 
+    useEffect(() => {
+        setProducts(e => [...e, ...campaign.products.data])
+    }, [campaign])
+
     return (
         <div className="campaign-products">
             <div>
@@ -91,8 +95,8 @@ export function CampaignProductList({ campaign }) {
                             return (
                                 <div
                                     key={e.id}
-                                    className={`product ${(e.in_campaign || e.campaign_discount) ? 'product-in-campaign' : ''} ${isSelected ? 'product-select' : ''}`}
-                                    onClick={() => !isSelected && !e.in_campaign && !e.campaign_discount && selectProduct(e)}
+                                    className={`product ${(e.in_campaign || e.campaign_discount || e.campaign_info) ? 'product-in-campaign' : ''} ${isSelected ? 'product-select' : ''}`}
+                                    onClick={() => !isSelected && !e.in_campaign && !e.campaign_discount && !e.campaign_info && selectProduct(e)}
                                 >
                                     <div className="container-img">
                                         <img src={urlStorage + '/' + JSON.parse(e.thumbnails)[0]} />
@@ -123,15 +127,21 @@ export function CampaignProductList({ campaign }) {
             <div>
                 <h3>Productos que ya estan en "{campaign.name}"</h3>
                 {products.length > 0 ?
-                    <div className="results">
-                        {products.map(e =>
-                            <CampaignProduct
-                                e={e} campaignId={campaign.id}
-                                onDelete={deleteProductsToCampaign}
-                                loadingDeleting={loadingDeleting}
-                            />
-                        )}
-                    </div> :
+                    <>
+                        <div className="results">
+                            {products.map(e =>
+                                <CampaignProduct
+                                    e={e}
+                                    campaignId={campaign.id}
+                                    onDelete={deleteProductsToCampaign}
+                                    loadingDeleting={loadingDeleting}
+                                />
+                            )}
+                        </div>
+                        {products.length < campaign.products.total &&
+                            <button className="btn btn-solid" onClick={() => setPage(e => e + 1)}>Ver más productos</button>
+                        }
+                    </> :
                     <div className="results">
                         <p>No hay productos</p>
                     </div>

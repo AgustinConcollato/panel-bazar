@@ -13,7 +13,7 @@ export function CampaignList() {
         const campaign = new Campaign()
 
         try {
-            const response = await campaign.get({ })
+            const response = await campaign.get({})
             setCampaignList(response)
         } catch (error) {
             console.log(error)
@@ -41,7 +41,7 @@ export function CampaignList() {
                                 <span>Fin</span>
                                 <span>{formatDate(e.end_date)}</span>
                             </div>
-                            <p className={e.is_active ? 'active' : 'inactive'}><span></span>{e.is_active ? 'Activo' : 'Inactivo'}</p>
+                            <p className={(e.is_active || e.force_active) ? 'active' : 'inactive'}><span></span>{(e.is_active || e.force_active) ? 'Activo' : 'Inactivo'}</p>
                             {e.discount_type ?
                                 <div>
                                     {e.discount_type == "fixed" ?
