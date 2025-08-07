@@ -62,13 +62,13 @@ export function ClientsPage() {
         switch (e.key) {
             case 'ArrowDown':
                 e.preventDefault();
-                setSelectedIndex(prev => 
+                setSelectedIndex(prev =>
                     prev < results.length - 1 ? prev + 1 : prev
                 );
                 break;
             case 'ArrowUp':
                 e.preventDefault();
-                setSelectedIndex(prev => 
+                setSelectedIndex(prev =>
                     prev > 0 ? prev - 1 : prev
                 );
                 break;
@@ -95,11 +95,11 @@ export function ClientsPage() {
         if (selectedIndex >= 0 && resultsRef.current) {
             const resultsContainer = resultsRef.current;
             const selectedElement = resultsContainer.querySelector('ul')?.children[selectedIndex];
-            
+
             if (selectedElement) {
                 const containerRect = resultsContainer.getBoundingClientRect();
                 const elementRect = selectedElement.getBoundingClientRect();
-                
+
                 // Check if element is outside the visible area
                 if (elementRect.bottom > containerRect.bottom) {
                     // Scroll down to show the element
@@ -142,7 +142,7 @@ export function ClientsPage() {
                                 ) : results.length > 0 ? (
                                     <ul>
                                         {results.map((client, index) => (
-                                            <li 
+                                            <li
                                                 key={client.id}
                                                 className={index === selectedIndex ? 'selected' : ''}
                                             >
@@ -165,20 +165,7 @@ export function ClientsPage() {
                 clients.length != 0 ?
                     <>
                         <p>Cantidad de clientes: {clients.length}</p>
-                        <table cellSpacing={0}>
-                            <thead>
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Pagos pendientes</th>
-                                    <th>Correo</th>
-                                    <th>Teléfono</th>
-                                    <th>Dirección</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <ClientList clients={clients} />
-                            </tbody>
-                        </table>
+                        <ClientList clients={clients} />
                     </> :
                     <p>No hay clientes</p> :
                 <Loading />
