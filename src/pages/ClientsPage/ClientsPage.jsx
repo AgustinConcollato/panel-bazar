@@ -165,7 +165,21 @@ export function ClientsPage() {
                 clients.length != 0 ?
                     <>
                         <p>Cantidad de clientes: {clients.length}</p>
-                        <ClientList clients={clients} />
+                        <table cellSpacing={0}>
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Pagos pendientes</th>
+                                    <th>Correo</th>
+                                    <th>Teléfono</th>
+                                    <th>Dirección</th>
+                                    <th>Opciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <ClientList clients={clients} />
+                            </tbody>
+                        </table>
                     </> :
                     <p>No hay clientes</p> :
                 <Loading />

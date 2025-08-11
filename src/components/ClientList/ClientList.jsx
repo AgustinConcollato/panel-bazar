@@ -11,7 +11,7 @@ import './ClientList.css';
 
 export function ClientList({ clients }) {
     return (
-        <ul className='client-list'>
+        <>
             {clients.map(e =>
                 <Client e={e} key={e.id} />
             )}
@@ -29,7 +29,7 @@ export function ClientList({ clients }) {
                 transition:Bounce
                 stacked
             />
-        </ul>
+        </>
     )
 }
 
@@ -133,7 +133,7 @@ function Client({ e }) {
 
     return (
         <>
-            <li
+            <tr
                 key={client.id}
                 className={`client-item ${isSelected ? 'selected' : ''}`}
                 onClick={() => setIsSelected(!isSelected)}
@@ -146,20 +146,19 @@ function Client({ e }) {
                 role="button"
                 tabIndex={0}
             >
-                <h3>
-                    {client.name}
+                <td>{client.name}</td>
+                <td>
                     {client.payments.length != 0 ?
                         <span className='payment-pending'>
                             <FontAwesomeIcon icon={faCircleExclamation} color="#ff8800" />
                             {client.payments.length} pagos pendientes
                         </span> :
-                        <span className='not-payment-pending'>Sin pagos pendientes</span>
+                        <span >Sin pagos pendientes</span>
                     }
-                </h3>
-                <p>Correo: {client.email ?? 'Sin correo'}</p>
-                <p>Celular: {client.phone_number ?? 'Sin Celular'}</p>
-                <div>
-                    Dirección:
+                </td>
+                <td>{client.email ?? '-'}</td>
+                <td>{client.phone_number ?? '-'}</td>
+                <td>
                     {addresses.length > 0 ? (
                         <span>
                             {addresses.map((addr, idx) => {
@@ -176,14 +175,16 @@ function Client({ e }) {
                     ) : (
                         <span> Sin direcciones</span>
                     )}
-                </div>
-                <div className="container-btn">
-                    <Link to={'/cliente/' + e.id} className="btn btn-regular"> Ver detalle </Link>
-                    <button className="btn" onClick={() => setEdit(true)}> Editar </button>
-                    <button className="btn btn-regular" onClick={() => setNewOrder({ name: client.name, id: client.id })}> Crear pedido </button>
-                    <button className="btn btn-regular" onClick={() => setChangeAddress(e)}> Agregar dirección </button>
-                </div>
-            </li>
+                </td>
+                <td>
+                    <div className="container-btn">
+                        <Link to={'/cliente/' + e.id} className="btn btn-regular"> Ver detalle </Link>
+                        <button className="btn" onClick={() => setEdit(true)}> Editar </button>
+                        <button className="btn btn-regular" onClick={() => setNewOrder({ name: client.name, id: client.id })}> Crear pedido </button>
+                        <button className="btn btn-regular" onClick={() => setChangeAddress(e)}> Agregar dirección </button>
+                    </div>
+                </td>
+            </tr>
             {newOrder &&
                 <Modal onClose={() => setNewOrder(false)}>
                     <div className='new-order-modal'>

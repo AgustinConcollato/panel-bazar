@@ -1,10 +1,7 @@
-import { Link } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import './AddClient.css'
 import { api } from '../../services/api'
+import './AddClient.css'
 
 export function AddClient() {
 
@@ -37,31 +34,42 @@ export function AddClient() {
     return (
         <>
             <section className='section-add-client'>
-                <div>
-                    <Link to={'/pedidos'} className="btn" ><FontAwesomeIcon icon={faArrowLeft} size="xs" /></Link>
-                    <h1>Nuevo cliente</h1>
-                </div>
-                <div>
+                <div className='section-form'>
                     <form onSubmit={addClient}>
-                        <input
-                            type="text"
-                            name="name"
-                            className="input"
-                            placeholder='Nombre del cliente'
-                            required
-                        />
-                        <input
-                            type="text"
-                            className='input'
-                            name='phone_number'
-                            placeholder='Teléfono del cliente'
-                        />
+                        <div className='header-form'>
+                            <h1>Nuevo cliente</h1>
+                        </div>
+                        <div>
+                            <div>
+                                <p>Nombre</p>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    className="input"
+                                    placeholder='Nombre'
+                                    required
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <p>Número de teléfono</p>
+                                <input
+                                    type="text"
+                                    className='input'
+                                    name='phone_number'
+                                    placeholder='Número de teléfono'
+                                />
+                            </div>
+                        </div>
                         <input type="text" hidden name='email' value={''} />
                         <input type="text" hidden name='source' value={'dashboard'} />
                         <input type="text" hidden name='password' value={'Dashboard123$'} />
                         <input type="text" hidden name='password_confirmation' value={'Dashboard123$'} />
-                        <button type="submit" className='btn btn-solid'>Agregar</button>
-                        <button type="reset" className='btn btn-thins'>Descartar</button>
+                        <div>
+                            <button type="submit" className='btn btn-solid'>Agregar</button>
+                            <button type="reset" className='btn'>Descartar</button>
+                        </div>
                     </form>
                 </div>
             </section>
