@@ -25,7 +25,7 @@ export function OrderSearch({ orderId, setOrderProducts, setOrderData }) {
             page: 1,
             status: 'active',
             name,
-            panel: true
+            available_quantity: true
         };
 
         setProductList(null);
@@ -67,16 +67,19 @@ export function OrderSearch({ orderId, setOrderProducts, setOrderData }) {
             })
 
             setOrderProducts(current => [...current, product])
-            
+
+            // Limpiar estados después de agregar producto
             setName('')
             setSelected(false)
+            setHidden(true)
+            setFilteredOptions([])
+            setProductList(null)
 
         } catch (error) {
             toast.error(error.error)
             if (error.errors) {
                 return toast.error('Error, falta agregar la cantidad')
             }
-
         }
     }
 
@@ -88,14 +91,40 @@ export function OrderSearch({ orderId, setOrderProducts, setOrderData }) {
         } else if (event.key === 'ArrowUp') {
             setHighlightedIndex((prevIndex) => Math.max(prevIndex - 1, -1))
         } else if (event.key === 'Enter') {
-
             if (highlightedIndex < 0) return
 
             event.preventDefault()
             const selectedOption = filteredOptions[highlightedIndex]
             if (selectedOption) {
                 setSelected(selectedOption)
+                setHidden(true) // Ocultar resultados al seleccionar
             }
+        } else if (event.key === 'Escape') {
+            setHidden(true)
+            setSelected(false)
+            setName('')
+            setFilteredOptions([])
+            setProductList(null)
+        }
+    }
+
+    // Función para manejar la selección de producto
+    function handleProductSelect(product) {
+        setSelected(product)
+        setHidden(true) // Ocultar resultados al seleccionar
+        setHighlightedIndex(-1) // Resetear índice destacado
+    }
+
+    // Función para limpiar la búsqueda
+    function clearSearch() {
+        setName('')
+        setSelected(false)
+        setHidden(true)
+        setFilteredOptions([])
+        setProductList(null)
+        setHighlightedIndex(-1)
+        if (inputRef.current) {
+            inputRef.current.focus()
         }
     }
 
@@ -112,13 +141,13 @@ export function OrderSearch({ orderId, setOrderProducts, setOrderData }) {
                 !inputRef.current.contains(event.target)
             ) {
                 setHidden(true)
+                setHighlightedIndex(-1)
             }
         }
 
         const handleKeyUp = (e) => {
-            if (e.keyCode == 27) {
-                setSelected(false)
-                inputRef.current.focus()
+            if (e.key === 'Escape') {
+                clearSearch()
             }
         }
 
@@ -127,7 +156,6 @@ export function OrderSearch({ orderId, setOrderProducts, setOrderData }) {
         return () => {
             document.removeEventListener('click', handleClickOutside)
             document.removeEventListener("keyup", handleKeyUp)
-
         }
     }, [])
 
@@ -136,7 +164,6 @@ export function OrderSearch({ orderId, setOrderProducts, setOrderData }) {
             optionRefs.current[highlightedIndex].scrollIntoView({
                 behavior: 'smooth',
                 block: 'nearest'
-
             })
         }
     }, [highlightedIndex])
@@ -148,18 +175,27 @@ export function OrderSearch({ orderId, setOrderProducts, setOrderData }) {
                 ref={inputRef}
                 placeholder="Buscar producto por nombre"
                 className="input"
-                onChange={(e) => setName(e.target.value)}
+                value={name || ''}
+                onChange={(e) => {
+                    setName(e.target.value)
+                    setHidden(false) // Mostrar resultados al escribir
+                }}
+                onFocus={(e) => {
+                    if (e.target.value) {
+                        setHidden(false) // Mostrar resultados si hay texto
+                    }
+                }}
                 onKeyDown={handleKeyDown}
             />
-            {name && hidden &&
-                <ul className="results">
+            {name && !hidden && (
+                <ul className="results" ref={dropdownRef}>
                     {productList ?
                         productList.length !== 0 ?
                             productList.map((product, index) => (
                                 <li
                                     className={`product${highlightedIndex === index ? ' highlighted' : ''}`}
                                     key={product.id}
-                                    onClick={() => setSelected(product)}
+                                    onClick={() => handleProductSelect(product)}
                                     ref={(el) => (optionRefs.current[index] = el)}
                                 >
                                     <img src={`${urlStorage}/${JSON.parse(product.thumbnails)[0]}`} />
@@ -167,7 +203,6 @@ export function OrderSearch({ orderId, setOrderProducts, setOrderData }) {
                                         {product.name}
                                         <span>${parseFloat(product.price)}</span>
                                     </p>
-
                                 </li>
                             )) :
                             <li className="no-results">
@@ -177,10 +212,13 @@ export function OrderSearch({ orderId, setOrderProducts, setOrderData }) {
                         <Loading />
                     }
                 </ul>
-            }
+            )}
 
             {selected &&
-                <Modal onClose={() => setSelected(false)}>
+                <Modal onClose={() => {
+                    setSelected(false)
+                    clearSearch()
+                }}>
                     <section className="section-form">
                         <form onSubmit={addProduct}>
                             <div className="header-form">
@@ -195,6 +233,8 @@ export function OrderSearch({ orderId, setOrderProducts, setOrderData }) {
                                         placeholder="Cantidad"
                                         className="input"
                                         name='quantity'
+                                        required
+                                        min="1"
                                     />
                                 </div>
                             </div>
@@ -206,12 +246,17 @@ export function OrderSearch({ orderId, setOrderProducts, setOrderData }) {
                                         placeholder="En porcentaje"
                                         className="input"
                                         name='discount'
+                                        min="0"
+                                        max="100"
                                     />
                                 </div>
                             </div>
                             <div className="actions-edit">
                                 <button type="submit" className="btn btn-solid">Agregar</button>
-                                <button type="button" className="btn" onClick={() => setSelected(false)}>Cancelar</button>
+                                <button type="button" className="btn" onClick={() => {
+                                    setSelected(false)
+                                    clearSearch()
+                                }}>Cancelar</button>
                             </div>
                         </form>
                     </section>
