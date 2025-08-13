@@ -68,40 +68,6 @@
     background: none;
 }
 
-.order-detail-list li {
-    display: flex;
-    justify-content: space-between;
-    padding: 5px 0;
-    border-bottom: 1px solid #eee;
-}
-
-.order-detail-list li:last-child {
-    border: none;
-}
-
-.order-detail-list div:first-child {
-    display: flex;
-    align-items: start;
-    gap: 10px;
-}
-
-.order-detail-list .name {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    max-width: 180px;
-    pointer-events: none;
-    display: inline-block;
-}
-
-.order-detail-list li div p {
-    text-align: end;
-}
-
-.order-detail-list div p:first-child {
-    font-size: 14px;
-}
-
 .order-detail h2 {
     font-weight: 500;
     margin-top: 20px;
@@ -117,8 +83,31 @@
     background: #fff;
 }
 
-.order-options.container-btn:hover {
+.order-detail .order-options {
+    padding: 0;
+}
+
+.order-options .container-btn:hover {
     top: 0;
+}
+
+.add-discount {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-discount button{
+    border: none;
+    color: #1872fa;
+    font-size: 16px;
+    background: none;
+    cursor: pointer;
+    text-align: end;
+    margin-left: 5px;
+}
+
+.add-discount button:hover {
+    text-decoration: underline;
 }
 
 @media (max-width: 450px) {

@@ -8,6 +8,7 @@ import { OrderProduct } from '../OrderProduct/OrderProduct'
 import { OrderSearch } from '../OrderSearch/OrderSearch'
 import './AcceptedOrder.css'
 import { AddExternalProduct } from '../AddExternalProduct/AddExternalProduct'
+import { Modal } from '../../Modal/Modal'
 
 export function AcceptedOrder({ order: orderData }) {
 
@@ -18,7 +19,9 @@ export function AcceptedOrder({ order: orderData }) {
 
     const [products, setProducts] = useState(orderData.products)
     const [data, setData] = useState(orderData)
-    const [discount, setDiscount] = useState(null)
+    const [discount, setDiscount] = useState(orderData.discount || 0)
+    const [modal, setModal] = useState(false)
+    const [discountInput, setDiscountInput] = useState('')
 
     async function removeProductOrder(id) {
 
@@ -51,6 +54,39 @@ export function AcceptedOrder({ order: orderData }) {
         }
     }
 
+    async function addDiscount(e) {
+        e.preventDefault()
+        
+        if (!discountInput || discountInput < 0 || discountInput > 100) {
+            toast.error('El descuento debe estar entre 0 y 100%')
+            return
+        }
+
+        try {
+            const response = await toast.promise(order.updateDiscount({
+                order_id: orderData.id,
+                discount: parseFloat(discountInput)
+            }), {
+                pending: 'Actualizando descuento...',
+                success: 'Descuento actualizado correctamente',
+                error: 'Error al actualizar el descuento'
+            })
+
+            if (response) {
+                setDiscount(parseFloat(discountInput))
+                setData(prev => ({
+                    ...prev,
+                    discount: parseFloat(discountInput)
+                }))
+                setModal(false)
+                setDiscountInput('')
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     useEffect(() => {
         if (orderData.status !== 'accepted') {
             navigate(`/pedido/${orderData.id}/${orderData.status}`)
@@ -66,78 +102,91 @@ export function AcceptedOrder({ order: orderData }) {
         }))
     }, [products])
 
-
     return (
-        <section className="order">
-            <div className='order-info'>
-                <div className='order-header'>
-                    <OrderSearch
-                        orderId={orderData.id}
-                        setOrderProducts={setProducts}
-                        setOrderData={() => { }}
-                    />
-                    <AddExternalProduct
-                        orderId={orderData.id}
-                        setOrderProducts={setProducts}
-                    />
-                </div>
-                <div className='order-products'>
-                    {products.length > 0 ?
-                        products.map((product, index) => (
-                            <OrderProduct
-                                key={index}
-                                product={product}
-                                orderId={orderData.id}
-                                setProducts={setProducts}
-                                setOrderData={setData}
-                                updateOrder={updateOrder}
-                                removeProductOrder={removeProductOrder}
-                            />
-                        )) : <Loading />
-                    }
-                </div>
-            </div>
-            <div className='order-detail'>
-                <h3>Detalle del pedido</h3>
-                <div className="info-product">
-                    <ul>
-                        <li></li>
-                        <li>Productos <b>{products.length ?? ''}</b></li>
-                        <li>Unidades
-                            <b>
-                                {products.reduce(
-                                    (accumulator, currentValue) => accumulator + parseInt(currentValue.quantity),
-                                    0,
-                                )}
-                            </b>
-                        </li>
-                        <li>Subtotal <b>$ {data.total_amount.toLocaleString('es-AR', { maximumFractionDigits: 2 })}</b></li>
-                    </ul>
-                </div>
-
-                <div>
+        <>
+            <section className="order">
+                <div className='order-info'>
+                    <div className='order-header'>
+                        <OrderSearch
+                            orderId={orderData.id}
+                            setOrderProducts={setProducts}
+                            setOrderData={() => { }}
+                        />
+                        <AddExternalProduct
+                            orderId={orderData.id}
+                            setOrderProducts={setProducts}
+                        />
+                    </div>
                     <ul className='order-detail-list'>
-                        {products.map(e =>
-                            <li>
-                                <div>
-                                    <span>{e.quantity}</span>
-                                    <span className='name'>{e.name}</span>
-                                </div>
-                                <div>
-                                    <p>${e.price.toLocaleString('es-AR', { maximumFractionDigits: 2 })}</p>
-                                    <p>${e.subtotal.toLocaleString('es-AR', { maximumFractionDigits: 2 })}</p>
-                                </div>
-                            </li>)
+                        {products.length > 0 ?
+                            products.map((product, index) => (
+                                <OrderProduct
+                                    key={index}
+                                    product={product}
+                                    orderId={orderData.id}
+                                    setProducts={setProducts}
+                                    setOrderData={setData}
+                                    updateOrder={updateOrder}
+                                    removeProductOrder={removeProductOrder}
+                                />
+                            )) : <Loading />
                         }
                     </ul>
                 </div>
-                <div>
-                    <p>Descuento {discount ?? <button>Agregar descuento</button>}</p>
-                    <h2>${data.total_amount.toLocaleString('es-AR', { maximumFractionDigits: 2 })}</h2>
-                </div>
+                <div className='order-detail'>
+                    <h3>Detalle del pedido</h3>
+                    <div className="info-product">
+                        <ul>
+                            <li></li>
+                            <li>Productos <b>{products.length ?? ''}</b></li>
+                            <li>Unidades
+                                <b>
+                                    {products.reduce(
+                                        (accumulator, currentValue) => accumulator + parseInt(currentValue.quantity),
+                                        0,
+                                    )}
+                                </b>
+                            </li>
+                            <li>Subtotal <b>$ {data.total_amount.toLocaleString('es-AR', { maximumFractionDigits: 2 })}</b></li>
+                        </ul>
+                    </div>
+                    <div className='info-product'>
+                        <ul>
+                            <li>
+                                Descuento
+                                <div className='add-discount'>
+                                    <b>{discount ?? 0}%</b>
+                                    <button onClick={() => setModal(true)}> Editar descuento </button>
+                                </div>
+                            </li>
+                            <li>Total <h3>${(parseFloat(data.total_amount) * (1 - discount / 100)).toLocaleString('es-AR', { maximumFractionDigits: 2 })}</h3></li>
+                        </ul>
+                    </div>
 
-                <OrderOptions order={orderData} onAction={() => navigate('/pedidos/aceptados')} />
-            </div>
-        </section >
+                    <OrderOptions order={orderData} onAction={() => navigate('/pedidos/aceptados')} />
+                </div>
+            </section>
+            {modal &&
+                <Modal onClose={() => setModal(false)}>
+                    <div className='section-form'>
+                        <form onSubmit={addDiscount}>
+                            <div className="header-form">
+                                <h2>Agregar descuento al pedido</h2>
+                            </div>
+                            <div>
+                                <div>
+                                    <p>Descuento</p>
+                                    <input type="number" className="input" placeholder='Descuento' value={discountInput} onChange={(e) => setDiscountInput(e.target.value)} />
+                                </div>
+                            </div>
+                            <div>
+                                <button type='submit' className='btn btn-solid'>Agregar</button>
+                                <button onClick={() => setModal(false)} className='btn'>Cancelar</button>
+                            </div>
+                        </form>
+                    </div>
+                </Modal>
+            }
+        </>
     )
 }
