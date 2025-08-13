@@ -26,7 +26,7 @@ export function CampaignProductList({ campaign, setPage }) {
 
         setLoading(true)
         try {
-            const response = await new Products().search({ options: { name, page: 1 } })
+            const response = await new Products().search({ options: { name, page: 1, available_quantity: true } })
             setResults(response.data)
         } catch (error) {
             console.log(error)
