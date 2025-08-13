@@ -61,16 +61,32 @@ export function OrderProduct({
     return (
         product &&
         <>
-            <div onClick={() => setEdit(true)} className='order-product'>
-                <div className="container-img">
+            <li onClick={() => setEdit(true)} className='order-product'>
+                <div>
                     <img loading='lazy' src={!product.picture ? notImage : `${urlStorage}/${JSON.parse(product.picture)[0]}`} />
+                    <span className='name'>{product.name}</span>
                 </div>
-                <h4>{product.name}</h4>
-                <p>${product.price}</p>
-                <p className='quantity'>{product.quantity}</p>
-                <p>{product.discount ? product.discount + '%' : null}</p>
-            </div>
-
+                <div>
+                    <p className='quantity'>Cantidad</p>
+                    <p>{product.quantity}</p>
+                </div>
+                <div>
+                    {product.discount && product.discount > 0 ? (
+                        <>
+                            <p>
+                                <span className="discount-badge">-{product.discount}%</span>
+                                <span className="original-price">${parseFloat(product.price).toLocaleString('es-AR', { maximumFractionDigits: 2 })}</span>
+                            </p>
+                            <p>
+                                ${(parseFloat(product.price) * (1 - product.discount / 100)).toLocaleString('es-AR', { maximumFractionDigits: 2 })}
+                            </p>
+                        </>
+                    ) : (
+                        <p>${parseFloat(product.price).toLocaleString('es-AR', { maximumFractionDigits: 2 })}</p>
+                    )}
+                    <p className="subtotal">${parseFloat(product.subtotal).toLocaleString('es-AR', { maximumFractionDigits: 2 })}</p>
+                </div>
+            </li>
             {edit &&
                 <Modal onClose={() => setEdit(null)}>
                     <section className="section-form">
