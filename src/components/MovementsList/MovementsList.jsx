@@ -96,9 +96,10 @@ export function MovementsList({ movements }) {
                             <li>
                                 <span>Método</span>
                                 <b>
-                                    {details.method === 'transfer' && ' Transferencia'}
-                                    {details.method === 'cash' && ' Efectivo'}
-                                    {details.method === 'check' && ' Cheque'}
+                                    {details.method === 'transfer' && 'Transferencia'}
+                                    {details.method === 'cash' && 'Efectivo'}
+                                    {details.method === 'check' && 'Cheque'}
+                                    {details.method === 'credit_card' && 'Tarjeta de crédito / débito'}
                                 </b>
                             </li>
                         </ul>

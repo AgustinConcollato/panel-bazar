@@ -53,7 +53,7 @@ export function OrderDetail({ order }) {
                             {order.payments.map(e =>
                                 <p className='method'>
                                     <b>${parseFloat(e.expected_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })}</b>
-                                    {e.method == 'transfer' ? 'Transferencia' : e.method == 'cash' ? 'Efectivo' : 'Cheque'}
+                                    {e.method == 'transfer' ? 'Transferencia' : e.method == 'cash' ? 'Efectivo' : e.method == 'check' ? 'Cheque' : 'Tarjeta de crédito / débito'}
                                 </p>
                             )}
                         </p>
@@ -70,6 +70,8 @@ export function OrderDetail({ order }) {
                         )}
                     </b>
                 </li>
+                <li>Recargo <b>{order.surcharge ? '$' + parseFloat(order.surcharge).toLocaleString('es-AR', { maximumFractionDigits: 2 }) : '$0'}</b></li>
+                <li>Envio <b>{order.delivery ? '$' + parseFloat(order.delivery).toLocaleString('es-AR', { maximumFractionDigits: 2 }) : 'A coordinar'}</b></li>
                 {order.discount ? <li>Descuento <b>{order.discount}%</b></li> : null}
                 {order.discount ?
                     <li>Precio

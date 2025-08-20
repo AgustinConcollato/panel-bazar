@@ -127,6 +127,21 @@ export function PreViewOrder({ order, setOrders }) {
                                                 </span>
                                             </p>
                                         }
+                                        {e.method === 'credit_card' &&
+                                            <p>
+                                                tarjeta de crédito / débito
+                                                <span>
+                                                    ${parseFloat(e.paid_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })}
+                                                    {parseFloat(e.paid_amount) >= parseFloat(e.expected_amount)
+                                                        ? <FontAwesomeIcon icon={faCircleCheck} color="#66b819" />
+                                                        : <>
+                                                            {' '} / ${parseFloat(e.expected_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })}
+                                                            <FontAwesomeIcon icon={faCircleExclamation} color="#ff8800" />
+                                                        </>
+                                                    }
+                                                </span>
+                                            </p>
+                                        }
 
                                     </p>
                                 ) :

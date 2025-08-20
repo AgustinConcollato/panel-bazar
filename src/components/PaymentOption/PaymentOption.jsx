@@ -8,13 +8,17 @@ export function PaymentOption({ createPay, order, loading }) {
     const [selectedMethod, setSelectedMethod] = useState(null);
     const [paidAmount, setPaidAmount] = useState();
 
-    const paymentOptions = ['transfer', 'cash', 'check'];
+    const paymentOptions = ['transfer', 'cash', 'check', 'credit_card'];
+
+    const discountedAmount = order.discount
+        ? order.total_amount - (order.total_amount * order.discount / 100)
+        : order.total_amount;
 
     function addMethod() {
         const data = {
             order_id: order.id,
             method: selectedMethod,
-            expected_amount: order.total_amount,
+            expected_amount: discountedAmount,
             paid_amount: 0,
             paid_at: null
         }
@@ -26,15 +30,14 @@ export function PaymentOption({ createPay, order, loading }) {
         const now = new Date();
         const formattedDate = now.toISOString().slice(0, 19).replace('T', ' ');
 
-        if (parseFloat(paidAmount) > order.total_amount) {
-            toast.error('Monto a pagar es mayor al total del pedido')
-            return
+        if (parseFloat(paidAmount) > discountedAmount) {
+            return toast.error('Monto a pagar es mayor al total del pedido')
         }
 
         const data = {
             order_id: order.id,
             method: selectedMethod,
-            expected_amount: order.total_amount,
+            expected_amount: discountedAmount,
             paid_amount: parseFloat(paidAmount),
             paid_at: formattedDate
         }
@@ -56,6 +59,7 @@ export function PaymentOption({ createPay, order, loading }) {
                             {method === 'transfer' && 'Transferencia'}
                             {method === 'cash' && 'Efectivo'}
                             {method === 'check' && 'Cheque'}
+                            {method === 'credit_card' && 'tarjeta de crédito / débito'}
                         </label>
                     </div>
                 ))}
@@ -63,7 +67,7 @@ export function PaymentOption({ createPay, order, loading }) {
             {selectedMethod && (
                 <>
                     <div className="amount-input">
-                        <p>Monto a pagar de {order.total_amount}</p>
+                        <p>Monto a pagar de {discountedAmount}</p>
                         <div>
                             <input
                                 className='input'
@@ -72,12 +76,12 @@ export function PaymentOption({ createPay, order, loading }) {
                                 value={paidAmount}
                                 onChange={(e) => setPaidAmount(e.target.value)}
                                 min="0"
-                                max={order.total_amount}
+                                max={discountedAmount}
                                 step="0.01"
                             />
                             <div className="container-btn">
-                                <button onClick={() => setPaidAmount(order.total_amount / 2)}>Mitad del monto total</button>
-                                <button onClick={() => setPaidAmount(order.total_amount)}>Monto total</button>
+                                <button onClick={() => setPaidAmount(discountedAmount / 2)}>Mitad del monto total</button>
+                                <button onClick={() => setPaidAmount(discountedAmount)}>Monto total</button>
                             </div>
                         </div>
                     </div>

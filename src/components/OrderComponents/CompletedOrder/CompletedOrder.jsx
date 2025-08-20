@@ -156,7 +156,7 @@ export function CompletedOrder({ order, getOrder }) {
                                 {payments.map(payment => (
                                     <li key={payment.id}>
                                         <p>
-                                            Método: {payment.method == 'transfer' ? 'Transferencia' : payment.method == 'cash' ? 'Efectivo' : 'Cheque'}
+                                            Método: {payment.method == 'transfer' ? 'Transferencia' : payment.method == 'cash' ? 'Efectivo' : payment.method == 'check' ? 'Cheque' : 'Tarjeta de crédito / débito'}
                                         </p>
                                         <p>
                                             Estado:
