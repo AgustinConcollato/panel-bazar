@@ -5,7 +5,7 @@ import { PreViewOrder } from "../PreViewOrder/PreViewOrder"
 import { Loading } from "../Loading/Loading"
 import { Pagination } from "../Pagination/Pagination"
 
-export function OrderList({ status, year, month }) {
+export function OrderList({ status, year, month, clientId = null }) {
 
     const { Order } = api
     const [orders, setOrders] = useState(null)
@@ -14,7 +14,7 @@ export function OrderList({ status, year, month }) {
     async function getOrders() {
         const order = new Order()
 
-        const response = await order.get({ status, year, month, page })
+        const response = await order.get({ status, year, month, page, clientId })
 
         setOrders(response)
     }
