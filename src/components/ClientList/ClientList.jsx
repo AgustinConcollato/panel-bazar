@@ -148,14 +148,15 @@ function Client({ e }) {
             >
                 <td>{client.name}</td>
                 <td>
-                    {client.payments.length != 0 ?
+                    {client.debt != 0 ?
                         <span className='payment-pending'>
                             <FontAwesomeIcon icon={faCircleExclamation} color="#ff8800" />
-                            {client.payments.length} pagos pendientes
+                            Debe ${parseFloat(client.debt).toLocaleString('es-AR', { minimumFractionDigits: 2 })}
                         </span> :
                         <span >Sin pagos pendientes</span>
                     }
                 </td>
+                <td>{client.type == "reseller" ? 'Revendedor / Negocio' : 'Consumidor final'}</td>
                 <td>{client.email ?? '-'}</td>
                 <td>{client.phone_number ?? '-'}</td>
                 <td>

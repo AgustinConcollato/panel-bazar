@@ -17,19 +17,52 @@
 .order-payments h2 {
     font-weight: 500;
     font-size: 18px;
+}
+
+.order-payments-list {
+    margin: 15px 0;
+}
+
+.order-payments-list h2 {
     margin-bottom: 10px;
 }
 
-.order-payments ul li {
-    position: relative;
-    cursor: pointer;
-    border-bottom: 1px solid #ccc;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+.order-payments-list ul {
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
 }
 
-.order-payments ul li:last-child {
+.order-payments-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+
+.order-payments-list li.incomplete:hover {
+    cursor: pointer;
+}
+
+.order-payments-list li.incomplete span {
+    background: #000000b9;
+    padding: 5px;
+    border-radius: 5px;
+    color: #FFF;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.order-payments-list li.incomplete:hover span {
+    opacity: 1;
+}
+
+.order-payments-list li:last-child {
     border-bottom: none;
 }
 
@@ -50,7 +83,10 @@
 }
 
 .payment-progress {
-    margin: 20px 0 5px;
+    margin: 10px 0 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
 .progress-bar {
@@ -59,7 +95,7 @@
     background-color: #eee;
     border-radius: 5px;
     overflow: hidden;
-    margin: 5px 0 10px;
+    margin: 10px 0;
 }
 
 .progress-fill {
@@ -86,17 +122,17 @@
         flex-direction: column;
     }
 
-    .order-payments ul li {
+    .order-payments-list li {
         flex-wrap: wrap;
     }
 
-    .order-payments ul li p {
+    .order-payments-list li p {
         width: 100%;
-        justify-content: end;
-        margin-top: 5px;
+        align-items: start;
+        margin-top: 3px;
     }
 
-    .order-payments ul li p:first-child {
+    .order-payments-list li p:first-child {
         margin-top: 0px;
         justify-content: space-between;
     }

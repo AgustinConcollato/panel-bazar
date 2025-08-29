@@ -170,6 +170,7 @@ export function ClientsPage() {
                                 <tr>
                                     <th>Nombre</th>
                                     <th>Pagos pendientes</th>
+                                    <th>tipo</th>
                                     <th>Correo</th>
                                     <th>Teléfono</th>
                                     <th>Dirección</th>

@@ -52,7 +52,7 @@ function App() {
                 <Route path='/pedidos/*' element={<OrderPage />} />
                 <Route path='/pedido/:id/*' element={<Order />} />
                 <Route path='/clientes' element={<ClientsPage />} />
-                <Route path='/cliente/:id' element={<ClientDetail />} />
+                <Route path='/cliente/:id/*?' element={<ClientDetail />} />
                 <Route path='/proveedores/*' element={<ProviderPage />} />
                 <Route path='/agregar-proveedor' element={<AddProvider />} />
                 <Route path='/resumen-mensual' element={<MonthlyOverviewPage />} />

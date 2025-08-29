@@ -1,10 +1,12 @@
-import { Link, useParams } from "react-router-dom"
+import { Link, Navigate, NavLink, Route, Routes, useParams } from "react-router-dom"
 import { api } from "../../services/api"
 import { useEffect, useState } from "react"
 import { Loading } from "../Loading/Loading"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faAngleLeft, faCircleExclamation } from "@fortawesome/free-solid-svg-icons"
+import { PreViewOrder } from "../PreViewOrder/PreViewOrder"
 import './ClientDetail.css'
+import { OrderList } from "../OrderList/OrderList"
 
 export function ClientDetail() {
 
@@ -17,7 +19,7 @@ export function ClientDetail() {
     async function getClient() {
         const clients = new Clients()
         try {
-            const response = await clients.get({id})
+            const response = await clients.get({ id })
             setClient(response)
         } catch (error) {
             console.error("Error fetching client details:", error)
@@ -43,7 +45,7 @@ export function ClientDetail() {
                     <ul>
                         <li>Correo: {client.email}</li>
                         <li>Teléfono: {client.phone_number}</li>
-                        <li>Dirección: 
+                        <li>Dirección:
                             {client.address.length > 0 ? (
                                 <ul>
                                     {client.address.map((addr, idx) => (
@@ -60,27 +62,32 @@ export function ClientDetail() {
                                 <span>Sin direcciones</span>
                             )}
                         </li>
-                        <li>Pagos pendientes: {client.payments.length} <FontAwesomeIcon icon={faCircleExclamation} color="#ff8800" />
-                            {client.payments.length === 0 ? ' No hay' : 
-                                <ul className="pending-payments-detail">
-                                    {client.payments.map((p, i) => (
-                                        <li key={p.id || i}>
-                                            {/* <span>{p.method === 'cash' ? 'Efectivo' : p.method === 'transfer' ? 'Transferencia' : 'Cheque'}:</span>  */}
-                                            <p>
-                                                Debe:
-                                                ${parseFloat(p.expected_amount - (p.paid_amount || 0)).toLocaleString('es-AR', { maximumFractionDigits: 2 })}
-                                            </p>
-                                            <p>
-                                                De: 
-                                                ${parseFloat(p.expected_amount).toLocaleString('es-AR', { maximumFractionDigits: 2 })}
-                                            </p>
-                                            <Link to={`/pedido/${p.order_id}/completed`} className='btn'>Ver pedido</Link>
-                                        </li>
-                                    ))}
-                                </ul>               
-                            }
-                        </li>
+                        {client.debt > 0 ?
+                            <li className="client-debt-warning">
+                                <FontAwesomeIcon icon={faCircleExclamation} color="#ff8800" />
+                                Pagos pendientes por un total de
+                                <b> ${parseFloat(client.debt).toLocaleString('es-AR', { minimumFractionDigits: 2 })}</b>
+                            </li> :
+                            <li className="client-no-debt">No hay pagos pendientes</li>
+                        }
+
                     </ul>
+                    <nav>
+                        <NavLink to='' end className="link-orders">Completados</NavLink>
+                        <NavLink to='pendientes' className="link-orders">Pendientes</NavLink>
+                        <NavLink to='aceptados' className="link-orders">Aceptados</NavLink>
+                        <NavLink to='rechazados' className="link-orders">Rechazados</NavLink>
+                        <NavLink to='cancelados' className="link-orders">Cancelados</NavLink>
+                    </nav>
+                    <Routes>
+                        <Route index element={<OrderList status={'completed'} clientId={client.id} />} />
+                        <Route path='pendientes' element={<OrderList status={'pending'} clientId={client.id} />} />
+                        <Route path='aceptados' element={<OrderList status={'accepted'} clientId={client.id} />} />
+                        <Route path='completados' element={<OrderList status={'completed'} clientId={client.id} />} />
+                        <Route path='rechazados' element={<OrderList status={'rejected'} clientId={client.id} />} />
+                        <Route path='cancelados' element={<OrderList status={'cancelled'} clientId={client.id} />} />
+                        <Route path="*" element={<Navigate to="/panel" replace />} />
+                    </Routes>
                 </div>
             ) : (
                 <Loading />

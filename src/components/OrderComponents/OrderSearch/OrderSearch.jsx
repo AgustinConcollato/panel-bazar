@@ -59,6 +59,7 @@ export function OrderSearch({ orderId, setOrderProducts, setOrderData }) {
         formData.append('order_id', orderId)
         formData.append('name', name)
         formData.append('price', price)
+        formData.append('price_final', price * 1.15)
 
         try {
             const product = await toast.promise(order.add(formData), {
@@ -201,7 +202,13 @@ export function OrderSearch({ orderId, setOrderProducts, setOrderData }) {
                                     <img src={`${urlStorage}/${JSON.parse(product.thumbnails)[0]}`} />
                                     <p>
                                         {product.name}
-                                        <span>${parseFloat(product.price)}</span>
+                                        <span>
+                                            ${parseFloat(product.price).toLocaleString('es-AR', { maximumFractionDigits: 2 })} /
+                                            ${product.price_final ?
+                                                parseFloat(product.price_final).toLocaleString('es-AR', { maximumFractionDigits: 2 }) :
+                                                parseFloat(product.price * 1.15).toLocaleString('es-AR', { maximumFractionDigits: 2 })
+                                            }
+                                        </span>
                                     </p>
                                 </li>
                             )) :
@@ -217,7 +224,6 @@ export function OrderSearch({ orderId, setOrderProducts, setOrderData }) {
             {selected &&
                 <Modal onClose={() => {
                     setSelected(false)
-                    clearSearch()
                 }}>
                     <section className="section-form">
                         <form onSubmit={addProduct}>

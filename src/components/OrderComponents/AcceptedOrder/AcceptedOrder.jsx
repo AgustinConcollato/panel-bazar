@@ -17,7 +17,7 @@ export function AcceptedOrder({ order: orderData }) {
 
     const navigate = useNavigate()
 
-    const [products, setProducts] = useState(orderData.products)
+    const [products, setProducts] = useState(null)
     const [data, setData] = useState(orderData)
     const [discount, setDiscount] = useState(orderData.discount || 0)
     const [modal, setModal] = useState(false)
@@ -56,7 +56,7 @@ export function AcceptedOrder({ order: orderData }) {
 
     async function addDiscount(e) {
         e.preventDefault()
-        
+
         if (!discountInput || discountInput < 0 || discountInput > 100) {
             toast.error('El descuento debe estar entre 0 y 100%')
             return
@@ -91,10 +91,12 @@ export function AcceptedOrder({ order: orderData }) {
         if (orderData.status !== 'accepted') {
             navigate(`/pedido/${orderData.id}/${orderData.status}`)
         }
+
+        setProducts(orderData.products)
     }, [])
 
     useEffect(() => {
-        const total = products.reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.subtotal), 0)
+        const total = products ? products.reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.subtotal), 0) : 0
 
         setData(prev => ({
             ...prev,
@@ -118,53 +120,58 @@ export function AcceptedOrder({ order: orderData }) {
                         />
                     </div>
                     <ul className='order-detail-list'>
-                        {products.length > 0 ?
-                            products.map((product, index) => (
-                                <OrderProduct
-                                    key={index}
-                                    product={product}
-                                    orderId={orderData.id}
-                                    setProducts={setProducts}
-                                    setOrderData={setData}
-                                    updateOrder={updateOrder}
-                                    removeProductOrder={removeProductOrder}
-                                />
-                            )) : <Loading />
+                        {products ?
+                            products.length > 0 ?
+                                products.map((product, index) => (
+                                    <OrderProduct
+                                        key={index}
+                                        product={product}
+                                        orderId={orderData.id}
+                                        setProducts={setProducts}
+                                        setOrderData={setData}
+                                        updateOrder={updateOrder}
+                                        removeProductOrder={removeProductOrder}
+                                    />
+                                )) : <p>No hay productos</p>
+                            : <Loading />
                         }
                     </ul>
                 </div>
-                <div className='order-detail'>
-                    <h3>Detalle del pedido</h3>
-                    <div className="info-product">
-                        <ul>
-                            <li></li>
-                            <li>Productos <b>{products.length ?? ''}</b></li>
-                            <li>Unidades
-                                <b>
-                                    {products.reduce(
-                                        (accumulator, currentValue) => accumulator + parseInt(currentValue.quantity),
-                                        0,
-                                    )}
-                                </b>
-                            </li>
-                            <li>Subtotal <b>$ {data.total_amount.toLocaleString('es-AR', { maximumFractionDigits: 2 })}</b></li>
-                        </ul>
+                {products &&
+                    <div className='order-detail'>
+                        <h3>Detalle del pedido</h3>
+                        <div className="info-product">
+                            <ul>
+                                <li></li>
+                                <li>Productos <b>{products.length ?? ''}</b></li>
+                                <li>Unidades
+                                    <b>
+                                        {products.reduce(
+                                            (accumulator, currentValue) => accumulator + parseInt(currentValue.quantity),
+                                            0,
+                                        )}
+                                    </b>
+                                </li>
+                                <li>Subtotal <b>${data.total_amount.toLocaleString('es-AR', { maximumFractionDigits: 2 })}</b></li>
+                            </ul>
+                        </div>
+                        <div className='info-product'>
+                            <ul>
+                                <li>Envio <b>{data.delivery ? '$' + parseFloat(data.delivery).toLocaleString('es-AR', { maximumFractionDigits: 2 }) : 'A coordinar'}</b></li>
+                                <li>Recargo <b>${parseFloat(data.surcharge ?? 0).toLocaleString('es-AR', { maximumFractionDigits: 2 })}</b></li>
+                                <li>
+                                    Descuento
+                                    <div className='add-discount'>
+                                        <b>{discount ?? 0}% / ${(data.total_amount - (data.total_amount * (1 - discount / 100))).toLocaleString('es-AR', { maximumFractionDigits: 2 })}</b>
+                                        <button onClick={() => setModal(true)}> Editar descuento </button>
+                                    </div>
+                                </li>
+                                <li>Total <h3>${((parseFloat(data.total_amount) * (1 - discount / 100)) + parseFloat(data.delivery ?? 0) + parseFloat(data.surcharge ?? 0)).toLocaleString('es-AR', { maximumFractionDigits: 2 })}</h3></li>
+                            </ul>
+                        </div>
+                        <OrderOptions order={orderData} onAction={() => navigate('/pedidos/aceptados')} />
                     </div>
-                    <div className='info-product'>
-                        <ul>
-                            <li>
-                                Descuento
-                                <div className='add-discount'>
-                                    <b>{discount ?? 0}%</b>
-                                    <button onClick={() => setModal(true)}> Editar descuento </button>
-                                </div>
-                            </li>
-                            <li>Total <h3>${(parseFloat(data.total_amount) * (1 - discount / 100)).toLocaleString('es-AR', { maximumFractionDigits: 2 })}</h3></li>
-                        </ul>
-                    </div>
-
-                    <OrderOptions order={orderData} onAction={() => navigate('/pedidos/aceptados')} />
-                </div>
+                }
             </section>
             {modal &&
                 <Modal onClose={() => setModal(false)}>
@@ -176,7 +183,13 @@ export function AcceptedOrder({ order: orderData }) {
                             <div>
                                 <div>
                                     <p>Descuento</p>
-                                    <input type="number" className="input" placeholder='Descuento' value={discountInput} onChange={(e) => setDiscountInput(e.target.value)} />
+                                    <input
+                                        type="number"
+                                        className="input"
+                                        placeholder='Descuento'
+                                        value={discountInput}
+                                        onChange={(e) => setDiscountInput(e.target.value)}
+                                    />
                                 </div>
                             </div>
                             <div>

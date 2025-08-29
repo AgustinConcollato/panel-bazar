@@ -62,6 +62,16 @@ export function AddClient() {
                                 />
                             </div>
                         </div>
+                        <div>
+                            <div>
+                                <p>Tipo de cliente</p>
+                                <select name="type" className="input">
+                                    <option >Seleccioná un tipo de cuenta</option>
+                                    <option value="final">Consumidor final</option>
+                                    <option value="reseller">Revendedor / Negocio</option>
+                                </select>
+                            </div>
+                        </div>
                         <input type="text" hidden name='email' value={''} />
                         <input type="text" hidden name='source' value={'dashboard'} />
                         <input type="text" hidden name='password' value={'Dashboard123$'} />

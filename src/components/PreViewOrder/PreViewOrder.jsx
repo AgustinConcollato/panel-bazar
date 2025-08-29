@@ -16,19 +16,30 @@ export function PreViewOrder({ order, setOrders }) {
     const [createLoading, setCreateLoading] = useState(false)
     const [addPayment, setAddPayment] = useState(false)
 
+    const discountAmount = order.discount ? (parseFloat(order.total_amount) * (order.discount / 100)) : 0;
+    const totalWithDiscount = parseFloat(order.total_amount) - discountAmount;
+
     async function createPay(data) {
         const payments = new Payments()
 
         try {
             setCreateLoading(true)
             const response = await payments.create(data)
-            setPayments([response.payment])
+            setPayments(e => [...e, response.payment])
             setAddPayment(false)
         } catch (error) {
             console.log(error)
         } finally {
             setCreateLoading(false)
         }
+    }
+
+    const calculateTotalPaid = () => {
+        return payments.reduce((total, payment) => total + (parseFloat(payment.paid_amount) || 0), 0)
+    }
+
+    const calculateRemainingAmount = () => {
+        return Math.max(0, totalWithDiscount - calculateTotalPaid());
     }
 
     useEffect(() => {
@@ -66,7 +77,7 @@ export function PreViewOrder({ order, setOrders }) {
                             <p>{order.discount || 0}%</p>
                         </div>
                         <div>
-                            {order.discount && (
+                            {(order.discount || order.discount > 0) && (
                                 <>
                                     <h4>Precio con descuento</h4>
                                     <p>
@@ -79,7 +90,8 @@ export function PreViewOrder({ order, setOrders }) {
                     {order.status === "completed" &&
                         <div>
                             <h4>Métodos de pago</h4>
-                            {payments.length > 0 ?
+                            {payments.length === 0 ?
+                                <p>No hay pagos registrados</p> :
                                 payments.map((e) =>
                                     <p className="payment-method">
                                         {e.method === 'transfer' &&
@@ -144,7 +156,8 @@ export function PreViewOrder({ order, setOrders }) {
                                         }
 
                                     </p>
-                                ) :
+                                )}
+                            {calculateRemainingAmount() > 0 &&
                                 <p>
                                     <button className="btn"
                                         onClick={(e) => {
@@ -166,13 +179,18 @@ export function PreViewOrder({ order, setOrders }) {
                             </>
                         }
                     </div>
-                </Link>
+                </Link >
                 <OrderOptions order={order} onAction={setOrders} />
-            </div>
+            </div >
             {addPayment &&
                 <Modal onClose={() => setAddPayment(false)}>
                     <h2>Agregar método de pago</h2>
-                    <PaymentOption createPay={createPay} order={order} loading={createLoading} />
+                    <PaymentOption
+                        createPay={createPay}
+                        order={order}
+                        loading={createLoading}
+                        remainingAmount={calculateRemainingAmount()}
+                    />
                 </Modal>
             }
             <ToastContainer
